@@ -8,7 +8,7 @@ import { auth } from '@/firebase';
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TypeFormSchemaLogin, FormSchemaLogin } from '@/lib/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '@/components/Loader';
 
 export default function LoginForm() {
@@ -20,9 +20,14 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus
   } = useForm<TypeFormSchemaLogin>({
     resolver: zodResolver(FormSchemaLogin),
   });
+
+  useEffect(() => {
+    setFocus("email");
+  }, [setFocus])
 
 
   const onSubmit = async (data: TypeFormSchemaLogin) => {
@@ -66,6 +71,11 @@ export default function LoginForm() {
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-white">
               Password
             </label>
+            <div className="text-sm">
+              <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-sky-400 hover:text-sky-300">
+                Forgot password?
+              </div>
+            </div>
           </div>
           <div className="mt-2">
             <input

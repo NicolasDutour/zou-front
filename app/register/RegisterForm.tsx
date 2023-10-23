@@ -8,7 +8,7 @@ import { auth } from '@/firebase';
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { TypeFormSchemaRegister, FormSchemaRegister } from '@/lib/types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Loader from '@/components/Loader';
 
 export default function RegisterForm() {
@@ -20,9 +20,14 @@ export default function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setFocus
   } = useForm<TypeFormSchemaRegister>({
     resolver: zodResolver(FormSchemaRegister),
   });
+
+  useEffect(() => {
+    setFocus("email");
+  }, [setFocus])
 
 
   const onSubmit = async (data: TypeFormSchemaRegister) => {
