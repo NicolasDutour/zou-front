@@ -1,7 +1,10 @@
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
-import './globals.css'
 import { cn } from '@/lib/utils'
+import Navbar from '@/components/Navbar'
+import { Toaster } from "@/components/ui/toaster"
+
+import './globals.css'
 
 const roboto = Roboto({
   weight: '400',
@@ -22,12 +25,14 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={cn(
-        "h-full bg-gray-900",
+        "bg-gray-900",
         roboto.className
       )}>
-        <main className='min-h-screen'>
+        <Navbar />
+        <main className='pt-[77px]'>
           {children}
         </main>
+        <Toaster />
       </body>
     </html>
   )

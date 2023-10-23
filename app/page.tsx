@@ -1,7 +1,7 @@
-export default function Home() {
+export default async function Home() {
   return (
-    <div className="min-h-screen">
-      Home page
+    <div>
+      <h1 className="text-white">Home page</h1>
     </div>
   )
 }
