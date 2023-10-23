@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 You can check out [GitHub repository](https://github.com/NicolasDutour/ted)
 
-This project is a website where any restaurant can have his own own page
+This project is a website where any restaurant can have his own page
 
 ## Getting Started
 
