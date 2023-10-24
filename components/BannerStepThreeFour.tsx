@@ -23,11 +23,11 @@ export default function BannerStepThreeFour() {
               <h1 className="text-4xl md:text-white text-white mb-6">Abonnement</h1>
               <div>
                 <p className="text-lg text-white mb-4">Vous choisissez un abonnement parmis les suivants:</p>
-                <p className="flex flex-col justify-between p-2 mb-2 shadow-lg rounded-xl border-2 border-primary text-white">
-                  <span className="text-primary text-lg">Essential pour 9.99 € / mois</span> Vous êtes autonome.
+                <p className="flex flex-col justify-between p-2 mb-2 shadow-lg rounded-xl border-2 border-secondary text-white">
+                  <span className="text-secondary text-lg"><span className="font-bold text-2xl">Essential</span> pour <span className="font-bold text-2xl">9.99 €</span> / mois</span> Vous êtes autonome.
                 </p>
-                <p className="flex flex-col justify-between p-2 shadow-lg rounded-lg border-2 border-primary text-white">
-                  <span className="text-primary text-lg">Premium pour 29.99 € / mois</span> Ted s'occupe de tout.
+                <p className="flex flex-col justify-between p-2 shadow-lg rounded-lg border-2 border-secondary text-white">
+                  <span className="text-secondary text-lg"><span className="font-bold text-2xl">Premium</span> pour <span className="font-bold text-2xl">29.99 €</span> / mois</span> Ted s'occupe de tout.
                 </p>
               </div>
             </div>
