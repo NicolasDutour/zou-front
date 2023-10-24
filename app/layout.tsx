@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { headers } from 'next/headers';
 
 import './globals.css'
+import Footer from '@/components/Footer'
 
 const roboto = Roboto({
   weight: '400',
@@ -40,6 +41,7 @@ export default function RootLayout({
         )}>
           {children}
         </main>
+        <Footer />
         <Toaster />
       </body>
     </html>
