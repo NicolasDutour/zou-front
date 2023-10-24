@@ -61,7 +61,7 @@ export default function LoginForm() {
               {...register("email")}
               id="email"
               type="email"
-              className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
           </div>
@@ -72,7 +72,7 @@ export default function LoginForm() {
               Password
             </label>
             <div className="text-sm">
-              <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-sky-400 hover:text-sky-300">
+              <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-secondary hover:text-green-800">
                 Forgot password?
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function LoginForm() {
               {...register("password")}
               id="password"
               type="password"
-              className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>
           </div>
@@ -91,7 +91,7 @@ export default function LoginForm() {
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-sky-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-sky-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700"
+            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : 'Login'
