@@ -8,8 +8,8 @@ const Navbar = () => {
       <nav className='flex items-center justify-between max-w-7xl mx-auto'>
         <Link href="/">
           <Image
-            src="/chef-hat.png"
-            alt="chef-hat"
+            src="/leaf-icon.png"
+            alt="leaf-icon"
             width={50}
             height={50}
             aspect-auto="true"

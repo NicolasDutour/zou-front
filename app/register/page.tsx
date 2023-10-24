@@ -7,8 +7,8 @@ export default function Register() {
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image
-          src="/chef-hat.png"
-          alt="chef-hat"
+          src="/leaf-icon.png"
+          alt="leaf-icon"
           width={100}
           height={100}
           aspect-auto="true"
