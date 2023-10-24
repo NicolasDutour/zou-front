@@ -1,7 +1,15 @@
+import Banner from "@/components/Banner";
+import BannerStepFive from "@/components/BannerStepFive";
+import BannerStepOneTwo from "@/components/BannerStepOneTwo";
+import BannerStepThreeFour from "@/components/BannerStepThreeFour";
+
 export default async function Home() {
   return (
     <div>
-      <h1 className="text-white">Home page</h1>
+      <Banner />
+      <BannerStepOneTwo />
+      <BannerStepThreeFour />
+      <BannerStepFive />
     </div>
   )
 }

@@ -16,6 +16,12 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        'hero-pattern': "url('/home_banner.jpg')",
+        'hero-pattern-impair': "url('/banner-impair.svg')",
+        'hero-pattern-pair': "url('/banner-pair.svg')",
+        'hero-pattern-end': "url('/banner-end.svg')",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

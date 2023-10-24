@@ -16,7 +16,7 @@
     --primary: #d02222;
     --primary-foreground: #fff;
 
-    --secondary: #1882bf;
+    --secondary: #16A34A;
     --secondary-foreground: #fff;
 
     --muted: 220 14.3% 95.9%;
@@ -74,4 +74,24 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@keyframes moveUpDown {
+  0% {
+    transform: translateY(-20px);
+  }
+
+  50% {
+    transform: translateY(20px);
+    /* Descendre de 20px */
+  }
+
+  100% {
+    transform: translateY(-20px);
+    /* Remonter de 20px */
+  }
+}
+
+.icon-move-down {
+  animation: moveUpDown 2s ease-in-out infinite;
 }
