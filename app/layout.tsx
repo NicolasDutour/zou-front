@@ -3,6 +3,7 @@ import { Roboto } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import Navbar from '@/components/Navbar'
 import { Toaster } from "@/components/ui/toaster"
+import { headers } from 'next/headers';
 
 import './globals.css'
 
@@ -22,14 +23,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
+  const headersList = headers();
+  const header_url = headersList.get('x-url') || "";
+
   return (
-    <html lang="fr">
+    <html lang="fr" className='scroll-smooth'>
       <body className={cn(
-        "bg-gray-900",
+        "bg-gray-900 overflow-x-hidden",
         roboto.className
       )}>
-        <Navbar />
-        <main className='pt-[77px]'>
+        {header_url?.includes('restaurant') ? null : <Navbar />}
+        <main className={cn(
+          "min-h-screen",
+          header_url?.includes('restaurant') ? '' : 'pt-[77px]'
+        )}>
           {children}
         </main>
         <Toaster />
