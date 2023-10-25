@@ -2,7 +2,7 @@ export default function BannerStepOneTwo() {
   return (
     <section className="md:h-[500px] w-full">
       <div className="bg-cover bg-center h-full md:bg-hero-pattern-impair bg-white grid md:grid-cols-2">
-        <div className="md:p-6 p-10">
+        <div className="md:p-6 p-10 self-center">
           <div className="flex items-center justify-center md:justify-start">
             <div className="flex justify-center items-center border-2 rounded-full w-12 h-12 p-7 border-primary mr-6 self-start">
               <p className="md:text-4xl text-3xl text-primary">1</p>
