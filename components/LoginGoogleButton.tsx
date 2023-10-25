@@ -12,11 +12,9 @@ export default function LoginGoogleButton() {
   const loginWithGoogle = async () => {
     try {
       const userCredentials = await signInWithPopup(auth, googleProvider)
-      console.log("user", userCredentials);
       if (userCredentials?.user?.accessToken) {
         router.push('/admin')
       }
-
     } catch (error) {
       console.error('error', error)
     }
