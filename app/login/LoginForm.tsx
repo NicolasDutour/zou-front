@@ -20,7 +20,8 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus
+    setFocus,
+    getValues
   } = useForm<TypeFormSchemaLogin>({
     resolver: zodResolver(FormSchemaLogin),
   });
@@ -28,7 +29,6 @@ export default function LoginForm() {
   useEffect(() => {
     setFocus("email");
   }, [setFocus])
-
 
   const onSubmit = async (data: TypeFormSchemaLogin) => {
     try {
