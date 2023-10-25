@@ -1,9 +1,19 @@
-import React from 'react'
+import { Separator } from '@/components/ui/separator';
+import { ProfileForm } from './ProfileForm';
 
-export default function Admin() {
+const Admin = async () => {
   return (
-    <div className='p-4'>
-      <h1 className='text-white'>Admin page</h1>
+    <div className="p-6">
+      <div>
+        <h3 className="text-xl font-medium">Profil</h3>
+        <p className="text-sm text-muted-foreground">
+          Mettez à jour vos informations de connexion
+        </p>
+      </div>
+      <Separator />
+      <ProfileForm />
     </div>
   )
 }
+
+export default Admin
