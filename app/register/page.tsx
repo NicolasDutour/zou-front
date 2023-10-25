@@ -9,8 +9,8 @@ export default function Register() {
         <Image
           src="/leaf-icon.png"
           alt="leaf-icon"
-          width={100}
-          height={100}
+          width={50}
+          height={50}
           aspect-auto="true"
           className="rounded-lg mx-auto w-auto"
           priority
