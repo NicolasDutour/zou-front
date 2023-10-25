@@ -1,6 +1,7 @@
 import Image from "next/image"
-import RedirectLoginButton from '@/components/RedirectLoginButton';
-import LoginForm from './LoginForm';
+import RedirectLoginButton from '@/components/RedirectLoginButton'
+import LoginForm from './LoginForm'
+import LoginGoogleButton from "@/components/LoginGoogleButton"
 
 export default function Login() {
   return (
@@ -9,8 +10,8 @@ export default function Login() {
         <Image
           src="/leaf-icon.png"
           alt="leaf-icon"
-          width={100}
-          height={100}
+          width={50}
+          height={50}
           aspect-auto="true"
           className="rounded-lg mx-auto w-auto"
           priority
@@ -21,6 +22,11 @@ export default function Login() {
       </div>
 
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
+        <p className='text-white text-center mx-4 mb-4'>with</p>
+
+        <LoginGoogleButton />
+
+        <p className='text-white text-center mx-4 mb-4'>or</p>
         <LoginForm />
 
         <p className="mt-6 text-center text-sm text-gray-400">
