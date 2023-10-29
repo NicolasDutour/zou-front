@@ -1,63 +1,102 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
+import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { useEffect, useState } from "react"
-// import { useToast } from "@/components/ui/use-toast";
-// import { useRouter } from "next/navigation"
-import { TypeFormSchemaProfile, FormSchemaProfile } from '@/lib/types';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter } from "next/navigation"
+
 import Loader from "@/components/Loader"
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/firebase';
+import { useToast } from "@/components/ui/use-toast";
+
+import { TypeFormSchemaProfile, FormSchemaProfile } from '@/lib/types';
+import { setUserInfo } from "@/redux/features/auth/authSlice"
 
 export function ProfileForm() {
+  const dispatch = useDispatch()
+  const router = useRouter();
+  const { toast } = useToast()
+  const user = useSelector((state) => state.auth.user)
+
   const [isLoading, setIsLoading] = useState(false)
-  // const router = useRouter();
-  // const { toast } = useToast()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
     setValue,
-    getValues
+    watch
   } = useForm<TypeFormSchemaProfile>({
     resolver: zodResolver(FormSchemaProfile),
   });
 
+  const watchIdentifier = watch('identifier')
+
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setValue('email', user.email)
-        setFocus("email");
-      }
-    });
-  }, [setFocus])
+    setValue('identifier', user?.email)
+  }, [])
 
   const onHandleUpdateProfile = async (data: z.infer<typeof FormSchemaProfile>) => {
-    // console.log("data: ", data);
-
-    // try {
-    //   setIsLoading(true)
-    //   const userCredential = await updateProfile(auth?.currentUser, { email: data.email })
-    //   console.log("email updated: ", userCredential);
-
-
-    //   if (userCredential?.user?.accessToken) {
-    //     toast({
-    //       title: "Votre profil a été modifié avec succés"
-    //     })
-    //     router.refresh()
-    //   }
-    // } catch (error) {
-    //   setIsLoading(false)
-    //   const errorCode = error.code;
-    //   const errorMessage = error.message;
-    //   console.log("Error code: ", errorCode);
-    //   console.log("Error message: ", errorMessage);
-    // }
+    try {
+      setIsLoading(true)
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/${user?.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+          cache: 'no-cache'
+        })
+      if (response.status === 200) {
+        try {
+          const userDetails = await response.json()
+          dispatch(setUserInfo(userDetails))
+          toast({
+            title: "Mis à jour avec succés !"
+          })
+          router.push('/admin')
+        } catch (error) {
+          console.error('ERROR: ', error);
+          toast({
+            title: "ERROR:",
+            description: error
+          })
+        }
+      } else if (response.status === 400) {
+        setIsLoading(false)
+        try {
+          const errorResponse = JSON.parse(await response.text());
+          if (errorResponse.error && errorResponse.error.message) {
+            const errorMessage = errorResponse.error.message;
+            toast({
+              title: "Erreur 400",
+              description: errorMessage,
+            })
+            console.error("Erreur 400 : ", errorMessage);
+          } else {
+            toast({
+              title: "Réponse 400 sans message d'erreur valide:",
+              description: errorResponse,
+            })
+            console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
+          }
+        } catch (error) {
+          toast({
+            title: "Erreur lors de l'analyse de la réponse JSON",
+            description: error,
+          })
+          console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
+        }
+      }
+    } catch (error) {
+      setIsLoading(false)
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Error code: ", errorCode);
+      console.log("Error message: ", errorMessage);
+    }
   }
 
 
@@ -65,23 +104,23 @@ export function ProfileForm() {
     <form onSubmit={handleSubmit(onHandleUpdateProfile)}>
       <div className="space-y-6 mt-10">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+          <label htmlFor="identifier" className="block text-sm font-medium leading-6 text-gray-900">
             Email address
           </label>
           <div className="mt-2">
             <input
-              {...register("email")}
-              id="email"
+              {...register("identifier")}
+              id="identifier"
               type="email"
               className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
             />
-            <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.identifier?.message}</p>
           </div>
         </div>
         <div>
           <button
             type='submit'
-            disabled={isLoading}
+            disabled={isLoading || (watchIdentifier == user?.email)}
             className="disabled:opacity-40 flex w-1/2 justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {

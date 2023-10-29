@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import Navbar from '@/components/Navbar'
 import { Toaster } from "@/components/ui/toaster"
 import { headers } from 'next/headers';
+import { Providers } from '@/redux/provider'
 
 import './globals.css'
 import Footer from '@/components/Footer'
@@ -26,7 +27,7 @@ export default function RootLayout({
 }) {
 
   const headersList = headers();
-  const header_url = headersList.get('x-url') || "";
+  const header_url = headersList.get('referer') || "";
 
   return (
     <html lang="fr" className='scroll-smooth'>
@@ -34,15 +35,17 @@ export default function RootLayout({
         "bg-gray-900 overflow-x-hidden",
         roboto.className
       )}>
-        {header_url?.includes('restaurant') ? null : <Navbar />}
-        <main className={cn(
-          "min-h-screen",
-          header_url?.includes('restaurant') ? '' : 'pt-[77px]'
-        )}>
-          {children}
-        </main>
-        <Footer />
-        <Toaster />
+        <Providers>
+          {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
+          <main className={cn(
+            "min-h-screen",
+            (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
+          )}>
+            {children}
+          </main>
+          <Footer />
+          <Toaster />
+        </Providers>
       </body>
     </html>
   )

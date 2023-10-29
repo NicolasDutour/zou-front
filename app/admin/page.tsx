@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import { ProfileForm } from './ProfileForm';
 
-const Admin = async () => {
+const Admin = () => {
   return (
     <div className="p-6">
       <div>

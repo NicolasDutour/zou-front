@@ -1,7 +1,8 @@
 import Image from "next/image"
+
 import RedirectLoginButton from '@/components/RedirectLoginButton'
-import LoginForm from './LoginForm'
 import LoginGoogleButton from "@/components/LoginGoogleButton"
+import LoginForm from './LoginForm'
 
 export default function Login() {
   return (

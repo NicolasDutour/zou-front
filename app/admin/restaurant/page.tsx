@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { RestaurantForm } from "./RestaurantForm";
 
-export default async function SettingsRestaurantPage() {
+export default function SettingsRestaurantPage() {
   return (
     <div className="p-6">
       <div>

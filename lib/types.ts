@@ -1,6 +1,10 @@
 import * as z from "zod"
 
 export const FormSchemaRegister = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(1, 'Ce champs est requis'),
   email: z
     .string()
     .trim()
@@ -24,7 +28,7 @@ export const FormSchemaRegister = z.object({
 export type TypeFormSchemaRegister = z.infer<typeof FormSchemaRegister>
 
 export const FormSchemaProfile = z.object({
-  email: z
+  identifier: z
     .string()
     .trim()
     .toLowerCase()
@@ -34,7 +38,7 @@ export const FormSchemaProfile = z.object({
 export type TypeFormSchemaProfile = z.infer<typeof FormSchemaProfile>
 
 export const FormSchemaLogin = z.object({
-  email: z
+  identifier: z
     .string()
     .trim()
     .toLowerCase()
@@ -95,4 +99,40 @@ export type RestaurantType = {
   phone: string,
   createdAt: string,
   userId: string,
+  longitude: string,
+  latitude: string
+}
+
+export type productType = {
+  id: string;
+  attributes: {
+    base: string;
+    productName: string;
+    ingredients: string;
+    price: number;
+    photo: {
+      data: {
+        attributes: {
+          formats: {
+            thumbnail: {
+              name: string,
+              url: string
+            },
+            small: {
+              name: string,
+              url: string
+            },
+            medium: {
+              name: string,
+              url: string
+            },
+            large: {
+              name: string,
+              url: string
+            }
+          }
+        }
+      }
+    }
+  }
 }

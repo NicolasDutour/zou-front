@@ -1,40 +1,26 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from '@/firebase';
-import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux"
+
 import { useToast } from "@/components/ui/use-toast"
+import { Button } from "@/components/ui/button";
+import { logout } from "@/redux/features/auth/authSlice";
 
 export default function AuthButtons() {
+  const dispatch = useDispatch()
   const router = useRouter()
   const path = usePathname()
-  const [token, setToken] = useState('')
   const { toast } = useToast()
-
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user?.accessToken) {
-        setToken(user?.accessToken)
-      } else {
-        setToken('')
-      }
-    });
-  }, [])
-
+  const token = useSelector((state) => state.auth.token)
 
   const handleSignOut = async () => {
-    try {
-      signOut(auth)
-      toast({
-        title: "Vous êtes déconnnecté"
-      })
-      router.push('/')
-    } catch (error) {
-      console.log("Error: ", error);
-    }
+    dispatch(logout)
+    router.push('/')
+    toast({
+      title: "Vous êtes déconnecté"
+    })
   }
 
   return token ? (

@@ -1,101 +1,200 @@
 "use client"
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { useForm } from "react-hook-form"
+import Link from "next/link"
+import * as z from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+
 import { useToast } from "@/components/ui/use-toast"
-import { TypeFormSchemaRestaurant, FormSchemaRestaurant, RestaurantType } from '@/lib/types';
 import Loader from "@/components/Loader"
-import { auth, db } from "@/firebase"
-import { collection, serverTimestamp, onSnapshot, query, where, addDoc } from "firebase/firestore"
-import { onAuthStateChanged } from "firebase/auth"
+
+import { TypeFormSchemaRestaurant, FormSchemaRestaurant, RestaurantType } from '@/lib/types';
+import { createSlug } from "@/lib/utils"
+import { setUserInfo } from "@/redux/features/auth/authSlice"
 
 export function RestaurantForm() {
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
-  const [restaurants, setRestaurants] = useState<RestaurantType[]>([])
   const [addressSuggestions, setAddressSuggestions] = useState([]);
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
-  const [longitude, setLongitude] = useState('');
-  const [latitude, setLatitude] = useState('');
   const { toast } = useToast()
+  const token = useSelector((state) => state.auth.token)
+  const user = useSelector((state) => state.auth.user)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
-    setValue
+    watch,
+    setValue,
+    getValues
   } = useForm<TypeFormSchemaRestaurant>({
     resolver: zodResolver(FormSchemaRestaurant),
   });
 
+  const watchRestaurantName = watch('restaurant_name')
+  const watchAddress = watch('address')
+  const watchDescription = watch('description')
+  const watchEmail = watch('email')
+  const watchPhone = watch('phone')
+
   useEffect(() => {
-    const getRestaurantDetails = async (userId: string) => {
-      const restaurantCollectionRef = collection(db, "restaurants")
-
+    const getRestaurantDetails = async () => {
       try {
-        const queryRestaurant = query(restaurantCollectionRef, where("userId", "==", userId))
-        onSnapshot(queryRestaurant, (snapshot) => {
-          let restaurants: RestaurantType[] = []
-          snapshot.forEach((doc) => {
-            const data = doc.data()
-            const id = doc.id
-            restaurants.push({ ...data, id })
+        setIsLoading(true)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
           })
-          setRestaurants(restaurants)
-          setFocus("restaurant_name");
+        if (response.status === 200) {
+          try {
+            const userDetails = await response.json()
+            console.log('userDetails', userDetails);
+            console.log('userDetails resto type', typeof userDetails?.restaurants[0]);
 
-          if (restaurants.length > 0) {
-            setValue('restaurant_name', restaurants[0]?.restaurant_name)
-            setValue('address', restaurants[0]?.address)
-            setValue('description', restaurants[0]?.description)
-            setValue('email', restaurants[0]?.email)
-            setValue('phone', restaurants[0]?.phone)
+
+            dispatch(setUserInfo(userDetails))
+            const { restaurant_name, description, email, address, phone } = userDetails?.restaurants[0]
+
+            setValue('restaurant_name', restaurant_name)
+            setValue('description', description)
+            setValue('email', email)
+            setValue('address', address)
+            setValue('phone', phone)
+            setIsLoading(false)
+          } catch (error) {
+            console.error('ERROR: ', error);
+            toast({
+              title: "ERROR:",
+              description: error
+            })
           }
-        })
+        } else if (response.status === 400) {
+          setIsLoading(false)
+          try {
+            const errorResponse = JSON.parse(await response.text());
+            if (errorResponse.error && errorResponse.error.message) {
+              const errorMessage = errorResponse.error.message;
+              toast({
+                title: "Erreur 400",
+                description: errorMessage,
+              })
+              console.error("Erreur 400 : ", errorMessage);
+            } else {
+              toast({
+                title: "Réponse 400 sans message d'erreur valide:",
+                description: errorResponse,
+              })
+              console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
+            }
+          } catch (error) {
+            toast({
+              title: "Erreur lors de l'analyse de la réponse JSON",
+              description: error,
+            })
+            console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
+          }
+        }
       } catch (error) {
-        console.log("error to get data: ", error);
+        setIsLoading(false)
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Error code: ", errorCode);
+        console.log("Error message: ", errorMessage);
       }
 
-      // const restaurantsCollectionRef = collection(db, "restaurants")
-      // const data = await getDocs(restaurantsCollectionRef)
-      // const filterData = data.docs.map(doc => ({
-      //   ...doc.data(), id: doc.id
-      // }))
-      // return filterData
     }
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        getRestaurantDetails(user.uid)
-      }
-    })
-  }, [setFocus])
+    getRestaurantDetails()
+  }, [])
 
-  const onSubmit = async (data: z.infer<typeof FormSchemaRestaurant>) => {
-    const restaurantsCollectionRef = collection(db, "restaurants")
-    const { restaurant_name, address, description, email, phone } = data
+  const isAnyFormInputsModified = () => {
+    return (
+      watchRestaurantName == user?.restaurants[0]?.restaurant_name &&
+      watchAddress == user?.restaurants[0]?.address &&
+      watchDescription == user?.restaurants[0]?.description &&
+      watchEmail == user?.restaurants[0]?.email &&
+      watchPhone == user?.restaurants[0]?.phone
+    )
+  }
+
+  const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
+    console.log("user", user);
+
+    const slug = createSlug(payload?.restaurant_name)
+    const newData = {
+      ...payload,
+      slug,
+      longitude: user?.restaurants[0].longitude,
+      latitude: user?.restaurants[0].latitude,
+      users_permissions_user: {
+        connect: [user?.id]
+      }
+    }
 
     try {
       setIsLoading(true)
-      await addDoc(restaurantsCollectionRef, {
-        restaurant_name,
-        address,
-        description,
-        email,
-        phone,
-        longitude,
-        latitude,
-        userId: auth?.currentUser?.uid,
-        createdAt: serverTimestamp()
-      })
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants/${user?.restaurants[0]?.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({ data: newData }),
+          cache: 'no-cache'
+        })
 
-      setIsLoading(false)
-      toast({
-        title: "Données mises à jour"
-      })
+      if (response.status === 200) {
+        try {
+          const userDetails = await response.json()
+          toast({
+            title: "Mis à jour avec succés !"
+          })
+        } catch (error) {
+          console.error('ERROR: ', error);
+          toast({
+            title: "ERROR:",
+            description: error
+          })
+        }
+      } else if (response.status === 400) {
+        setIsLoading(false)
+        try {
+          const errorResponse = JSON.parse(await response.text());
+          if (errorResponse.error && errorResponse.error.message) {
+            const errorMessage = errorResponse.error.message;
+            toast({
+              title: "Erreur 400",
+              description: errorMessage,
+            })
+            console.error("Erreur 400 : ", errorMessage);
+          } else {
+            toast({
+              title: "Réponse 400 sans message d'erreur valide:",
+              description: errorResponse,
+            })
+            console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
+          }
+        } catch (error) {
+          toast({
+            title: "Erreur lors de l'analyse de la réponse JSON",
+            description: error,
+          })
+          console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
+        }
+      }
     } catch (error) {
-      console.log("error creating restaurant", error);
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log("Error code: ", errorCode);
+      console.log("Error message: ", errorMessage);
+    } finally {
       setIsLoading(false)
     }
   }
@@ -127,12 +226,34 @@ export function RestaurantForm() {
   const selectAddress = (coordinates: string[]) => {
     setAddressSuggestions([])
     setOpenAddressDialog(false)
-    setLongitude(coordinates[0].toString())
-    setLatitude(coordinates[1].toString())
+    console.log("user::::: ", user);
+
+    dispatch(setUserInfo(
+      {
+        ...user,
+        restaurants: [
+          {
+            ...user.restaurants[0],
+            longitude: coordinates[0].toString(),
+            latitude: coordinates[1].toString()
+          }
+        ]
+      }
+    ))
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      {
+        getValues('restaurant_name') ? (
+          <p className="font-medium leading-6 text-gray-900 mt-6">
+            <span className="mr-4">Lien vers votre site web:</span>
+            <Link className="text-secondary font-semibold hover:underline hover:underline-offset-4" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
+              {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
+            </Link>
+          </p>
+        ) : null
+      }
       <div className="space-y-6 mt-10">
         <div>
           <label htmlFor="restaurant_name" className="block text-sm font-medium leading-6 text-gray-900">
@@ -327,6 +448,6 @@ export function RestaurantForm() {
           </button>
         </div>
       </div>
-    </form>
+    </form >
   )
 }

@@ -1,6 +1,7 @@
 import Image from "next/image"
-import RegisterForm from "./RegisterForm"
+
 import RedirectLoginButton from '@/components/RedirectLoginButton';
+import RegisterForm from "./RegisterForm"
 
 export default function Register() {
   return (
