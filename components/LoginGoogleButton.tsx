@@ -1,23 +1,15 @@
 "use client"
 
-import { auth, googleProvider } from '@/firebase';
-import { signInWithPopup } from "firebase/auth"
 import { FcGoogle } from "react-icons/fc"
 import { Button } from '@/components/ui/button';
 import { IconContext } from "react-icons";
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'
 
 export default function LoginGoogleButton() {
   const router = useRouter()
   const loginWithGoogle = async () => {
-    try {
-      const userCredentials = await signInWithPopup(auth, googleProvider)
-      if (userCredentials?.user?.accessToken) {
-        router.push('/admin')
-      }
-    } catch (error) {
-      console.error('error', error)
-    }
+
   }
 
   return (

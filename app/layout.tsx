@@ -16,7 +16,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Ted',
+  title: 'Ted-front',
   description: "Votre site web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
 }
 
@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className='scroll-smooth'>
       <body className={cn(
-        "bg-gray-900 overflow-x-hidden",
+        "bg-white overflow-x-hidden",
         roboto.className
       )}>
         <Providers>
