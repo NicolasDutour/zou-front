@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useToast } from "@/components/ui/use-toast"
 import Loader from "@/components/Loader"
 
-import { TypeFormSchemaRestaurant, FormSchemaRestaurant, RestaurantType } from '@/lib/types';
+import { TypeFormSchemaRestaurant, FormSchemaRestaurant } from '@/lib/types';
 import { createSlug } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 
@@ -41,76 +41,13 @@ export function RestaurantForm() {
   const watchPhone = watch('phone')
 
   useEffect(() => {
-    const getRestaurantDetails = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`
-            }
-          })
-        if (response.status === 200) {
-          try {
-            const userDetails = await response.json()
-            console.log('userDetails', userDetails);
-            console.log('userDetails resto type', typeof userDetails?.restaurants[0]);
+    const { restaurant_name, description, email, address, phone } = user?.restaurants[0]
 
-
-            dispatch(setUserInfo(userDetails))
-            const { restaurant_name, description, email, address, phone } = userDetails?.restaurants[0]
-
-            setValue('restaurant_name', restaurant_name)
-            setValue('description', description)
-            setValue('email', email)
-            setValue('address', address)
-            setValue('phone', phone)
-            setIsLoading(false)
-          } catch (error) {
-            console.error('ERROR: ', error);
-            toast({
-              title: "ERROR:",
-              description: error
-            })
-          }
-        } else if (response.status === 400) {
-          setIsLoading(false)
-          try {
-            const errorResponse = JSON.parse(await response.text());
-            if (errorResponse.error && errorResponse.error.message) {
-              const errorMessage = errorResponse.error.message;
-              toast({
-                title: "Erreur 400",
-                description: errorMessage,
-              })
-              console.error("Erreur 400 : ", errorMessage);
-            } else {
-              toast({
-                title: "Réponse 400 sans message d'erreur valide:",
-                description: errorResponse,
-              })
-              console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
-            }
-          } catch (error) {
-            toast({
-              title: "Erreur lors de l'analyse de la réponse JSON",
-              description: error,
-            })
-            console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
-          }
-        }
-      } catch (error) {
-        setIsLoading(false)
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("Error code: ", errorCode);
-        console.log("Error message: ", errorMessage);
-      }
-
-    }
-    getRestaurantDetails()
+    setValue('restaurant_name', restaurant_name)
+    setValue('description', description)
+    setValue('email', email)
+    setValue('address', address)
+    setValue('phone', phone)
   }, [])
 
   const isAnyFormInputsModified = () => {
@@ -124,8 +61,6 @@ export function RestaurantForm() {
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
-    console.log("user", user);
-
     const slug = createSlug(payload?.restaurant_name)
     const newData = {
       ...payload,
@@ -226,8 +161,6 @@ export function RestaurantForm() {
   const selectAddress = (coordinates: string[]) => {
     setAddressSuggestions([])
     setOpenAddressDialog(false)
-    console.log("user::::: ", user);
-
     dispatch(setUserInfo(
       {
         ...user,
@@ -247,30 +180,45 @@ export function RestaurantForm() {
       {
         getValues('restaurant_name') ? (
           <p className="font-medium leading-6 text-gray-900 mt-6">
-            <span className="mr-4">Lien vers votre site web:</span>
-            <Link className="text-secondary font-semibold hover:underline hover:underline-offset-4" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
+            <span className="mr-4">Lien public de votre site web:</span>
+            <Link className="text-secondary hover:font-semibold underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
               {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
             </Link>
           </p>
         ) : null
       }
       <div className="space-y-6 mt-10">
-        <div>
-          <label htmlFor="restaurant_name" className="block text-sm font-medium leading-6 text-gray-900">
-            Nom du restaurant
-          </label>
-          <div className="mt-2">
-            <input
-              {...register("restaurant_name")}
-              id="restaurant_name"
-              type="text"
-              className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
-            />
-            <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="w-full">
+            <label htmlFor="restaurant_name" className="block text-sm font-medium leading-6 text-gray-900">
+              Nom du restaurant
+            </label>
+            <div className="mt-2">
+              <input
+                {...register("restaurant_name")}
+                id="restaurant_name"
+                type="text"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              />
+              <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
+            </div>
           </div>
+          {/* <div className="w-full">
+            <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-900">
+              Photo
+            </label>
+            <div className="mt-2">
+              <input
+                {...register("banner_photo")}
+                id="banner_photo"
+                type="file"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              />
+              <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
+            </div>
+          </div> */}
         </div>
-
-        <div className="relative">
+        <div className="relative w-full">
           <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
             Adresse
           </label>
@@ -325,7 +273,7 @@ export function RestaurantForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Email
@@ -436,11 +384,11 @@ export function RestaurantForm() {
           </div>
         </div> */}
 
-        <div>
+        <div className="w-full md:w-1/2">
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 flex w-1/2 justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="disabled:opacity-40 w-full flex justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'

@@ -112,16 +112,16 @@ export function ProfileForm() {
               {...register("identifier")}
               id="identifier"
               type="email"
-              className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              className="block p-2 w-full md:w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.identifier?.message}</p>
           </div>
         </div>
-        <div>
+        <div className="w-full md:w-1/2">
           <button
             type='submit'
             disabled={isLoading || (watchIdentifier == user?.email)}
-            className="disabled:opacity-40 flex w-1/2 justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'
