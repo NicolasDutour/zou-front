@@ -37,6 +37,28 @@ export const FormSchemaProfile = z.object({
 })
 export type TypeFormSchemaProfile = z.infer<typeof FormSchemaProfile>
 
+export const FormSchemaProduct = z.object({
+  product_name: z
+    .string()
+    .min(1, {
+      message: "Le nom doit contenir au moins 1 caractère",
+    }),
+  ingredients: z
+    .string()
+    .min(1, {
+      message: "Vous devez ajouter au moins 1 ingredient",
+    }),
+  // base: z
+  //   .string(),
+  price: z
+    .number({
+      required_error: "Le prix est requis",
+      invalid_type_error: "Saisir un nombre",
+    })
+    .positive({ message: "Prix minimum supérieur à 0" }),
+})
+export type TypeFormSchemaProduct = z.infer<typeof FormSchemaProduct>
+
 export const FormSchemaLogin = z.object({
   identifier: z
     .string()
@@ -60,6 +82,9 @@ export const FormSchemaRestaurant = z.object({
       message: "Le nom de votre restaurant doit contenir au moins 1 caractère",
     })
     .trim(),
+  website_mode: z
+    .boolean()
+    .default(true),
   description: z
     .string()
     .max(400, {
@@ -90,6 +115,12 @@ export const FormSchemaRestaurant = z.object({
 })
 export type TypeFormSchemaRestaurant = z.infer<typeof FormSchemaRestaurant>
 
+export type UserType = {
+  id: string,
+  email: string,
+  username: string,
+  restaurants: RestaurantType[]
+}
 
 export type RestaurantType = {
   restaurant_name: string,
@@ -103,11 +134,11 @@ export type RestaurantType = {
   latitude: string
 }
 
-export type productType = {
+export type ProductType = {
   id: string;
   attributes: {
     base: string;
-    productName: string;
+    product_name: string;
     ingredients: string;
     price: number;
     photo: {
@@ -136,3 +167,8 @@ export type productType = {
     }
   }
 }
+
+// export type accordeaonItem = {
+//   title: string,
+//   description: string
+// }
