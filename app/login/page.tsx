@@ -3,10 +3,11 @@ import Image from "next/image"
 import RedirectLoginButton from '@/components/RedirectLoginButton'
 import LoginGoogleButton from "@/components/LoginGoogleButton"
 import LoginForm from './LoginForm'
+import Link from "next/link"
 
 export default function Login() {
   return (
-    <div className="flex h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div className="flex bg-gray-900 h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image
           src="/leaf-icon.png"
@@ -25,9 +26,12 @@ export default function Login() {
       <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
         <p className='text-white text-center mx-4 mb-4'>with</p>
 
-        <LoginGoogleButton />
+        {/* <LoginGoogleButton /> */}
+        {/* <Link className="text-white" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`}>
+          Signi in with google
+        </Link> */}
 
-        <p className='text-white text-center mx-4 mb-4'>or</p>
+        {/* <p className='text-white text-center mx-4 mb-4'>or</p> */}
         <LoginForm />
 
         <p className="mt-6 text-center text-sm text-gray-400">
