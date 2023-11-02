@@ -20,7 +20,7 @@ const faqs = [
 
 export default function FAQ() {
   return (
-    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-gray-100">
+    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-green-100">
       <div className="max-w-4xl mx-auto">
         <h1 className="mb-8 text-2xl font-bold">Questions fréquentes</h1>
         <Accordion type="single" collapsible>
