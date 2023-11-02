@@ -12,7 +12,7 @@ async function getData() {
   const token = cookieStore.get('token')?.value
 
   if (token) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*`,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*&populate[pricing_plan][populate]=*`,
       {
         method: 'GET',
         headers: {

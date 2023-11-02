@@ -120,6 +120,13 @@ export type UserType = {
   email: string,
   username: string,
   restaurants: RestaurantType[]
+  pricing_plan: {
+    id: string,
+    title: string,
+    description: string,
+    price: number,
+    included: string
+  }
 }
 
 export type RestaurantType = {
