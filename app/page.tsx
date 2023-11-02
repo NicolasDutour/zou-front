@@ -1,15 +1,11 @@
 import Banner from "@/components/Banner";
-import BannerStepFive from "@/components/BannerStepFive";
-import BannerStepOneTwo from "@/components/BannerStepOneTwo";
-import BannerStepThreeFour from "@/components/BannerStepThreeFour";
+import Steps from "@/components/Steps";
 
 export default async function Home() {
   return (
     <div>
       <Banner />
-      <BannerStepOneTwo />
-      <BannerStepThreeFour />
-      <BannerStepFive />
+      <Steps />
     </div>
   )
 }
