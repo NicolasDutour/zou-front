@@ -24,7 +24,7 @@ export default function Footer() {
             <p className="text-lg font-medium mb-4 text-white">Pages</p>
             <ul>
               <li><Link href='/faq' className="hover:text-white">FAQ</Link></li>
-              <li><Link href="/contact" className="hover:text-white">Nous contacter</Link></li>
+              {/* <li><Link href="/contact" className="hover:text-white">Nous contacter</Link></li> */}
             </ul>
           </div>
           <div>
@@ -32,8 +32,8 @@ export default function Footer() {
             <div>
               <p>dutourn99@gmail.com</p>
               <div className="flex">
-                <Link className="text-2xl hover:text-white mr-4" href='/' title="Instagram"><AiOutlineInstagram /></Link>
-                <Link className="text-2xl hover:text-white" href='/' title="Facebook"><AiOutlineFacebook /></Link>
+                {/* <Link className="text-2xl hover:text-white mr-4" href='/' title="Instagram"><AiOutlineInstagram /></Link>
+                <Link className="text-2xl hover:text-white" href='/' title="Facebook"><AiOutlineFacebook /></Link> */}
               </div>
             </div>
           </div>
@@ -42,7 +42,7 @@ export default function Footer() {
           <p className="uppercase">© {new Date().getFullYear() > 2023 ? "2023 -" : ""} {new Date().getFullYear()} - All rights reserved</p>
           <Link href="/legal-notice" className="uppercase hover:text-white">Mentions légales</Link>
           <Link href="/personal-data" className="uppercase hover:text-white">Données personnelles</Link>
-          <p className="uppercase hover:text-white">Préférences cookies</p>
+          {/* <p className="uppercase hover:text-white">Préférences cookies</p> */}
         </div>
       </footer>
     )
