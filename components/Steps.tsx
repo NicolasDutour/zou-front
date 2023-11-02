@@ -23,12 +23,29 @@ const steps = [
   }
 ]
 
-export default function Steps() {
+async function getData() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pricing-plans`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-cache'
+  })
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+  return res.json()
+}
+
+export default async function Steps() {
+  const plans = await getData()
+
   return (
     <section className="p-6 bg-green-100">
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {steps.map((step, index) => <StepCard key={index} title={step.title} description={step.description} step={index + 1} />)}
+          {steps.map((step, index) => <StepCard key={index} plans={plans.data} title={step.title} description={step.description} step={index + 1} />)}
         </div>
       </div>
     </section>

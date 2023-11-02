@@ -9,8 +9,9 @@ import { Button } from "./ui/button"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import DialogPlan from "./DialogPlan"
+import { PlanType } from "@/lib/types"
 
-export default function StepCard({ title, description, step }: { title: string, description: string, step: number }) {
+export default function StepCard({ title, description, step, plans }: { title: string, description: string, step: number, plans: PlanType[] }) {
   return (
     <Card className={cn("w-full text-gray-600", step === 5 ? 'md:col-span-2 grid place-content-center' : '')}>
       <CardHeader>
@@ -20,8 +21,7 @@ export default function StepCard({ title, description, step }: { title: string, 
       {
         step === 4 ? (
           <CardContent>
-            <DialogPlan title="Essential" price="9.99" description="Vous êtes autonome" />
-            <DialogPlan title="Premium" price="29.99" description="Ted s'occupe de tout" />
+            {plans?.map(plan => <DialogPlan key={plan.id} plan={plan} />)}
           </CardContent>
         ) : null
       }

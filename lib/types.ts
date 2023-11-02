@@ -134,6 +134,16 @@ export type RestaurantType = {
   latitude: string
 }
 
+export type PlanType = {
+  id: string,
+  attributes: {
+    title: string,
+    description: string,
+    price: number,
+    included: string
+  }
+}
+
 export type ProductType = {
   id: string;
   attributes: {
