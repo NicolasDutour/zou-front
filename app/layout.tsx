@@ -16,7 +16,7 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: 'Ted-front',
+  title: 'Ted',
   description: "Votre site web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
 }
 
