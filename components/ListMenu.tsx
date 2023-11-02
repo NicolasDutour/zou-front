@@ -18,14 +18,14 @@ import {
 import Product from './Product';
 
 import { formatIngredients } from '@/lib/utils';
-import { productType } from "@/lib/types";
+import { ProductType } from "@/lib/types";
 
 const imageStyle: React.CSSProperties = {
   objectFit: "cover",
 };
 
 const ListMenu = ({ products }: {
-  products: productType[]
+  products: ProductType[]
 }) => {
   const [basePizza, setBase] = useState('all')
 
@@ -61,7 +61,7 @@ const ListMenu = ({ products }: {
       <div className="grid grid-cols-1 gap-4">
         {
           productsFilterByBase()?.map(product => {
-            const { id, attributes: { productName, ingredients, photo: { data: { attributes: { formats } } } } } = product
+            const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
             let photo;
 
             if (formats) {
@@ -84,14 +84,14 @@ const ListMenu = ({ products }: {
                   <div>
                     <Image
                       src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${photo}`}
-                      alt={productName}
+                      alt={product_name}
                       style={imageStyle}
                       width={200}
                       height={200}
                       aspect-auto="true"
                       className="rounded-lg"
                     />
-                    <p className="text-gray-900 font-bold py-2">{productName}</p>
+                    <p className="text-gray-900 font-bold py-2">{product_name}</p>
                     <p className="text-sm">{formatIngredients(ingredients)}</p>
                   </div>
                 </HoverCardContent>

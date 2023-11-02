@@ -1,12 +1,12 @@
-import { productType } from "@/lib/types";
+import { ProductType } from "@/lib/types";
 import { formatIngredients } from "@/lib/utils";
 
 const imageStyle: React.CSSProperties = {
   objectFit: "cover",
 };
 
-const Product = ({ product }: { product: productType }) => {
-  const { attributes: { productName, ingredients, price, photo: { data: { attributes: { formats } } } } } = product
+const Product = ({ product }: { product: ProductType }) => {
+  const { attributes: { product_name, ingredients, price, photo: { data: { attributes: { formats } } } } } = product
   let photo;
 
   if (formats) {
@@ -23,7 +23,7 @@ const Product = ({ product }: { product: productType }) => {
 
   return (
     <div className="flex justify-between items-center rounded-lg p-2 bg-white hover:shadow-lg transition-shadow">
-      <p className="uppercase font-semibold">{productName || null}</p>
+      <p className="uppercase font-semibold">{product_name || null}</p>
       <p className="">{formatIngredients(ingredients) || null}</p>
       <p className="text-red-800 p-4 text-2xl font-semibold">{price.toFixed(2) || null} €</p>
     </div>
