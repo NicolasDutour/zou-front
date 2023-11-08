@@ -30,6 +30,47 @@ export default function ProductsAdmin({ user, token }) {
   const { showForm, setShowForm } = useProductFormContext()
   const [searchProductName, setSearchProductName] = useState('')
   const [searchBase, setSearchBase] = useState('all')
+  const placeholderText = "marguarita...";
+  const [displayedText, setDisplayedText] = useState('');
+
+  useEffect(() => {
+    let typeTextInterval;
+    let eraseTextTimeout;
+
+    const typeText = (text, currentIndex) => {
+      if (currentIndex <= text.length) {
+        setDisplayedText(text.slice(0, currentIndex));
+        typeTextInterval = setTimeout(() => {
+          typeText(text, currentIndex + 1);
+        }, 100); // Contrôle la vitesse de la machine à écrire
+      } else {
+        eraseTextTimeout = setTimeout(() => {
+          eraseText(text, currentIndex);
+        }, 1000); // Temps d'attente avant d'effacer le texte
+      }
+    };
+
+    const eraseText = (text, currentIndex) => {
+      if (currentIndex >= 0) {
+        setDisplayedText(text.slice(0, currentIndex));
+        typeTextInterval = setTimeout(() => {
+          eraseText(text, currentIndex - 1);
+        }, 5); // Contrôle la vitesse de l'effacement
+      } else {
+        eraseTextTimeout = setTimeout(() => {
+          typeText(placeholderText, 0);
+        }, 1000); // Temps d'attente avant de recommencer
+      }
+    };
+
+    typeText(placeholderText, 0);
+
+    return () => {
+      // Nettoyez les intervalles ou les timeouts lors du démontage du composant.
+      clearInterval(typeTextInterval);
+      clearTimeout(eraseTextTimeout);
+    };
+  }, []);
 
   const handleSearchChange = (e: any) => {
     setSearchProductName(e.target.value);
@@ -65,9 +106,11 @@ export default function ProductsAdmin({ user, token }) {
             <div className="md:w-1/4 mr-6 relative w-full mb-2 md:mb-0 ">
               <Label className="text-muted-foreground">Rechercher un produit</Label>
               <Input
+                className="pl-8"
                 type="text"
                 value={searchProductName}
                 onChange={handleSearchChange}
+                placeholder={displayedText}
               />
               <IconContext.Provider value={{ color: "green", className: "text-xl absolute top-8 left-2" }}>
                 <div>
