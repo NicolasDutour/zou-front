@@ -31,7 +31,7 @@ export default function DialogPlan({ plan }: { plan: PlanType }) {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="w-full">
+      <AlertDialogTrigger>
         <p className="flex flex-col justify-between p-2 mb-2 shadow-lg rounded-xl border-2 border-secondary hover:bg-green-100 text-gray-600">
           <span className="text-secondary text-lg"><span className="font-bold text-2xl"> {capitalize(title)} </span> pour <span className="font-bold text-2xl"> {price} €</span> / mois</span> {description}.
         </p>

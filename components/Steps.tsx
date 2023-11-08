@@ -42,9 +42,9 @@ export default async function Steps() {
   const plans = await getData()
 
   return (
-    <section className="p-6 bg-green-100">
+    <section className="p-6 bg-slate-200">
       <div className="max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="">
           {steps.map((step, index) => <StepCard key={index} plans={plans.data} title={step.title} description={step.description} step={index + 1} />)}
         </div>
       </div>

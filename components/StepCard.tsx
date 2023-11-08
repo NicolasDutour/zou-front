@@ -13,14 +13,14 @@ import { PlanType } from "@/lib/types"
 
 export default function StepCard({ title, description, step, plans }: { title: string, description: string, step: number, plans: PlanType[] }) {
   return (
-    <Card className={cn("w-full text-gray-600", step === 5 ? 'md:col-span-2 grid place-content-center' : '')}>
+    <Card className="w-full text-gray-600 mb-4">
       <CardHeader>
         <CardTitle className="text-2xl mb-4"> <span className="text-4xl"> {step} . </span> {title} </CardTitle>
         <CardDescription className="text-base"> {description} </CardDescription>
       </CardHeader>
       {
         step === 4 ? (
-          <CardContent>
+          <CardContent className="flex gap-2">
             {plans?.map(plan => <DialogPlan key={plan.id} plan={plan} />)}
           </CardContent>
         ) : null
