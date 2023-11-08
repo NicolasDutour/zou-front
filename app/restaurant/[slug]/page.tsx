@@ -28,12 +28,12 @@ export default async function Restaurant({ params }: { params: { slug: string } 
 
   return (
     <div className="bg-[#F6F7F8]">
-      <RestaurantBanner restaurant={restaurant} />
-      <ListMenu products={products} />
+      {restaurant ? <RestaurantBanner restaurant={restaurant} /> : null}
+      {products ? <ListMenu products={products} /> : null}
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
-        <RestaurantInfo restaurant={restaurant} />
+        {restaurant ? <RestaurantInfo restaurant={restaurant} /> : null}
         <div>
-          <Mapbox restaurant={restaurant} />
+          {restaurant ? <Mapbox restaurant={restaurant} /> : null}
         </div>
       </div>
     </div >
