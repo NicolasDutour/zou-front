@@ -185,6 +185,17 @@ export type ProductType = {
   }
 }
 
+export const productAdminSchema = z.object({
+  id: z.string(),
+  base: z.string(),
+  product_name: z.string(),
+  ingredients: z.string(),
+  price: z.number(),
+  publishedAt: z.string()
+})
+
+export type ProductAdminType = z.infer<typeof productAdminSchema>
+
 // export type accordeaonItem = {
 //   title: string,
 //   description: string
