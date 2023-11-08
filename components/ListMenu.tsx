@@ -27,10 +27,10 @@ const imageStyle: React.CSSProperties = {
 const ListMenu = ({ products }: {
   products: ProductType[]
 }) => {
-  const [basePizza, setBase] = useState('all')
+  const [basePizza, setBasePizza] = useState('all')
 
   const handleBase = (e: SetStateAction<string>) => {
-    setBase(e)
+    setBasePizza(e)
   }
 
   const productsFilterByBase = () => {
@@ -51,9 +51,9 @@ const ListMenu = ({ products }: {
           </SelectTrigger>
           <SelectContent>
             <SelectItem className="cursor-pointer" value="all">Toutes les bases</SelectItem>
-            <SelectItem className="cursor-pointer" value="tomate">Base tomate</SelectItem>
-            <SelectItem className="cursor-pointer" value="crème">Base crème</SelectItem>
-            <SelectItem className="cursor-pointer" value="spéciales">Les spéciales</SelectItem>
+            <SelectItem className="cursor-pointer" value="tomato">Base tomate</SelectItem>
+            <SelectItem className="cursor-pointer" value="cream">Base crème</SelectItem>
+            <SelectItem className="cursor-pointer" value="specials">Les spéciales</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -61,20 +61,25 @@ const ListMenu = ({ products }: {
       <div className="grid grid-cols-1 gap-4">
         {
           productsFilterByBase()?.map(product => {
-            const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
-            let photo;
 
-            if (formats) {
-              if (formats.small) {
-                photo = formats.small.url;
-              } else if (formats.medium) {
-                photo = formats.medium.url;
-              } else if (formats.large) {
-                photo = formats.large.url;
-              } else if (formats.thumbnail) {
-                photo = formats.thumbnail.url;
-              }
-            }
+            console.log("product: ", product);
+
+            // const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
+            const { id, attributes: { product_name, ingredients } } = product
+
+            // let photo;
+
+            // if (formats) {
+            //   if (formats.small) {
+            //     photo = formats.small.url;
+            //   } else if (formats.medium) {
+            //     photo = formats.medium.url;
+            //   } else if (formats.large) {
+            //     photo = formats.large.url;
+            //   } else if (formats.thumbnail) {
+            //     photo = formats.thumbnail.url;
+            //   }
+            // }
             return (
               <HoverCard key={id}>
                 <HoverCardTrigger>
@@ -82,7 +87,7 @@ const ListMenu = ({ products }: {
                 </HoverCardTrigger>
                 <HoverCardContent>
                   <div>
-                    <Image
+                    {/* <Image
                       src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${photo}`}
                       alt={product_name}
                       style={imageStyle}
@@ -90,7 +95,7 @@ const ListMenu = ({ products }: {
                       height={200}
                       aspect-auto="true"
                       className="rounded-lg"
-                    />
+                    /> */}
                     <p className="text-gray-900 font-bold py-2">{product_name}</p>
                     <p className="text-sm">{formatIngredients(ingredients)}</p>
                   </div>
