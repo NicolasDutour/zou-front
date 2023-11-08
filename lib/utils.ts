@@ -5,8 +5,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const capitalize = (word: string): string => {
-  return word[0].toUpperCase() + word.slice(1)
+export const capitalize = (word: string) => {
+  if (word) {
+    return word[0].toUpperCase() + word.slice(1)
+  }
 }
 
 // Remove extra spaces, add coma after each ingredient and capitalize only the first ingredient
