@@ -1,10 +1,12 @@
-import { Metadata } from "next"
-import AdminLayout from "./components/AdminLayout"
 import { cookies } from 'next/headers'
 
+import { Separator } from "@/components/ui/separator";
+import { ProfileForm } from "./ProfileForm";
+import { Metadata } from "next"
+
 export const metadata: Metadata = {
-  title: "Administration",
-  description: "Page d'administration pour ajouter ou modifier des données sur vos données personnelles et celles du restaurant",
+  title: "Profile",
+  description: "Manage your profile details",
 }
 
 async function getData() {
@@ -27,12 +29,19 @@ async function getData() {
   }
 }
 
-export default async function Admin() {
+export default async function SettingsProfilePage() {
   const data = await getData()
 
   return (
-    <div className="bg-white p-6">
-      {data ? <AdminLayout user={data} /> : null}
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Profile</h3>
+        <p className="text-sm text-muted-foreground">
+          This is how others will see you on the site.
+        </p>
+      </div>
+      <Separator />
+      {data ? <ProfileForm user={data} /> : null}
     </div>
   )
 }
