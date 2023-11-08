@@ -1,10 +1,15 @@
+import { cookies } from 'next/headers'
+
 import Link from 'next/link'
 import AuthButtons from './AuthButtons'
 import Image from "next/image"
 
 const Navbar = () => {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+
   return (
-    <header className='fixed w-full h-[77px] px-8 py-5 shadow-lg bg-gray-900 z-20'>
+    <header className='fixed w-full h-[77px] px-8 py-5 shadow-lg backdrop-blur-md backdrop-filter bg-transparent z-20'>
       <nav className='flex items-center justify-between max-w-7xl mx-auto'>
         <Link href="/">
           <Image
@@ -17,7 +22,7 @@ const Navbar = () => {
             priority
           />
         </Link>
-        <AuthButtons />
+        <AuthButtons token={token || ''} />
       </nav>
     </header>
   )
