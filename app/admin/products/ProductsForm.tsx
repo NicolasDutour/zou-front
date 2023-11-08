@@ -28,14 +28,18 @@ import { useSelector } from "react-redux"
 import { useToast } from "@/components/ui/use-toast"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
+import { useProductFormContext } from "@/context/store"
 
-export function ProductsForm({ closeForm, isProductUpdating, product }:
-  { closeForm: () => void, isProductUpdating: boolean, product: { product_name: string, ingredients: string, price: number, id: string } }) {
+export function ProductsForm({ user }) {
   const router = useRouter()
   const { toast } = useToast()
   const token = useSelector((state: any) => state.auth.token)
-  const user = useSelector((state: any) => state.auth.user)
+  // const user = useSelector((state: any) => state.auth.user)
   const [isLoading, setIsLoading] = useState(false)
+  const { isUpdatingProduct, setIsUpdatingProduct } = useProductFormContext()
+  const { showForm, setShowForm } = useProductFormContext()
+  const { productUpdating, setProductUpdating } = useProductFormContext()
+
 
   const {
     register,
@@ -48,15 +52,23 @@ export function ProductsForm({ closeForm, isProductUpdating, product }:
   });
 
   useEffect(() => {
-    setValue('product_name', product.product_name)
-    setValue('ingredients', product.ingredients)
-    setValue('price', product.price)
-    setFocus('product_name')
+    if (isUpdatingProduct) {
+      setValue('product_name', productUpdating.product_name)
+      setValue('ingredients', productUpdating.ingredients)
+      setValue('price', productUpdating.price)
+      setFocus('product_name')
+    }
   }, [])
+
+  const closeForm = () => {
+    setShowForm(false)
+    setIsUpdatingProduct(false)
+  }
 
 
   const onCreateOrUpdateProduct = async (payload: z.infer<typeof FormSchemaProduct>) => {
-    closeForm()
+    setShowForm(false)
+    setIsUpdatingProduct(false)
     const newData = {
       ...payload,
       restaurant: {
@@ -66,21 +78,20 @@ export function ProductsForm({ closeForm, isProductUpdating, product }:
 
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products${isProductUpdating ? '/' + product.id : null}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products${isUpdatingProduct ? `/${productUpdating.id}` : ''}`,
         {
-          method: `${isProductUpdating ? 'PUT' : 'POST'}`,
+          method: `${isUpdatingProduct ? 'PUT' : 'POST'}`,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({ data: newData }),
-          cache: 'no-cache'
+          body: JSON.stringify({ data: newData })
         })
       if (response.status === 200) {
         try {
           const product = await response.json()
           toast({
-            title: `Produit ${isProductUpdating ? 'mis à jour' : 'ajouté'} avec succés !`
+            title: `Produit ${isUpdatingProduct ? 'mis à jour' : 'ajouté'} avec succés !`
           })
           router.refresh()
         } catch (error) {
@@ -130,7 +141,7 @@ export function ProductsForm({ closeForm, isProductUpdating, product }:
     <>
       <Card>
         <CardHeader>
-          <CardTitle> {isProductUpdating ? `Mise à jour de ${product.product_name}` : "Création d'un nouveau produit"} </CardTitle>
+          <CardTitle> {isUpdatingProduct ? `Mise à jour de product name` : "Création d'un nouveau produit"} </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onCreateOrUpdateProduct)}>
@@ -213,7 +224,7 @@ export function ProductsForm({ closeForm, isProductUpdating, product }:
                   className={cn("disabled:opacity-40 w-full rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
                   )}
                 >
-                  {isProductUpdating ? 'Update' : 'Create'}
+                  {isUpdatingProduct ? 'Update' : 'Create'}
                 </button>
               </div>
             </div>

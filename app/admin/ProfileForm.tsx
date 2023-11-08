@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,16 +10,16 @@ import { useRouter } from "next/navigation"
 import Loader from "@/components/Loader"
 import { useToast } from "@/components/ui/use-toast";
 
-import { TypeFormSchemaProfile, FormSchemaProfile } from '@/lib/types';
+import { TypeFormSchemaProfile, FormSchemaProfile, UserType } from '@/lib/types';
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 
-export function ProfileForm() {
-  const dispatch = useDispatch()
+export function ProfileForm({ user }: { user: UserType }) {
   const router = useRouter();
+  const dispatch = useDispatch()
   const { toast } = useToast()
-  const user = useSelector((state) => state.auth.user)
-
   const [isLoading, setIsLoading] = useState(false)
+
+  dispatch(setUserInfo(user))
 
   const {
     register,

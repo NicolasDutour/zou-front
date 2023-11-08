@@ -14,14 +14,15 @@ import { TypeFormSchemaRestaurant, FormSchemaRestaurant } from '@/lib/types';
 import { createSlug } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 
-export function RestaurantForm() {
+export function RestaurantForm({ user }) {
   const dispatch = useDispatch()
+  const { toast } = useToast()
+  const token = useSelector((state) => state.auth.token)
+  // const user = useSelector((state) => state.auth.user)
+
   const [isLoading, setIsLoading] = useState(false)
   const [addressSuggestions, setAddressSuggestions] = useState([]);
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
-  const { toast } = useToast()
-  const token = useSelector((state) => state.auth.token)
-  const user = useSelector((state) => state.auth.user)
 
   const {
     register,
