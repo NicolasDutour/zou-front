@@ -3,7 +3,7 @@
 import { BsArrowDownCircle } from 'react-icons/bs'
 import { RestaurantType } from '@/lib/types'
 
-export default async function RestaurantBanner({ restaurant }: { restaurant: RestaurantType }) {
+export default function RestaurantBanner({ restaurant }: { restaurant: RestaurantType }) {
   const scrollDown = () => {
     window.scrollBy(0, 400);
   };
