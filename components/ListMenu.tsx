@@ -50,10 +50,9 @@ const ListMenu = ({ products }: {
             <SelectValue placeholder="Toutes les bases" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem className="cursor-pointer" value="all">Toutes les bases</SelectItem>
-            <SelectItem className="cursor-pointer" value="tomato">Base tomate</SelectItem>
-            <SelectItem className="cursor-pointer" value="cream">Base crème</SelectItem>
-            <SelectItem className="cursor-pointer" value="specials">Les spéciales</SelectItem>
+            <SelectItem className="cursor-pointer" value="all">All</SelectItem>
+            <SelectItem className="cursor-pointer" value="tomato">Tomato</SelectItem>
+            <SelectItem className="cursor-pointer" value="cream">Cream</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -65,7 +64,7 @@ const ListMenu = ({ products }: {
             console.log("product: ", product);
 
             // const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
-            const { id, attributes: { product_name, ingredients } } = product
+            const { id, attributes: { product_name, ingredients, price } } = product
 
             // let photo;
 
@@ -97,7 +96,8 @@ const ListMenu = ({ products }: {
                       className="rounded-lg"
                     /> */}
                     <p className="text-gray-900 font-bold py-2">{product_name}</p>
-                    <p className="text-sm">{formatIngredients(ingredients)}</p>
+                    <p className="text-sm mb-4">{formatIngredients(ingredients)}</p>
+                    <p className="text-sm">{price}</p>
                   </div>
                 </HoverCardContent>
               </HoverCard>
