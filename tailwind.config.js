@@ -22,6 +22,9 @@ module.exports = {
         'hero-pattern-pair': "url('/banner-pair.svg')",
         'hero-pattern-end': "url('/banner-end.svg')",
       },
+      boxShadow: {
+        'custom': '0 0 30px -15px rgba(0, 0, 0, 0.3)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
