@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { capitalize } from "@/lib/utils";
 import { IconContext } from "react-icons";
+import { AiFillLock } from "react-icons/ai";
 import { MdPayment } from "react-icons/md";
 
 export default function PaymentMethod() {
@@ -73,8 +74,12 @@ export default function PaymentMethod() {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="block">
         <Button className="w-full bg-secondary">Continue</Button>
+        <div className="flex items-center mt-2">
+          <AiFillLock />
+          <p className="ml-2">Votre carte est chiffrée et enregistrée par notre partenaire Stripe</p>
+        </div>
       </CardFooter>
     </Card>
   )
