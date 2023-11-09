@@ -35,7 +35,7 @@ export default async function SettingsRestaurantPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Restaurant</h3>
+        <h1 className="text-lg font-medium">Restaurant</h1>
         <p className="text-sm text-muted-foreground">
           Update your restaurant details
         </p>

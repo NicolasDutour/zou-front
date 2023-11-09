@@ -34,7 +34,7 @@ export default async function SettingsProductsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Products</h3>
+        <h1 className="text-lg font-medium">Products</h1>
         <p className="text-sm text-muted-foreground">
           Update your products details
         </p>
