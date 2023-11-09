@@ -42,7 +42,7 @@ export default async function Steps() {
   const plans = await getData()
 
   return (
-    <section className="p-6 bg-slate-200">
+    <section className="p-6 bg-white">
       <div className="max-w-5xl mx-auto">
         <div className="">
           {steps.map((step, index) => <StepCard key={index} plans={plans.data} title={step.title} description={step.description} step={index + 1} />)}
