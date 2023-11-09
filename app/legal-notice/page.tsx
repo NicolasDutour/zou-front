@@ -1,5 +1,10 @@
+import { Metadata } from 'next';
 import { remark } from 'remark';
 import html from 'remark-html';
+
+export const metadata: Metadata = {
+  title: 'Legal notice'
+}
 
 async function getData() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/legal-notices`, {

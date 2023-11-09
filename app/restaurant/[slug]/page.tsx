@@ -2,6 +2,25 @@ import RestaurantBanner from "@/components/RestaurantBanner"
 import Mapbox from "@/components/MapBox"
 import RestaurantInfo from "@/components/RestaurantInfo";
 import ListMenu from "@/components/ListMenu";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { slug: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const slug = params.slug
+
+  const restaurantData = await getRestaurantDetails(slug)
+
+  return {
+    title: restaurantData.data[0].attributes.restaurant_name,
+    description: restaurantData.data[0].attributes.description
+  }
+}
 
 async function getRestaurantDetails(slug: string) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*`,
@@ -20,7 +39,7 @@ async function getRestaurantDetails(slug: string) {
   return response.json();
 }
 
-export default async function Restaurant({ params }: { params: { slug: string } }) {
+export default async function Restaurant({ params }: Props) {
   const slug = params?.slug
   const restaurantData = await getRestaurantDetails(slug)
   const restaurant = restaurantData?.data[0]?.attributes;

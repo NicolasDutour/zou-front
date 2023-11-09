@@ -1,6 +1,11 @@
 import Image from "next/image"
 
 import ContactForm from './ContactForm'
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: 'Contact'
+}
 
 export default function Login() {
   return (
