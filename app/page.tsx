@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import Plans from "@/components/Plans";
 import Steps from "@/components/Steps";
 import { Metadata } from "next";
 
@@ -11,6 +12,7 @@ export default async function Home() {
     <div>
       <Banner />
       <Steps />
+      <Plans />
     </div>
   )
 }
