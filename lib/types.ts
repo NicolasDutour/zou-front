@@ -75,6 +75,17 @@ export const FormSchemaLogin = z.object({
 
 export type TypeFormSchemaLogin = z.infer<typeof FormSchemaLogin>
 
+export const FormSchemaForgotPassword = z.object({
+  email: z
+    .string()
+    .trim()
+    .toLowerCase()
+    .email({ message: "Email non valide" })
+    .min(1, 'Ce champs est requis')
+})
+
+export type TypeFormSchemaForgotPassword = z.infer<typeof FormSchemaForgotPassword>
+
 export const FormSchemaRestaurant = z.object({
   restaurant_name: z
     .string()
@@ -111,7 +122,7 @@ export const FormSchemaRestaurant = z.object({
   // closing_time_morning: z.string().datetime(),
   // opening_time_afternoon: z.string().datetime(),
   // closing_time_afternoon: z.string().datetime(),
-  // photo_banner: z.any()
+  banner_photo: z.any()
 })
 export type TypeFormSchemaRestaurant = z.infer<typeof FormSchemaRestaurant>
 
