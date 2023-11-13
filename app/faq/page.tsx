@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function FAQ() {
   return (
-    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-green-100">
+    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-base">
       <div className="max-w-4xl mx-auto">
         <h1 className="mb-8 text-2xl font-bold">Questions fréquentes</h1>
         <Accordion type="single" collapsible>

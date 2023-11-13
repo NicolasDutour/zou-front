@@ -1,4 +1,4 @@
-import PlanCard from "./PLanCard"
+import PlanCard from "./PlanCard"
 
 
 async function getData() {
@@ -6,8 +6,7 @@ async function getData() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    },
-    cache: 'no-cache'
+    }
   })
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
