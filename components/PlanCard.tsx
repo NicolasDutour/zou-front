@@ -10,7 +10,7 @@ import {
 
 import { PlanType } from "@/lib/types"
 
-export default function PlanCard({ plan }: PlanType) {
+export default function PlanCard({ plan }: { plan: PlanType }) {
   const { id, attributes: { title, description, price, included } } = plan
 
   return (

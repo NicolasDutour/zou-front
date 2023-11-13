@@ -1,3 +1,4 @@
+import { PlanType } from "@/lib/types"
 import PlanCard from "./PlanCard"
 
 
@@ -16,14 +17,15 @@ async function getData() {
 }
 
 export default async function Steps() {
-  const plans = await getData()
+  const plans: { data: PlanType[] } = await getData()
 
   return (
     <section className="bg-white py-20 px-6">
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl mb-6 font-bold">Les abonnements</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {plans?.data.map(plan => <PlanCard key={plan.id} plan={plan} />)}
+
+          {plans?.data.map((plan: PlanType) => <PlanCard key={plan.id} plan={plan} />)}
         </div>
       </div>
     </section>

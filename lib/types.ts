@@ -153,12 +153,20 @@ export type RestaurantType = {
 }
 
 export type PlanType = {
-  id: string,
+  id: number,
   attributes: {
     title: string,
     description: string,
     price: number,
     included: string
+  }
+}
+
+export type StepType = {
+  id: number,
+  attributes: {
+    title: string,
+    description: string,
   }
 }
 
