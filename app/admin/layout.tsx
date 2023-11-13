@@ -2,14 +2,12 @@
 
 import { useSelector } from "react-redux"
 
-import { Separator } from "@/components/ui/separator"
 import { SidebarNav } from "./components/SidebarNav"
 
-import { capitalize } from "@/lib/utils"
 import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"
 import { IoRestaurantOutline } from "react-icons/io5"
-import { MdOutlineEmojiFoodBeverage, MdPayment } from "react-icons/md"
+import { MdOutlineEmojiFoodBeverage } from "react-icons/md"
 import { LiaFileInvoiceSolid } from "react-icons/lia"
 
 const sidebarNavItems = [
@@ -32,11 +30,6 @@ const sidebarNavItems = [
     title: "Subscriptions",
     href: "/admin/subscriptions",
     icon: <BsStar />
-  },
-  {
-    title: "Payment",
-    href: "/admin/payment",
-    icon: <MdPayment />
   },
   {
     title: "Invoices",
