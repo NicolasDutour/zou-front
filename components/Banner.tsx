@@ -6,7 +6,7 @@ export default function Banner() {
         <p className="text-4xl mb-4 text-black">Votre page web prêt à l'emploi</p>
         <p className="text-xl text-gray-500">Un design simple et fonctionnel</p>
         <p className="text-xl text-gray-500">Vous n'avez qu'à saisir les informations sur votre établissement</p>
-        <p className="text-xl text-gray-500">Et hop votre site est en ligne !</p>
+        <p className="text-xl text-gray-500">Et hop votre page est en ligne !</p>
       </div>
     </section>
   )
