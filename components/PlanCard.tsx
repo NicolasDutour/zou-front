@@ -17,7 +17,7 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
   const { id, attributes: { title, description, price, included } } = plan
 
   return (
-    <Card className={cn("bg-base border-none", title === "essential" ? "shadow-custom-green" : "shadow-custom-orange")}>
+    <Card className={cn("bg-base border", title === "essential" ? "shadow-custom-green border-secondary" : "shadow-custom-orange border-primary")}>
       <CardHeader className="flex items-center">
         {
           title === "essential" ? (
