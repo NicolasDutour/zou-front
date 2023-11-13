@@ -21,20 +21,20 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
       <CardHeader className="flex items-center">
         {
           title === "essential" ? (
-            <IconContext.Provider value={{ className: "text-secondary text-5xl" }}>
+            <IconContext.Provider value={{ className: "text-secondary text-8xl" }}>
               <div>
                 <TfiCup />
               </div>
             </IconContext.Provider>
           ) : (
-            <IconContext.Provider value={{ className: "text-primary text-5xl" }}>
+            <IconContext.Provider value={{ className: "text-primary text-8xl" }}>
               <div>
                 <TfiInfinite />
               </div>
             </IconContext.Provider>
           )
         }
-        <CardTitle className="text-2xl uppercase"> {title} </CardTitle>
+        <CardTitle className="text-2xl uppercase pt-4"> {title} </CardTitle>
         <CardDescription className="text-base"> {description} </CardDescription>
       </CardHeader>
       <CardContent className="text-center">
