@@ -18,12 +18,11 @@ module.exports = {
     extend: {
       backgroundImage: {
         'hero-pattern': "url('/home_banner.jpg')",
-        'hero-pattern-impair': "url('/banner-impair.svg')",
-        'hero-pattern-pair': "url('/banner-pair.svg')",
-        'hero-pattern-end': "url('/banner-end.svg')",
       },
       boxShadow: {
-        'custom': '0 0 30px -15px rgba(0, 0, 0, 0.3)',
+        'custom': '20px 30px 30px -15px rgba(0, 0, 0, 0.3)',
+        'custom-orange': '30px 30px 20px -15px rgba(237,119,45, 0.3)',
+        'custom-green': '30px 30px 20px -15px rgba(22,163,74, 0.3)',
       },
       colors: {
         border: "hsl(var(--border))",
