@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import Link from "next/link"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,14 +10,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useToast } from "@/components/ui/use-toast"
 import Loader from "@/components/Loader"
 
-import { TypeFormSchemaRestaurant, FormSchemaRestaurant } from '@/lib/types';
+import { TypeFormSchemaRestaurant, FormSchemaRestaurant, UserType } from '@/lib/types';
 import { createSlug } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 
-export function RestaurantForm({ user }) {
+export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
   const dispatch = useDispatch()
   const { toast } = useToast()
-  const token = useSelector((state) => state.auth.token)
+  // const token = useSelector((state) => state.auth.token)
   // const user = useSelector((state) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -62,6 +62,15 @@ export function RestaurantForm({ user }) {
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
+    console.log("payload: ", payload);
+
+    // const imageUpload = {
+    //   ref: "api::restaurant.restaurant",
+    //   refId: user?.restaurants[0].id,
+    //   field: "banner_photo",
+    //   files: payload.banner_photo[0].name
+    // }
+
     const slug = createSlug(payload?.restaurant_name)
     const newData = {
       ...payload,
@@ -72,6 +81,8 @@ export function RestaurantForm({ user }) {
         connect: [user?.id]
       }
     }
+
+    // const { banner_photo, ...dataWithoutImage } = newData
 
     try {
       setIsLoading(true)
@@ -88,7 +99,19 @@ export function RestaurantForm({ user }) {
 
       if (response.status === 200) {
         try {
-          const userDetails = await response.json()
+          await response.json()
+
+          // const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
+          //   {
+          //     method: 'POST',
+          //     headers: {
+          //       'Content-Type': 'application/json',
+          //       Authorization: `Bearer ${token}`
+          //     },
+          //     body: new FormData(imageUpload),
+          //     cache: 'no-cache'
+          //   })
+
           toast({
             title: "Mis à jour avec succés !"
           })
@@ -204,6 +227,7 @@ export function RestaurantForm({ user }) {
               <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
             </div>
           </div>
+
           {/* <div className="w-full">
             <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-900">
               Photo
@@ -219,6 +243,7 @@ export function RestaurantForm({ user }) {
             </div>
           </div> */}
         </div>
+
         <div className="relative w-full">
           <label htmlFor="address" className="block text-sm font-medium leading-6 text-gray-900">
             Adresse
@@ -306,7 +331,7 @@ export function RestaurantForm({ user }) {
           </div>
         </div>
 
-        {/* <div className="grid grid-cols-2 gap-4">
+        {/* <div className="grid grid-cols-4 gap-4">
           <div>
             <label htmlFor="opening_time_morning" className="block text-sm font-medium leading-6 text-gray-900">
               Heure d'ouverture du matin
@@ -336,9 +361,6 @@ export function RestaurantForm({ user }) {
               <p className="text-red-500 text-sm mt-2">{errors.closing_time_morning?.message}</p>
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
           <div>
             <label htmlFor="opening_time_afternoon" className="block text-sm font-medium leading-6 text-gray-900">
               Heure d'ouverture de l'après midi
@@ -369,6 +391,8 @@ export function RestaurantForm({ user }) {
             </div>
           </div>
         </div> */}
+
+
 
         {/* <div>
           <label htmlFor="photo_banner" className="block text-sm font-medium leading-6 text-gray-900">

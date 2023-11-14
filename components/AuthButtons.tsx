@@ -8,12 +8,12 @@ import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
 import { logout } from "@/redux/features/auth/authSlice";
 
-export default function AuthButtons() {
+export default function AuthButtons(token: string) {
   const dispatch = useDispatch()
   const router = useRouter()
   const path = usePathname()
   const { toast } = useToast()
-  const token = useSelector((state) => state.auth.token)
+  // const token = useSelector((state) => state.auth.token)
 
   const handleSignOut = async () => {
     dispatch(logout)

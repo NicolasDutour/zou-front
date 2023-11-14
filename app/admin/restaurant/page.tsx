@@ -9,10 +9,7 @@ export const metadata: Metadata = {
   description: "Manage your restaurant details",
 }
 
-async function getData() {
-  const cookieStore = cookies()
-  const token = cookieStore.get('token')?.value
-
+async function getData(token: string) {
   if (token) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*&populate[pricing_plan][populate]=*`,
       {
@@ -30,7 +27,9 @@ async function getData() {
 }
 
 export default async function SettingsRestaurantPage() {
-  const data = await getData()
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+  const data = await getData(token)
 
   return (
     <div className="space-y-6">
@@ -41,7 +40,7 @@ export default async function SettingsRestaurantPage() {
         </p>
       </div>
       <Separator />
-      {data ? <RestaurantForm user={data} /> : null}
+      {data ? <RestaurantForm user={data} token={token || ''} /> : null}
     </div>
   )
 }
