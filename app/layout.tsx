@@ -17,8 +17,12 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(`${process.env.NEXT_PUBLIC_FRONT_URL}`),
   title: 'Ted',
   description: "Votre site web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
+  // verification: {
+  //   google: `google-site-verification=${process.env.GOOGLE_SITE_VERIFICATION}`
+  // }
 }
 
 export default function RootLayout({

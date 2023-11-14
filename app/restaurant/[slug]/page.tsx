@@ -18,7 +18,25 @@ export async function generateMetadata(
 
   return {
     title: restaurantData.data[0].attributes.restaurant_name,
-    description: restaurantData.data[0].attributes.description
+    description: restaurantData.data[0].attributes.description,
+    alternates: {
+      canonical: `/${restaurantData.data[0].attributes.slug}`,
+      // languages: {
+      //   "fr": `fr/${restaurantData.data[0].attributes.slug}`,
+      //   "en-EN": `en/${restaurantData.data[0].attributes.slug}`
+      // }
+    },
+    openGraph: {
+      title: restaurantData.data[0].attributes.restaurant_name,
+      description: restaurantData.data[0].attributes.description,
+      type: 'website',
+      url: `${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: restaurantData.data[0].attributes.restaurant_name,
+      description: restaurantData.data[0].attributes.description
+    }
   }
 }
 
