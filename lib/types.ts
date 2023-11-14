@@ -118,11 +118,11 @@ export const FormSchemaRestaurant = z.object({
     .toLowerCase()
     .email({ message: "Email non valide" })
     .min(1, 'Ce champs est requis'),
-  // opening_time_morning: z.string().datetime(),
-  // closing_time_morning: z.string().datetime(),
-  // opening_time_afternoon: z.string().datetime(),
-  // closing_time_afternoon: z.string().datetime(),
-  banner_photo: z.any()
+  // opening_time_morning: z.string(),
+  // closing_time_morning: z.string(),
+  // opening_time_afternoon: z.string(),
+  // closing_time_afternoon: z.string(),
+  // banner_photo: z.any()
 })
 export type TypeFormSchemaRestaurant = z.infer<typeof FormSchemaRestaurant>
 
