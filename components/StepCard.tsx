@@ -30,11 +30,9 @@ export default function StepCard({ step }: { step: StepType }) {
   return (
     <Card className="border-none shadow-none md:last:col-span-4">
       <CardHeader className="flex items-center">
-        <IconContext.Provider value={{ className: "text-primary text-6xl" }}>
-          <div>
-            {icon}
-          </div>
-        </IconContext.Provider>
+        <div className="text-primary text-6xl">
+          {icon}
+        </div>
         <CardTitle className="text-lg text-center pt-6"> {title} </CardTitle>
         <CardDescription className="text-base text-center pt-6"> {description} </CardDescription>
       </CardHeader>
