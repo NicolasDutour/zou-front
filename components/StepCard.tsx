@@ -36,8 +36,8 @@ export default function StepCard({ step }: { step: StepType }) {
           </div>
         ) : null
         }
-        <CardTitle className="text-lg text-center"> {title} </CardTitle>
-        <CardDescription className="text-base text-center pt-6"> {description} </CardDescription>
+        <CardTitle className="text-xl text-center"> {title} </CardTitle>
+        <CardDescription className="text-lg text-center pt-6"> {description} </CardDescription>
       </CardHeader>
       {
         id === 4 ? (

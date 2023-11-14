@@ -21,21 +21,17 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
       <CardHeader className="flex items-center">
         {
           title === "essential" ? (
-            <IconContext.Provider value={{ className: "text-secondary text-8xl" }}>
-              <div>
-                <TfiCup />
-              </div>
-            </IconContext.Provider>
+            <div className="text-secondary text-6xl pb-6">
+              <TfiCup />
+            </div>
           ) : (
-            <IconContext.Provider value={{ className: "text-primary text-8xl" }}>
-              <div>
-                <TfiInfinite />
-              </div>
-            </IconContext.Provider>
+            <div className="text-primary text-6xl pb-6">
+              <TfiInfinite />
+            </div>
           )
         }
         <CardTitle className="text-2xl uppercase pt-4"> {title} </CardTitle>
-        <CardDescription className="text-base"> {description} </CardDescription>
+        <CardDescription className="text-lg"> {description} </CardDescription>
       </CardHeader>
       <CardContent className="text-center">
         <p className={cn("text-4xl text-secondary mb-4 font-bold", title === 'essential' ? "text-secondary" : "text-primary")}> {price} €<span className="text-sm text-black ml-2">/ mois</span></p>
