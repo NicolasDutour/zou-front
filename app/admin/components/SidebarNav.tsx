@@ -34,7 +34,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
             pathname === item.href
               ? "bg-muted hover:bg-muted hover:text-secondary text-secondary font-semibold"
               : "hover:bg-muted text-gray-400 hover:text-secondary",
-            "justify-start text-md p-6 rounded-none first:rounded-t-md tracking-wider"
+            "justify-start text-md p-6 md:last:hover:rounded-b-2xl rounded-none first:rounded-t-md tracking-wider"
           )}
         >
           <span className="mr-4 text-2xl"> {item.icon} </span>  {item.title}
