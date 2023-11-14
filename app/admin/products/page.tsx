@@ -1,12 +1,6 @@
 import { cookies } from 'next/headers'
 import { Separator } from "@/components/ui/separator";
-import { Metadata } from "next";
 import ProductsAdmin from "./ProductsAdmin";
-
-export const metadata: Metadata = {
-  title: "Restaurant",
-  description: "Manage your restaurant details",
-}
 
 async function getData(token: string) {
   if (token) {

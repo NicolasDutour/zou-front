@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { remark } from 'remark';
 import html from 'remark-html';
 
@@ -15,10 +14,6 @@ async function getData() {
     throw new Error('Failed to fetch data')
   }
   return res.json()
-}
-
-export const metadata: Metadata = {
-  title: 'Personal data'
 }
 
 export default async function PersonalData() {

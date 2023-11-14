@@ -2,7 +2,6 @@ import AccordeonItem from "@/components/AccordeonItem"
 import {
   Accordion,
 } from "@/components/ui/accordion"
-import { Metadata } from "next"
 
 const faqs = [
   {
@@ -18,10 +17,6 @@ const faqs = [
     description: "Vous pouvez tout à fait suggérer des améliorations ou des choses qui vous paraissent essentielles. Après examination de votre proposition, si nous pensons que cela peut être utile pour l'ensemble des établissements, alors nous le rajouterons."
   }
 ]
-
-export const metadata: Metadata = {
-  title: 'FAQ'
-}
 
 export default function FAQ() {
   return (

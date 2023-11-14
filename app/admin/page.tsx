@@ -2,12 +2,6 @@ import { cookies } from 'next/headers'
 
 import { Separator } from "@/components/ui/separator";
 import { ProfileForm } from "./ProfileForm";
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: "Profile",
-  description: "Manage your profile details",
-}
 
 async function getData() {
   const cookieStore = cookies()

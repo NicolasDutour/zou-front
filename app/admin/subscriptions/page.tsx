@@ -1,12 +1,6 @@
 import { cookies } from 'next/headers'
 
 import { Separator } from "@/components/ui/separator";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Subscriptions",
-  description: "Manage your subscriptions details",
-}
 
 // async function getData() {
 //   const cookieStore = cookies()
