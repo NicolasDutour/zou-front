@@ -28,12 +28,15 @@ export default function StepCard({ step }: { step: StepType }) {
   const icon = iconMap[id] || null;
 
   return (
-    <Card className="border-none shadow-none md:last:col-span-4">
+    <Card className="border-none shadow-none md:last:col-span-4 md:last:col-start-2 md:last:col-end-4">
       <CardHeader className="flex items-center">
-        <div className="text-primary text-6xl">
-          {icon}
-        </div>
-        <CardTitle className="text-lg text-center pt-6"> {title} </CardTitle>
+        {icon ? (
+          <div className="text-primary text-6xl pb-6">
+            {icon}
+          </div>
+        ) : null
+        }
+        <CardTitle className="text-lg text-center"> {title} </CardTitle>
         <CardDescription className="text-base text-center pt-6"> {description} </CardDescription>
       </CardHeader>
       {
@@ -46,8 +49,8 @@ export default function StepCard({ step }: { step: StepType }) {
       }
       {
         id === 5 ? (
-          <CardContent className="text-center">
-            <Button className="text-xl md:text-2xl bg-secondary hover:bg-green-900 text-white md:p-4" type="submit">
+          <CardContent className="text-center p-6">
+            <Button className="text-xl md:text-2xl bg-secondary hover:bg-primary text-white md:p-6" type="submit">
               <Link href="/register">Je me lance !</Link>
             </Button>
           </CardContent>
