@@ -13,6 +13,8 @@ import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/ty
 export default function ForgotPasswordForm() {
   const dispatch = useDispatch()
   const router = useRouter();
+  const { toast } = useToast()
+
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -26,9 +28,33 @@ export default function ForgotPasswordForm() {
 
   const onSubmit = async (data: TypeFormSchemaForgotPassword) => {
     try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/forgot-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data),
+          cache: 'no-cache'
+        })
 
+      if (response.status === 200) {
+        try {
+          const passwordReseted = await response.json()
+          toast({
+            title: "Mot de passe mis à jour"
+          })
+          router.push('/login')
+        } catch (error) {
+          console.error('ERROR: ', error);
+        }
+      }
     } catch (error) {
-
+      toast({
+        title: "Erreur lors de l'analyse de la réponse JSON",
+        description: error,
+      })
+      console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
     }
   }
 
