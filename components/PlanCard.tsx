@@ -11,6 +11,7 @@ import { TfiCup, TfiInfinite } from "react-icons/tfi"
 
 import { PlanType } from "@/lib/types"
 import { cn } from "@/lib/utils"
+import { FaCheck } from "react-icons/fa"
 
 export default function PlanCard({ plan }: { plan: PlanType }) {
   const { id, attributes: { title, description, price, access, wedoforyou, youmanage } } = plan
@@ -36,38 +37,38 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
         <p className={cn("text-4xl text-secondary mb-4 font-bold", title === 'essentiel' ? "text-secondary" : "text-primary")}> {price} €<span className="text-sm text-black ml-2">/ mois</span></p>
         <div> {title === 'premium' ? (
           <>
-            <p className="mt-6 text-lg">Vous avez accès à:</p>
+            <p className="mt-6 text-lg text-left">Vous avez accès à:</p>
             <ul>
               {
-                access?.split(',').map(item => {
-                  return <li className="text-left px-10"> {item} </li>
+                access?.split(',').map((item, index) => {
+                  return <li key={index} className="text-left px-10 flex items-center"> <p className="text-primary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                 })
               }
             </ul>
-            <p className="mt-6 text-lg">Nous faisons pour vous:</p>
+            <p className="mt-6 text-lg text-left">Nous faisons pour vous:</p>
             <ul>
               {
-                wedoforyou?.split(',').map(item => {
-                  return <li className="text-left px-10"> {item} </li>
+                wedoforyou?.split(',').map((item, index) => {
+                  return <li key={index} className="text-left px-10 flex items-center"> <p className="text-primary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                 })
               }
             </ul>
           </>
         ) : (
           <>
-            <p className="mt-6 text-lg">Vous avez accès à:</p>
+            <p className="mt-6 text-lg text-left">Vous avez accès à:</p>
             <ul>
               {
-                access?.split(',').map(item => {
-                  return <li className="text-left px-10"> {item} </li>
+                access?.split(',').map((item, index) => {
+                  return <li key={index} className="text-left px-10 flex items-center"> <p className="text-secondary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                 })
               }
             </ul>
-            <p className="mt-6 text-lg">Vous gérez vous même:</p>
+            <p className="mt-6 text-lg text-left">Vous gérez vous même:</p>
             <ul>
               {
-                youmanage?.split(',').map(item => {
-                  return <li className="text-left px-10"> {item} </li>
+                youmanage?.split(',').map((item, index) => {
+                  return <li key={index} className="text-left px-10 flex items-center"> <p className="text-secondary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                 })
               }
             </ul>
