@@ -18,7 +18,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const dispatch = useDispatch()
   const { toast } = useToast()
   // const token = useSelector((state) => state.auth.token)
-  // const user = useSelector((state) => state.auth.user)
+  const tempUser = useSelector((state) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
   const [addressSuggestions, setAddressSuggestions] = useState([]);
@@ -62,8 +62,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
-    console.log("payload: ", payload);
-
     // const imageUpload = {
     //   ref: "api::restaurant.restaurant",
     //   refId: user?.restaurants[0].id,
@@ -75,12 +73,15 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
     const newData = {
       ...payload,
       slug,
-      longitude: user?.restaurants[0].longitude,
-      latitude: user?.restaurants[0].latitude,
+      longitude: tempUser?.restaurants[0].longitude,
+      latitude: tempUser?.restaurants[0].latitude,
       users_permissions_user: {
         connect: [user?.id]
       }
     }
+
+    console.log("newData", newData);
+
 
     // const { banner_photo, ...dataWithoutImage } = newData
 
@@ -183,6 +184,8 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   };
 
   const selectAddress = (coordinates: string[]) => {
+    console.log("coordinates", coordinates);
+
     setAddressSuggestions([])
     setOpenAddressDialog(false)
     dispatch(setUserInfo(
