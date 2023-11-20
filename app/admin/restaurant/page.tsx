@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 import { Separator } from "@/components/ui/separator";
-import { RestaurantForm } from "./RestaurantForm";
+import RestaurantsAdmin from './RestaurantAdmin';
 
 async function getData(token: string) {
   if (token) {
@@ -34,7 +34,7 @@ export default async function SettingsRestaurantPage() {
         </p>
       </div>
       <Separator />
-      {data ? <RestaurantForm user={data} token={token || ''} /> : null}
+      {data ? <RestaurantsAdmin user={data} token={token || ''} /> : null}
     </div>
   )
 }

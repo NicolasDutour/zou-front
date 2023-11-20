@@ -8,7 +8,7 @@ import { Providers } from '@/redux/provider'
 
 import './globals.css'
 import Footer from '@/components/Footer'
-import { ProductFormContextProvider } from '@/context/store'
+import { ProductFormContextProvider, RestaurantFormContextProvider } from '@/context/store'
 
 const roboto = Roboto({
   weight: '400',
@@ -42,15 +42,17 @@ export default function RootLayout({
       )}>
         <Providers>
           <ProductFormContextProvider>
-            {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
-            <main className={cn(
-              "min-h-screen",
-              (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
-            )}>
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
+            <RestaurantFormContextProvider>
+              {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
+              <main className={cn(
+                "min-h-screen",
+                (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
+              )}>
+                {children}
+              </main>
+              <Footer />
+              <Toaster />
+            </RestaurantFormContextProvider>
           </ProductFormContextProvider>
         </Providers>
       </body>

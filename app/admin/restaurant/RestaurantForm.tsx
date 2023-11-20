@@ -11,13 +11,17 @@ import { useToast } from "@/components/ui/use-toast"
 import Loader from "@/components/Loader"
 
 import { TypeFormSchemaRestaurant, FormSchemaRestaurant, UserType } from '@/lib/types';
-import { createSlug } from "@/lib/utils"
+import { cn, createSlug } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
+import { useRestaurantFormContext } from "@/context/store"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
   const dispatch = useDispatch()
   const { toast } = useToast()
   // const token = useSelector((state) => state.auth.token)
+  const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
+  const { showForm, setShowForm } = useRestaurantFormContext()
+  const { restaurantUpdating, setRestaurantUpdating } = useRestaurantFormContext()
   const tempUser = useSelector((state) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -41,14 +45,17 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const watchEmail = watch('email')
   const watchPhone = watch('phone')
 
-  useEffect(() => {
-    const { restaurant_name, description, email, address, phone } = user?.restaurants[0]
 
-    setValue('restaurant_name', restaurant_name)
-    setValue('description', description)
-    setValue('email', email)
-    setValue('address', address)
-    setValue('phone', phone)
+
+  useEffect(() => {
+    if (user?.restaurants.length > 0) {
+      const { restaurant_name, description, email, address, phone } = user?.restaurants[0]
+      setValue('restaurant_name', restaurant_name)
+      setValue('description', description)
+      setValue('email', email)
+      setValue('address', address)
+      setValue('phone', phone)
+    }
   }, [])
 
   const isAnyFormInputsModified = () => {
@@ -59,6 +66,11 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
       watchEmail == user?.restaurants[0]?.email &&
       watchPhone == user?.restaurants[0]?.phone
     )
+  }
+
+  const closeForm = () => {
+    setShowForm(false)
+    setIsUpdatingRestaurant(false)
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
@@ -80,16 +92,13 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
       }
     }
 
-    console.log("newData", newData);
-
-
     // const { banner_photo, ...dataWithoutImage } = newData
 
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants/${user?.restaurants[0]?.id}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants${isUpdatingRestaurant ? `/${user?.restaurants[0]?.id}` : ''}`,
         {
-          method: 'PUT',
+          method: `${isUpdatingRestaurant ? 'PUT' : 'POST'}`,
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
@@ -100,7 +109,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
 
       if (response.status === 200) {
         try {
-          await response.json()
+          const restaurant = await response.json()
 
           // const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
           //   {
@@ -114,7 +123,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           //   })
 
           toast({
-            title: "Mis à jour avec succés !"
+            title: `Restaurant ${isUpdatingRestaurant ? 'mis à jour' : 'ajouté'} avec succés !`
           })
         } catch (error) {
           console.error('ERROR: ', error);
@@ -412,7 +421,28 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </div>
         </div> */}
 
-        <div className="w-full md:w-1/2">
+        <div className="flex flex-col md:flex-row items-center w-full md:w-1/4 gap-2">
+          {
+            !isUpdatingRestaurant ? (
+              <button
+                onClick={closeForm}
+                type='button'
+                className="disabled:opacity-40 w-full rounded-md px-3 py-1.5 border border-black text-black text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+              >
+                Annuler
+              </button>
+            ) : null
+          }
+          <button
+            type='submit'
+            className={cn("disabled:opacity-40 w-full rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            )}
+          >
+            {isUpdatingRestaurant ? 'Mettre à jour' : 'Créer'}
+          </button>
+        </div>
+
+        {/* <div className="w-full md:w-1/2">
           <button
             type='submit'
             disabled={isLoading}
@@ -422,7 +452,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'
             }
           </button>
-        </div>
+        </div> */}
       </div>
     </form >
   )
