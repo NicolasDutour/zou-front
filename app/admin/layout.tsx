@@ -27,7 +27,7 @@ const sidebarNavItems = [
     icon: <MdOutlineEmojiFoodBeverage />
   },
   {
-    title: "Abonnemennt",
+    title: "Abonnement",
     href: "/admin/subscriptions",
     icon: <BsStar />
   },
