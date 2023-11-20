@@ -117,7 +117,7 @@ export function ProfileForm({ user }: { user: UserType }) {
             <p className="text-red-500 text-sm mt-2">{errors.identifier?.message}</p>
           </div>
         </div>
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/4">
           <button
             type='submit'
             disabled={isLoading || (watchIdentifier == user?.email)}

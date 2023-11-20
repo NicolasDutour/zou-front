@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { CiSearch } from "react-icons/ci"
-import { useSelector } from "react-redux";
-import Cookies from 'js-cookie'
 
 import { useProductFormContext } from "@/context/store";
 import { ProductsForm } from "./ProductsForm";
@@ -36,6 +34,11 @@ export default function ProductsAdmin({ user, token }) {
   useEffect(() => {
     let typeTextInterval;
     let eraseTextTimeout;
+
+    if (user?.restaurants?.products?.length > 0) {
+      setShowForm(true)
+      setIsUpdatingProduct(true)
+    }
 
     const typeText = (text, currentIndex) => {
       if (currentIndex <= text.length) {
@@ -100,7 +103,7 @@ export default function ProductsAdmin({ user, token }) {
 
   return (
     <section>
-      {showForm || isUpdatingProduct ? <ProductsForm user={user} /> : user ? (
+      {showForm ? <ProductsForm user={user} /> : user?.restaurants[0]?.products?.length > 0 ? (
         <>
           <div className="flex flex-col md:flex-row items-center mb-6">
             <div className="md:w-1/4 mr-6 relative w-full mb-2 md:mb-0 ">
@@ -132,12 +135,18 @@ export default function ProductsAdmin({ user, token }) {
                 </SelectContent>
               </Select>
             </div>
-
-            <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un nouveau produuit</Button>
+            <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un produit</Button>
           </div>
           <ProductsList products={filterProductByBase(filteredProducts)} token={token || ''} updateProduct={updateProduct} />
         </>
-      ) : null}
+      ) : (
+        <>
+          <p className="mb-4">Vous n'avez pas encore de produits</p>
+          <div className="flex flex-col md:flex-row items-center mb-6">
+            <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un produit</Button>
+          </div>
+        </>
+      )}
     </section>
   )
 }

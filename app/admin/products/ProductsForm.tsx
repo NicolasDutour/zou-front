@@ -76,6 +76,14 @@ export function ProductsForm({ user }) {
       }
     }
 
+    if (!token) {
+      router.push('/login')
+      toast({
+        title: "Vous devez vous reconnecter"
+      })
+    }
+
+
     try {
       setIsLoading(true)
       const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products${isUpdatingProduct ? `/${productUpdating.id}` : ''}`,
@@ -163,21 +171,21 @@ export function ProductsForm({ user }) {
                 </div>
 
                 {/* <div className="flex justify-center items-center">
-              <div className="w-full">
-                <label htmlFor="base" className="block text-sm font-medium leading-6 text-gray-900">
-                  Base
-                </label>
-                <Select {...register('base')}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choisissez une base" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem className="cursor-pointer" value="tomato">Tomate</SelectItem>
-                    <SelectItem className="cursor-pointer" value="cream">Cream</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div> */}
+                  <div className="w-full">
+                    <label htmlFor="base" className="block text-sm font-medium leading-6 text-gray-900">
+                      Base
+                    </label>
+                    <Select {...register('base')}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Choisissez une base" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem className="cursor-pointer" value="tomate">Tomate</SelectItem>
+                        <SelectItem className="cursor-pointer" value="crème">Cream</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div> */}
 
                 <div>
                   <label htmlFor="ingredients" className="block text-sm font-medium leading-6 text-gray-900">
