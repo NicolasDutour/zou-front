@@ -12,7 +12,7 @@ import { LiaFileInvoiceSolid } from "react-icons/lia"
 
 const sidebarNavItems = [
   {
-    title: "Profile",
+    title: "Profil",
     href: "/admin",
     icon: <GoPerson />
   },
@@ -22,17 +22,17 @@ const sidebarNavItems = [
     icon: <IoRestaurantOutline />
   },
   {
-    title: "Products",
+    title: "Produits",
     href: "/admin/products",
     icon: <MdOutlineEmojiFoodBeverage />
   },
   {
-    title: "Subscriptions",
+    title: "Abonnemennt",
     href: "/admin/subscriptions",
     icon: <BsStar />
   },
   {
-    title: "Invoices",
+    title: "Factures",
     href: "/admin/invoices",
     icon: <LiaFileInvoiceSolid />
   }
