@@ -143,6 +143,7 @@ export type UserType = {
 }
 
 export type RestaurantType = {
+  id: number,
   restaurant_name: string,
   address: string,
   description: string,
