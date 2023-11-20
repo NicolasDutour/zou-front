@@ -2,10 +2,11 @@
 
 import Cookies from 'js-cookie'
 import { createSlice } from '@reduxjs/toolkit'
+import { removeCookie, createCookie } from "@/app/actions"
 
 const initialState = {
-  user: Cookies.get('user') ? JSON.parse(Cookies.get('user')) : '' || {},
-  token: Cookies.get('token') || null,
+  user: {},
+  token: null,
   error: null,
 }
 
@@ -20,25 +21,27 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.user = action.payload.user
       state.token = action.payload.jwt
-      Cookies.set('user', JSON.stringify(action.payload.user))
-      Cookies.set('token', action.payload.jwt)
+      createCookie('user', JSON.stringify(action.payload.user))
+      createCookie('token', action.payload.jwt)
     },
     signUp: (state, action) => {
       state.user = action.payload.user
       state.token = action.payload.jwt
-      Cookies.set('user', JSON.stringify(action.payload.user))
-      Cookies.set('token', action.payload.jwt)
+      createCookie('user', JSON.stringify(action.payload.user))
+      createCookie('token', action.payload.jwt)
     },
     logout: (state) => {
       state.user = {}
       state.token = null
-      Cookies.remove('user', { path: '/', domain: process.env.NEXT_PUBLIC_FRONT_URL })
-      Cookies.remove('token', { path: '/', domain: process.env.NEXT_PUBLIC_FRONT_URL })
+      removeCookie('token')
+      removeCookie('user')
     },
     setError: (state, action) => {
-      state.user = null
+      state.user = {}
       state.user = token
       state.error = action.payload
+      removeCookie('token')
+      removeCookie('user')
     }
   },
 })

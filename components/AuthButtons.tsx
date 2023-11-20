@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
 import { logout } from "@/redux/features/auth/authSlice";
 
-export default function AuthButtons(token: string) {
+export default function AuthButtons({ token }: { token: string }) {
   const dispatch = useDispatch()
   const router = useRouter()
   const path = usePathname()
@@ -16,7 +16,7 @@ export default function AuthButtons(token: string) {
   // const token = useSelector((state) => state.auth.token)
 
   const handleSignOut = async () => {
-    dispatch(logout)
+    dispatch(logout())
     router.push('/')
     toast({
       title: "Vous êtes déconnecté"
