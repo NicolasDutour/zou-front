@@ -35,11 +35,11 @@ const Product = ({ product }: { product: ProductType }) => {
   // }
 
   const baseImage = () => {
-    if (base === "tomato") {
+    if (base === "tomate") {
       return (
         <Image
           src="/tomato.png"
-          alt="tomato"
+          alt="tomate"
           width={30}
           height={30}
         />
@@ -48,7 +48,7 @@ const Product = ({ product }: { product: ProductType }) => {
       return (
         <Image
           src="/cream.png"
-          alt="cream"
+          alt="crème"
           width={30}
           height={30}
         />

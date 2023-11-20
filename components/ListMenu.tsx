@@ -47,7 +47,7 @@ const ListMenu = ({ products }: {
       <div className="mb-6">
         <Select onValueChange={handleBase}>
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Toutes les bases" />
+            <SelectValue placeholder="Toutes" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem className="cursor-pointer" value="toutes">Toutes</SelectItem>
