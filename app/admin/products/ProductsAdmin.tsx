@@ -29,7 +29,7 @@ export default function ProductsAdmin({ user, token }) {
   const { productUpdating, setProductUpdating } = useProductFormContext()
   const { showForm, setShowForm } = useProductFormContext()
   const [searchProductName, setSearchProductName] = useState('')
-  const [searchBase, setSearchBase] = useState('all')
+  const [searchBase, setSearchBase] = useState('toutes')
   const placeholderText = "marguarita...";
   const [displayedText, setDisplayedText] = useState('');
 
@@ -81,7 +81,7 @@ export default function ProductsAdmin({ user, token }) {
   });
 
   const filterProductByBase = (filteredProducts) => {
-    if (searchBase === 'all') {
+    if (searchBase === 'toutes') {
       return filteredProducts;
     } else {
       return filteredProducts.filter((product) => product.base === searchBase);
@@ -123,12 +123,12 @@ export default function ProductsAdmin({ user, token }) {
               <Label className="text-muted-foreground">Filtrer base</Label>
               <Select onValueChange={handleSearchChangeBase}>
                 <SelectTrigger className="">
-                  <SelectValue placeholder="All" />
+                  <SelectValue placeholder="Toutes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem className="cursor-pointer" value="all">Toutes</SelectItem>
-                  <SelectItem className="cursor-pointer" value="tomato">Tomate</SelectItem>
-                  <SelectItem className="cursor-pointer" value="cream">Crème</SelectItem>
+                  <SelectItem className="cursor-pointer" value="toutes">Toutes</SelectItem>
+                  <SelectItem className="cursor-pointer" value="tomate">Tomate</SelectItem>
+                  <SelectItem className="cursor-pointer" value="crème">Crème</SelectItem>
                 </SelectContent>
               </Select>
             </div>

@@ -27,7 +27,7 @@ const imageStyle: React.CSSProperties = {
 const ListMenu = ({ products }: {
   products: ProductType[]
 }) => {
-  const [basePizza, setBasePizza] = useState('all')
+  const [basePizza, setBasePizza] = useState('toutes')
 
   const handleBase = (e: SetStateAction<string>) => {
     setBasePizza(e)
@@ -35,7 +35,7 @@ const ListMenu = ({ products }: {
 
   const productsFilterByBase = () => {
     if (products?.length > 0) {
-      if (basePizza === 'all') {
+      if (basePizza === 'toutes') {
         return products
       }
       return products?.filter(product => product.attributes.base === basePizza)
@@ -50,9 +50,9 @@ const ListMenu = ({ products }: {
             <SelectValue placeholder="Toutes les bases" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem className="cursor-pointer" value="all">Toutes</SelectItem>
-            <SelectItem className="cursor-pointer" value="tomato">Tomate</SelectItem>
-            <SelectItem className="cursor-pointer" value="cream">Crème</SelectItem>
+            <SelectItem className="cursor-pointer" value="toutes">Toutes</SelectItem>
+            <SelectItem className="cursor-pointer" value="tomate">Tomate</SelectItem>
+            <SelectItem className="cursor-pointer" value="crème">Crème</SelectItem>
           </SelectContent>
         </Select>
       </div>
