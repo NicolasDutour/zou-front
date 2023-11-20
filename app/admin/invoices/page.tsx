@@ -28,9 +28,9 @@ export default async function SettingsInvoicesPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-lg font-medium">Invoices</h1>
+        <h1 className="text-lg font-medium">Factures</h1>
         <p className="text-sm text-muted-foreground">
-          Update your invoices details
+          Gestion des factures
         </p>
       </div>
       <Separator />

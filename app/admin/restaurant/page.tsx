@@ -30,7 +30,7 @@ export default async function SettingsRestaurantPage() {
       <div>
         <h1 className="text-lg font-medium">Restaurant</h1>
         <p className="text-sm text-muted-foreground">
-          Update your restaurant details
+          Gestion de votre établissemnt
         </p>
       </div>
       <Separator />

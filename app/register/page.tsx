@@ -17,13 +17,13 @@ export default function Register() {
           priority
         />
         <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
-          Register
+          S'enregistrer
         </h2>
 
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
           <RegisterForm />
           <p className="mt-4 text-center text-sm text-gray-400">
-            Already a member?{' '}
+            Déjà membre ?{' '}
             <RedirectLoginButton path="login" />
           </p>
         </div>

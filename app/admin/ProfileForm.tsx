@@ -105,7 +105,7 @@ export function ProfileForm({ user }: { user: UserType }) {
       <div className="space-y-6 mt-10">
         <div>
           <label htmlFor="identifier" className="block text-sm font-medium leading-6 text-gray-900">
-            Email address
+            Email
           </label>
           <div className="mt-2">
             <input

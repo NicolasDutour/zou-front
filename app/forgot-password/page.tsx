@@ -26,7 +26,7 @@ export default function ForgotPassword() {
             priority
           />
           <h2 className="mt-10 text-center text-2xl font-medium leading-9 tracking-tight text-black">
-            Forgot Password
+            Mot de passe oublié
           </h2>
 
           <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">

@@ -70,11 +70,11 @@ export default function ProductsList({ products, token, updateProduct }: { produ
     <Table>
       <TableHeader>
         <TableRow className="border-b border-b-gray-700">
-          <TableHead className="w-2/12 border-l border-gray-700 font-semibold">Name</TableHead>
+          <TableHead className="w-2/12 border-l border-gray-700 font-semibold">Nom</TableHead>
           <TableHead className="w-1/12 border-l border-gray-700 font-semibold">Base</TableHead>
           <TableHead className="w-5/12 border-l border-gray-700 font-semibold">Ingredients</TableHead>
-          <TableHead className="w-1/12 border-l border-gray-700 font-semibold">Price</TableHead>
-          <TableHead className="w-1/12 border-l border-gray-700 font-semibold">Status</TableHead>
+          <TableHead className="w-1/12 border-l border-gray-700 font-semibold">Prix</TableHead>
+          <TableHead className="w-1/12 border-l border-gray-700 font-semibold">Statut</TableHead>
           <TableHead className="w-2/12 border-l border-gray-700 font-semibold text-center">Actions</TableHead>
         </TableRow>
       </TableHeader>
@@ -94,7 +94,7 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                       <Tooltip>
                         <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
                         <TooltipContent className=" bg-white text-primary text-base border border-primtext-primary">
-                          <p>Delete product</p>
+                          <p>Supprimer product</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -103,12 +103,12 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                     <AlertDialogHeader>
                       <AlertDialogTitle>Voulez vous supprimer définitivement ?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete <span className="underline underline-offset-4 text-primary">{product.product_name} </span> and remove your data from our servers.
+                        Cette suppression est permanente. Vous ne pourrez pas revenir en arrière <span className="underline underline-offset-4 text-primary">{product.product_name}</span>.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction className="bg-primary rounded-md text-white" onClick={() => deleteProduct(product.id)}>Delete</AlertDialogAction>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogAction className="bg-primary rounded-md text-white" onClick={() => deleteProduct(product.id)}>Supprimer</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -118,7 +118,7 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                     <Tooltip>
                       <TooltipTrigger><BiEditAlt /></TooltipTrigger>
                       <TooltipContent className=" bg-white text-secondary text-base border border-secondary">
-                        <p>Update product</p>
+                        <p>Mise à jour product</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

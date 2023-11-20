@@ -98,7 +98,7 @@ export default function RegisterForm() {
       <div className="space-y-2">
         <div>
           <label htmlFor="username" className="block text-sm font-medium leading-6 text-black">
-            Username
+            Identifiant
           </label>
           <div className="mt-2">
             <input
@@ -113,7 +113,7 @@ export default function RegisterForm() {
 
         <div>
           <label htmlFor="email" className="block text-sm font-medium leading-6 text-black">
-            Email address
+            Email
           </label>
           <div className="mt-2">
             <input
@@ -129,7 +129,7 @@ export default function RegisterForm() {
         <div>
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-black">
-              Password
+              Mot de passe
             </label>
           </div>
           <div className="mt-2">
@@ -145,7 +145,7 @@ export default function RegisterForm() {
         <div>
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-black">
-              Password Confirm
+              Confirmation mot de passe
             </label>
           </div>
           <div className="mt-2">
@@ -166,7 +166,7 @@ export default function RegisterForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Register'
+              isLoading ? <Loader width={30} height={30} /> : "S'enregistrer"
             }
           </button>
         </div>

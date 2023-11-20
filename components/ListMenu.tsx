@@ -50,9 +50,9 @@ const ListMenu = ({ products }: {
             <SelectValue placeholder="Toutes les bases" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem className="cursor-pointer" value="all">All</SelectItem>
-            <SelectItem className="cursor-pointer" value="tomato">Tomato</SelectItem>
-            <SelectItem className="cursor-pointer" value="cream">Cream</SelectItem>
+            <SelectItem className="cursor-pointer" value="all">Toutes</SelectItem>
+            <SelectItem className="cursor-pointer" value="tomato">Tomate</SelectItem>
+            <SelectItem className="cursor-pointer" value="cream">Crème</SelectItem>
           </SelectContent>
         </Select>
       </div>

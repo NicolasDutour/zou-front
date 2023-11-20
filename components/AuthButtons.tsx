@@ -25,7 +25,7 @@ export default function AuthButtons({ token }: { token: string }) {
 
   return token ? (
     <div>
-      <Button onClick={handleSignOut} variant="link">Logout</Button>
+      <Button onClick={handleSignOut} variant="link">Se déconnecter</Button>
       <Button asChild variant={path.startsWith('/admin') ? 'activeLink' : 'link'}>
         <Link href="/admin">Admin</Link>
       </Button>

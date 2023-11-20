@@ -126,14 +126,14 @@ export default function ProductsAdmin({ user, token }) {
                   <SelectValue placeholder="All" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem className="cursor-pointer" value="all">All</SelectItem>
-                  <SelectItem className="cursor-pointer" value="tomato">Tomato</SelectItem>
-                  <SelectItem className="cursor-pointer" value="cream">Cream</SelectItem>
+                  <SelectItem className="cursor-pointer" value="all">Toutes</SelectItem>
+                  <SelectItem className="cursor-pointer" value="tomato">Tomate</SelectItem>
+                  <SelectItem className="cursor-pointer" value="cream">Crème</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Add new product</Button>
+            <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un nouveau produuit</Button>
           </div>
           <ProductsList products={filterProductByBase(filteredProducts)} token={token || ''} updateProduct={updateProduct} />
         </>

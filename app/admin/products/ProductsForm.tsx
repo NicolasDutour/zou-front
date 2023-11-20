@@ -224,7 +224,7 @@ export function ProductsForm({ user }) {
                   className={cn("disabled:opacity-40 w-full rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
                   )}
                 >
-                  {isUpdatingProduct ? 'Update' : 'Create'}
+                  {isUpdatingProduct ? 'Mettre à jour' : 'Créer'}
                 </button>
               </div>
             </div>

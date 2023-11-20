@@ -39,7 +39,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="grid md:grid-cols-4 place-items-center bg-gray-900 text-gray-400 p-4 text-sm">
-          <p className="uppercase">© {new Date().getFullYear() > 2023 ? "2023 -" : ""} {new Date().getFullYear()} - All rights reserved</p>
+          <p className="uppercase">© {new Date().getFullYear() > 2023 ? "2023 -" : ""} {new Date().getFullYear()} - Tous droits réservés</p>
           <Link href="/legal-notice" className="uppercase hover:text-white">Mentions légales</Link>
           <Link href="/personal-data" className="uppercase hover:text-white">Données personnelles</Link>
           {/* <p className="uppercase hover:text-white">Préférences cookies</p> */}

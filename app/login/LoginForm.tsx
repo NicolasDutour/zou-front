@@ -96,7 +96,7 @@ export default function LoginForm() {
       <div className="space-y-2">
         <div>
           <label htmlFor="identifier" className="block text-sm font-medium leading-6 text-black">
-            Email address
+            Email
           </label>
           <div className="mt-2">
             <input
@@ -111,11 +111,11 @@ export default function LoginForm() {
         <div>
           <div className="flex items-center justify-between">
             <label htmlFor="password" className="block text-sm font-medium leading-6 text-black">
-              Password
+              Mot de passe
             </label>
             <div className="text-sm">
               <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-secondary hover:text-green-700">
-                Forgot password?
+                Mot de passe oublié ?
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function LoginForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Login'
+              isLoading ? <Loader width={30} height={30} /> : 'Se connecter'
             }
           </button>
         </div>

@@ -11,7 +11,6 @@ import { TfiCup, TfiInfinite } from "react-icons/tfi"
 
 import { PlanType } from "@/lib/types"
 import { cn } from "@/lib/utils"
-import { IconContext } from "react-icons"
 
 export default function PlanCard({ plan }: { plan: PlanType }) {
   const { id, attributes: { title, description, price, access, wedoforyou, youmanage } } = plan

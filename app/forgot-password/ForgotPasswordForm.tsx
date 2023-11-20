@@ -63,7 +63,7 @@ export default function ForgotPasswordForm() {
       <div className="space-y-2">
         <div>
           <label htmlFor="identifier" className="block text-sm font-medium leading-6 text-black">
-            Email address
+            Email
           </label>
           <div className="mt-2">
             <input
@@ -82,7 +82,7 @@ export default function ForgotPasswordForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Reset password'
+              isLoading ? <Loader width={30} height={30} /> : 'Demander un nouveau mot de passe'
             }
           </button>
         </div>
