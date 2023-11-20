@@ -10,13 +10,17 @@ async function getData() {
   })
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    console.error('Failed to fetch data')
   }
   return res.json()
 }
 
 export default async function Steps() {
   const steps: { data: StepType[] } = await getData()
+
+  if (steps.data.length === 0) {
+    return <div>No steps for today</div>
+  }
 
   return (
     <section className="bg-base py-20 px-6">

@@ -40,14 +40,6 @@ export default function StepCard({ step }: { step: StepType }) {
         <CardDescription className="text-lg text-center pt-6"> {description} </CardDescription>
       </CardHeader>
       {
-        id === 4 ? (
-          <CardContent className="flex items-center flex-col gap-2">
-            <p className="text-secondary text-2xl">Essential</p>
-            <p className="text-primary text-2xl">Premium</p>
-          </CardContent>
-        ) : null
-      }
-      {
         id === 5 ? (
           <CardContent className="text-center p-6">
             <Button className="text-xl md:text-2xl bg-secondary hover:bg-primary text-white md:p-6" type="submit">

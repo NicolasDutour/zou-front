@@ -136,7 +136,9 @@ export type UserType = {
     title: string,
     description: string,
     price: number,
-    included: string
+    access?: string,
+    wedoforyou?: string,
+    youmanage?: string
   }
 }
 
@@ -158,7 +160,9 @@ export type PlanType = {
     title: string,
     description: string,
     price: number,
-    included: string
+    access?: string,
+    wedoforyou?: string,
+    youmanage?: string
   }
 }
 

@@ -32,7 +32,7 @@ export const ProductFormContextProvider = ({ children }: ProductFormContextProvi
 export const useProductFormContext = () => {
   const context = useContext(ProductFormContext)
   if (!context) {
-    throw new Error("Use product form context must be used within a ProductFormContextProvider")
+    console.error("Use product form context must be used within a ProductFormContextProvider")
   }
   return context
 }

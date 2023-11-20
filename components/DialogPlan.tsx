@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
 
 export default function DialogPlan({ plan }: { plan: PlanType }) {
-  const { id, attributes: { title, description, price, included } } = plan
+  const { id, attributes: { title, description, price, access } } = plan
   const user = useSelector((state: any) => state.auth.user)
   const router = useRouter()
 
@@ -47,7 +47,7 @@ export default function DialogPlan({ plan }: { plan: PlanType }) {
               {description}
             </AlertDialogDescription>
 
-            {included.split(',').map((item, index) => {
+            {access.split(',').map((item, index) => {
               return (
                 <AlertDialogDescription key={index} className="text-xl">
                   {item}
