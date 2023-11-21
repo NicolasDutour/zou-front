@@ -36,7 +36,7 @@ export default function InvoicesList({ invoices }: { invoices: InvoiceType[] }) 
           return (
             <TableRow className="hover:shadow-lg" key={invoice.id}>
               <TableCell className="font-medium">{capitalize(invoice.invoice_name.toLowerCase())}</TableCell>
-              <TableCell>{invoice.date}</TableCell>
+              <TableCell>Du {invoice.startDate} au {invoice.endDate}</TableCell>
               <TableCell>{invoice.plan}</TableCell>
               <TableCell className="text-right">{invoice.amount.toFixed(2)} €</TableCell>
               <TableCell> <p className="p-2 text-secondary font-bold text-center">{invoice.status}</p></TableCell>
