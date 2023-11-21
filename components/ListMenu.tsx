@@ -42,6 +42,10 @@ const ListMenu = ({ products }: {
     }
   }
 
+  if (products?.length === 0) {
+    return
+  }
+
   return (
     <div className="max-w-5xl mx-auto my-8 px-6">
       <div className="mb-6">
