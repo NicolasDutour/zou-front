@@ -19,11 +19,11 @@ export default function Login() {
           priority
         />
         <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
-          Login to your account
+          Connectez vous à votre compte
         </h2>
 
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-          <p className=' text-center mx-4 mb-4'>with</p>
+          <p className=' text-center mx-4 mb-4'>avec</p>
 
           {/* <LoginGoogleButton /> */}
           {/* <Link className="text-white" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`}>
@@ -34,7 +34,7 @@ export default function Login() {
           <LoginForm />
 
           <p className="mt-6 text-center text-sm text-gray-400">
-            Not a member?{' '}
+            Pas encore inscrit ?{' '}
             <RedirectLoginButton path="register" />
           </p>
         </div>
