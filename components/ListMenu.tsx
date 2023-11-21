@@ -64,25 +64,20 @@ const ListMenu = ({ products }: {
       <div className="grid grid-cols-1 gap-4">
         {
           productsFilterByBase()?.map(product => {
-
-            console.log("product: ", product);
-
-            // const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
-            const { id, attributes: { product_name, ingredients, price, photo: { data: { attributes: { formats } } } } } = product
-
-            let photo;
-
-            if (formats) {
-              if (formats.small) {
-                photo = formats.small.url;
-              } else if (formats.medium) {
-                photo = formats.medium.url;
-              } else if (formats.large) {
-                photo = formats.large.url;
-              } else if (formats.thumbnail) {
-                photo = formats.thumbnail.url;
+            const { id, attributes: { product_name, ingredients, price, photo } } = product
+            let picture;
+            if (photo?.data?.attributes?.formats) {
+              if (photo?.data?.attributes?.formats?.small) {
+                picture = photo?.data?.attributes?.formats?.small.url;
+              } else if (photo?.data?.attributes?.formats?.medium) {
+                picture = photo?.data?.attributes?.formats?.medium.url;
+              } else if (photo?.data?.attributes?.formats?.large) {
+                picture = photo?.data?.attributes?.formats?.large.url;
+              } else if (photo?.data?.attributes?.formats?.thumbnail) {
+                picture = photo?.data?.attributes?.formats?.thumbnail.url;
               }
             }
+
             return (
               <HoverCard key={id}>
                 <HoverCardTrigger>
@@ -91,7 +86,7 @@ const ListMenu = ({ products }: {
                 <HoverCardContent>
                   <div className="w-full">
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${photo}`}
+                      src={picture ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${photo}` : '/no_image.png'}
                       alt={product_name}
                       style={imageStyle}
                       width={400}
