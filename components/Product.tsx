@@ -57,7 +57,7 @@ const Product = ({ product }: { product: ProductType }) => {
   }
 
   return (
-    <div className="md:flex items-center border border-gray-200 rounded-lg p-4 bg-white">
+    <div className="md:flex items-center border border-gray-200 rounded-lg p-4 bg-white hover:border-2 hover:border-secondary">
       <div className="w-full md:w-1/4">{product_name || null}</div>
       <div className="mb-2 md:mb-0">{baseImage()}</div>
       <div className="md:pl-6 mb-4 md:mb-0">

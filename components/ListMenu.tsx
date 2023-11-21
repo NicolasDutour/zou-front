@@ -68,40 +68,40 @@ const ListMenu = ({ products }: {
             console.log("product: ", product);
 
             // const { id, attributes: { product_name, ingredients, photo: { data: { attributes: { formats } } } } } = product
-            const { id, attributes: { product_name, ingredients, price } } = product
+            const { id, attributes: { product_name, ingredients, price, photo: { data: { attributes: { formats } } } } } = product
 
-            // let photo;
+            let photo;
 
-            // if (formats) {
-            //   if (formats.small) {
-            //     photo = formats.small.url;
-            //   } else if (formats.medium) {
-            //     photo = formats.medium.url;
-            //   } else if (formats.large) {
-            //     photo = formats.large.url;
-            //   } else if (formats.thumbnail) {
-            //     photo = formats.thumbnail.url;
-            //   }
-            // }
+            if (formats) {
+              if (formats.small) {
+                photo = formats.small.url;
+              } else if (formats.medium) {
+                photo = formats.medium.url;
+              } else if (formats.large) {
+                photo = formats.large.url;
+              } else if (formats.thumbnail) {
+                photo = formats.thumbnail.url;
+              }
+            }
             return (
               <HoverCard key={id}>
                 <HoverCardTrigger>
                   <Product key={id} product={product} />
                 </HoverCardTrigger>
                 <HoverCardContent>
-                  <div>
-                    {/* <Image
+                  <div className="w-full">
+                    <Image
                       src={`${process.env.NEXT_PUBLIC_STRAPI_URL}${photo}`}
                       alt={product_name}
                       style={imageStyle}
-                      width={200}
+                      width={400}
                       height={200}
                       aspect-auto="true"
                       className="rounded-lg"
-                    /> */}
+                    />
                     <p className="text-gray-900 font-bold py-2">{product_name}</p>
                     <p className="text-sm mb-4">{formatIngredients(ingredients)}</p>
-                    <p className="text-sm">{price}</p>
+                    <p className="text-sm">{price.toFixed(2) || null} €</p>
                   </div>
                 </HoverCardContent>
               </HoverCard>
