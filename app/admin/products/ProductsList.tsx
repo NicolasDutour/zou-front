@@ -101,9 +101,9 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Voulez vous supprimer définitivement ?</AlertDialogTitle>
+                      <AlertDialogTitle>Voulez vous supprimer définitivement <span className="underline underline-offset-4 text-primary">{product.product_name}</span> ?</AlertDialogTitle>
                       <AlertDialogDescription>
-                        Cette suppression est permanente. Vous ne pourrez pas revenir en arrière <span className="underline underline-offset-4 text-primary">{product.product_name}</span>.
+                        Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
