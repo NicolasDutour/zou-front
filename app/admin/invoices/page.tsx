@@ -34,6 +34,7 @@ export default async function SettingsInvoicesPage() {
         </p>
       </div>
       <Separator />
+      <p className="mb-4">Vous n'avez pas de factures pour l'instant</p>
     </div>
   )
 }
