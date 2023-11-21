@@ -25,7 +25,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-import { capitalize } from "@/lib/utils"
+import { capitalize, formatIngredients } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
@@ -84,9 +84,9 @@ export default function ProductsList({ products, token, updateProduct }: { produ
             <TableRow className="hover:shadow-lg" key={product.id}>
               <TableCell className="font-medium">{capitalize(product.product_name.toLowerCase())}</TableCell>
               <TableCell>{capitalize(product.base.toLowerCase())}</TableCell>
-              <TableCell>{product.ingredients}</TableCell>
-              <TableCell className="text-right">{product.price} €</TableCell>
-              <TableCell> <p className="p-2 text-secondary font-bold text-center">{product.publishedAt ? 'Published' : ''}</p></TableCell>
+              <TableCell>{formatIngredients(product.ingredients)}</TableCell>
+              <TableCell className="text-right">{product.price.toFixed(2)} €</TableCell>
+              <TableCell> <p className="p-2 text-secondary font-bold text-center">{product.publishedAt ? 'Publié' : ''}</p></TableCell>
               <TableCell className="text-center">
                 <AlertDialog>
                   <AlertDialogTrigger className="text-2xl text-primary">
@@ -118,7 +118,7 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                     <Tooltip>
                       <TooltipTrigger><BiEditAlt /></TooltipTrigger>
                       <TooltipContent className=" bg-white text-secondary text-base border border-secondary">
-                        <p>Mise à jour product</p>
+                        <p>Mise à jour produit</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
