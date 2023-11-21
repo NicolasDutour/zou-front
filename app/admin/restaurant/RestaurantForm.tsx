@@ -217,7 +217,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         getValues('restaurant_name') ? (
           <p className="font-medium leading-6 text-gray-900 mt-6">
             <span className="mr-4">Lien public de votre site web:</span>
-            <Link className="text-secondary hover:font-semibold underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
+            <Link className="border-2 border-secondary p-4 rounded-full hover:border-4 transition-all text-secondary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
               {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
             </Link>
           </p>
