@@ -1,6 +1,9 @@
 import { cookies } from 'next/headers'
 
 import { Separator } from "@/components/ui/separator";
+import InvoicesList from './InvoicesList';
+import { InvoiceType } from '@/lib/types';
+import { formatInvoiceName } from '@/lib/utils';
 
 // async function getData() {
 //   const cookieStore = cookies()
@@ -25,6 +28,18 @@ import { Separator } from "@/components/ui/separator";
 export default async function SettingsInvoicesPage() {
   // const data = await getData()
 
+  const invoices: InvoiceType[] = [
+    {
+      id: 1,
+      invoice_name: formatInvoiceName("essentiel", "01-10-2023", "30-10-2023"),
+      startDate: "01-10-2023",
+      endDate: "30-10-2023",
+      plan: "essentiel",
+      amount: 12,
+      status: "En cours"
+    }
+  ]
+
   return (
     <div className="space-y-6">
       <div>
@@ -34,7 +49,7 @@ export default async function SettingsInvoicesPage() {
         </p>
       </div>
       <Separator />
-      <p className="mb-4">Vous n'avez pas de factures pour l'instant</p>
+      {invoices?.length > 0 ? <InvoicesList invoices={invoices} /> : <p className="mb-4">Vous n'avez pas de factures pour l'instant</p>}
     </div>
   )
 }
