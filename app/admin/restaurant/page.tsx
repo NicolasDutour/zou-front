@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 import { Separator } from "@/components/ui/separator";
 import RestaurantsAdmin from './RestaurantAdmin';
@@ -24,6 +25,10 @@ export default async function SettingsRestaurantPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
   const data = await getData(token)
+
+  if (!token) {
+    redirect('/login')
+  }
 
   return (
     <div className="space-y-6">
