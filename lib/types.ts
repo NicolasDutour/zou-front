@@ -147,12 +147,17 @@ export type RestaurantType = {
   restaurant_name: string,
   address: string,
   description: string,
+  short_description: string,
   email: string,
   phone: string,
   createdAt: string,
   userId: string,
   longitude: string,
-  latitude: string
+  latitude: string,
+  drive: boolean,
+  take_away: boolean,
+  delivery: boolean,
+  eat_in: boolean,
 }
 
 export type PlanType = {
@@ -182,6 +187,8 @@ export type ProductType = {
     product_name: string;
     ingredients: string;
     price: number;
+    vegetarian: boolean,
+    dessert: boolean,
     photo: {
       data: {
         attributes: {
@@ -251,4 +258,48 @@ export type InvoiceType = {
   plan: string,
   amount: number,
   status: string,
+}
+
+export type HomeInfoType = {
+  id: number,
+  attributes: {
+    title: string,
+    subtitle: string,
+    slogan: string,
+    slogan_bis: string,
+    slogan_ter: string,
+    description: string,
+  }
+}
+
+export type ServiceType = {
+  id: number,
+  attributes: {
+    title: string,
+    description: string,
+    photo: {
+      data: {
+        attributes: {
+          formats: {
+            thumbnail: {
+              name: string,
+              url: string
+            },
+            small: {
+              name: string,
+              url: string
+            },
+            medium: {
+              name: string,
+              url: string
+            },
+            large: {
+              name: string,
+              url: string
+            }
+          }
+        }
+      }
+    }
+  }
 }
