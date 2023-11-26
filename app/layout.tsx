@@ -11,15 +11,16 @@ import Footer from '@/components/Footer'
 import { ProductFormContextProvider, RestaurantFormContextProvider } from '@/context/store'
 
 const roboto = Roboto({
-  weight: '400',
+  weight: ['400', '500'],
+  style: ['normal', 'italic'],
   subsets: ['latin'],
   display: 'swap',
 })
 
 export const metadata: Metadata = {
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_FRONT_URL}`),
-  title: 'Ted',
-  description: "Votre site web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
+  title: 'Zou',
+  description: "Votre page web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
   // verification: {
   //   google: `google-site-verification=${process.env.GOOGLE_SITE_VERIFICATION}`
   // }

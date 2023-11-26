@@ -1,8 +1,8 @@
-# Project Ted-front
+# Project Zou-front
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-You can check out [GitHub repository](https://github.com/NicolasDutour/ted-front)
+You can check out [GitHub repository](https://github.com/NicolasDutour/Zou-front)
 
 This project is a website where any restaurant can have his own page
 
