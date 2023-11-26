@@ -74,25 +74,24 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
-    // const imageUpload = {
-    //   ref: "api::restaurant.restaurant",
-    //   refId: user?.restaurants[0].id,
-    //   field: "banner_photo",
-    //   files: payload.banner_photo[0].name
-    // }
+    const formData = new FormData()
+    formData.append("ref", 'api::restaurant.restaurant')
+    formData.append("refId", user?.restaurants[0]?.id)
+    formData.append("field", 'banner_photo')
+    formData.append("files", payload.banner_photo[0])
 
     const slug = createSlug(payload?.restaurant_name)
     const newData = {
       ...payload,
       slug,
-      longitude: tempUser?.restaurants[0].longitude,
-      latitude: tempUser?.restaurants[0].latitude,
+      longitude: user?.restaurants[0].longitude,
+      latitude: user?.restaurants[0].latitude,
       users_permissions_user: {
         connect: [user?.id]
       }
     }
 
-    // const { banner_photo, ...dataWithoutImage } = newData
+    const { banner_photo, ...dataWithoutImage } = newData
 
     try {
       setIsLoading(true)
@@ -103,7 +102,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({ data: newData }),
+          body: JSON.stringify({ data: dataWithoutImage }),
           cache: 'no-cache'
         })
 
@@ -111,16 +110,15 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         try {
           const restaurant = await response.json()
 
-          // const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
-          //   {
-          //     method: 'POST',
-          //     headers: {
-          //       'Content-Type': 'application/json',
-          //       Authorization: `Bearer ${token}`
-          //     },
-          //     body: new FormData(imageUpload),
-          //     cache: 'no-cache'
-          //   })
+          const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${token}`
+              },
+              body: formData,
+              cache: 'no-cache'
+            })
 
           toast({
             title: `Restaurant ${isUpdatingRestaurant ? 'mis à jour' : 'ajouté'} avec succés !`
@@ -240,7 +238,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
             </div>
           </div>
 
-          {/* <div className="w-full">
+          <div className="w-full">
             <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-900">
               Photo
             </label>
@@ -252,8 +250,9 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
+              <p className="text-sm mt-2">Image actuelle: <span className="text-primary ">{user?.restaurants[0].banner_photo ? user?.restaurants[0].banner_photo.name : null}</span></p>
             </div>
-          </div> */}
+          </div>
         </div>
 
         <div className="relative w-full">

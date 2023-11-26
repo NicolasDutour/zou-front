@@ -122,7 +122,7 @@ export const FormSchemaRestaurant = z.object({
   // closing_time_morning: z.string(),
   // opening_time_afternoon: z.string(),
   // closing_time_afternoon: z.string(),
-  // banner_photo: z.any()
+  banner_photo: z.any()
 })
 export type TypeFormSchemaRestaurant = z.infer<typeof FormSchemaRestaurant>
 
@@ -158,6 +158,13 @@ export type RestaurantType = {
   take_away: boolean,
   delivery: boolean,
   eat_in: boolean,
+  banner_photo: {
+    data: {
+      attributes: {
+        formats: { large: { url: string } }
+      }
+    }
+  }
 }
 
 export type PlanType = {
