@@ -86,15 +86,15 @@ export default function ProductsList({ products, token, updateProduct }: { produ
               <TableCell>{capitalize(product.base.toLowerCase())}</TableCell>
               <TableCell>{formatIngredients(product.ingredients)}</TableCell>
               <TableCell className="text-right">{product.price.toFixed(2)} €</TableCell>
-              <TableCell> <p className="p-2 text-secondary font-bold text-center">{product.publishedAt ? 'Publié' : ''}</p></TableCell>
+              <TableCell> <p className="p-2 text-primary font-bold text-center">{product.publishedAt ? 'Publié' : ''}</p></TableCell>
               <TableCell className="text-center">
                 <AlertDialog>
-                  <AlertDialogTrigger className="text-2xl text-primary">
+                  <AlertDialogTrigger className="text-2xl text-red-600">
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
-                        <TooltipContent className=" bg-white text-primary text-base border border-primtext-primary">
-                          <p>Supprimer product</p>
+                        <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
+                          <p>Supprimer produit</p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -113,11 +113,11 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                   </AlertDialogContent>
                 </AlertDialog>
 
-                <Button onClick={() => updateCurrentProduct(product)} className="text-2xl bg-white border-none shadow-none text-secondary">
+                <Button onClick={() => updateCurrentProduct(product)} className="text-2xl bg-white border-none shadow-none text-primary">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger><BiEditAlt /></TooltipTrigger>
-                      <TooltipContent className=" bg-white text-secondary text-base border border-secondary">
+                      <TooltipContent className=" bg-white text-primary text-base border border-primary">
                         <p>Mise à jour produit</p>
                       </TooltipContent>
                     </Tooltip>

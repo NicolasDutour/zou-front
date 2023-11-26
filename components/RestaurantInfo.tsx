@@ -45,23 +45,23 @@ export default function RestaurantInfo({ restaurant }: { restaurant: RestaurantT
       <div className='mb-8 md:mb-0'>
         <p className="text-center text-2xl mb-4 uppercase text-white"> {restaurant?.restaurant_name}</p>
         <div className='flex items-center mb-4'>
-          <IoLocationOutline className="text-secondary text-2xl" />
+          <IoLocationOutline className="text-white text-2xl" />
           <div className='flex flex-col ml-6'>
             <p className="text-lg text-gray-400">{restaurant?.address && restaurant?.address + ','}</p>
           </div>
         </div>
         <div className='flex items-center mb-4'>
-          <AiOutlinePhone className="text-secondary text-2xl" />
+          <AiOutlinePhone className="text-white text-2xl" />
           <p className="text-lg text-gray-400 ml-6">{addSpaceToPhoneNumber(restaurant?.phone) || null}</p>
         </div>
         <div className='flex items-center mb-4'>
-          <MdAlternateEmail className="text-secondary text-2xl" />
+          <MdAlternateEmail className="text-white text-2xl" />
           <p className="text-lg text-gray-400 ml-6">{restaurant?.email || null}</p>
         </div>
       </div>
-      <div>
-        {/* {displayOpeningHour()} */}
-      </div>
+      {/* <div>
+        {displayOpeningHour()}
+      </div> */}
     </div>
   )
 }

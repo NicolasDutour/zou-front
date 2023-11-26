@@ -105,7 +105,7 @@ export default function RegisterForm() {
               {...register("username")}
               id="username"
               type="text"
-              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.username?.message}</p>
           </div>
@@ -120,7 +120,7 @@ export default function RegisterForm() {
               {...register("email")}
               id="email"
               type="email"
-              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
           </div>
@@ -137,7 +137,7 @@ export default function RegisterForm() {
               {...register("password")}
               id="password"
               type="password"
-              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>
           </div>
@@ -153,7 +153,7 @@ export default function RegisterForm() {
               {...register("confirmPassword")}
               id="confirmPassword"
               type="password"
-              className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.confirmPassword?.message}</p>
           </div>
@@ -163,7 +163,7 @@ export default function RegisterForm() {
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : "S'enregistrer"

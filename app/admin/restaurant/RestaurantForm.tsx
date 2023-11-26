@@ -217,7 +217,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         getValues('restaurant_name') ? (
           <p className="font-medium leading-6 text-gray-900 mt-6">
             <span className="mr-4">Lien public de votre site web:</span>
-            <Link className="border-2 border-secondary p-4 rounded-full hover:border-4 transition-all text-secondary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}>
+            <Link className="border-2 border-primary p-4 rounded-full hover:border-4 transition-all text-primary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`} target="_blank">
               {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
             </Link>
           </p>
@@ -234,7 +234,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("restaurant_name")}
                 id="restaurant_name"
                 type="text"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
             </div>
@@ -249,7 +249,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("banner_photo")}
                 id="banner_photo"
                 type="file"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
             </div>
@@ -266,7 +266,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               id="address"
               type="text"
               onChange={(e) => handleAddressChange(e.target.value)}
-              className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.address?.message}</p>
           </div>
@@ -305,7 +305,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               {...register("description")}
               id="description"
               rows="5"
-              className="resize-none block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              className="resize-none block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             ></textarea>
             <p className="text-red-500 text-sm mt-2">{errors.description?.message}</p>
           </div>
@@ -321,7 +321,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("email")}
                 id="email"
                 type="email"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
             </div>
@@ -336,7 +336,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("phone")}
                 id="phone"
                 type="text"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.phone?.message}</p>
             </div>
@@ -353,7 +353,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("opening_time_morning")}
                 id="opening_time_morning"
                 type="time"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.opening_time_morning?.message}</p>
             </div>
@@ -368,7 +368,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("closing_time_morning")}
                 id="closing_time_morning"
                 type="time"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.closing_time_morning?.message}</p>
             </div>
@@ -382,7 +382,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("opening_time_afternoon")}
                 id="opening_time_afternoon"
                 type="time"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.opening_time_afternoon?.message}</p>
             </div>
@@ -397,7 +397,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 {...register("closing_time_afternoon")}
                 id="closing_time_afternoon"
                 type="time"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
               />
               <p className="text-red-500 text-sm mt-2">{errors.closing_time_afternoon?.message}</p>
             </div>
@@ -415,7 +415,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               {...register("photo_banner")}
               id="photo_banner"
               type="file"
-              className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-green-800 sm:text-sm sm:leading-6"
+              className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.photo_banner?.message}</p>
           </div>
@@ -427,7 +427,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               <button
                 onClick={closeForm}
                 type='button'
-                className="disabled:opacity-40 w-full rounded-md px-3 py-1.5 border border-black text-black text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+                className="disabled:opacity-40 w-full rounded-md px-3 py-1.5 border border-black text-black text-sm font-semibold leading-6 shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
               >
                 Annuler
               </button>
@@ -435,7 +435,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           }
           <button
             type='submit'
-            className={cn("disabled:opacity-40 w-full rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className={cn("disabled:opacity-40 w-full rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
             )}
           >
             {isUpdatingRestaurant ? 'Mettre à jour' : 'Créer'}
@@ -446,7 +446,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 w-full flex justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="disabled:opacity-40 w-full flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'

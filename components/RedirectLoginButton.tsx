@@ -7,7 +7,7 @@ export default function RedirectLoginButton({ path }: { path: string }) {
   const router = useRouter()
 
   return (
-    <button onClick={() => router.push(`/${path}`)} className="font-semibold leading-6 text-secondary hover:text-green-800">
+    <button onClick={() => router.push(`/${path}`)} className="font-semibold leading-6 text-primary hover:text-secondary">
       {path === "register" ? capitalize("S'enregistrer") : "Se connecter"}
     </button>
   )

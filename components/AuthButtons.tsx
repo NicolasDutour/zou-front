@@ -25,17 +25,17 @@ export default function AuthButtons({ token }: { token: string }) {
 
   return token ? (
     <div>
-      <Button onClick={handleSignOut} variant="link">Se déconnecter</Button>
-      <Button asChild variant={path.startsWith('/admin') ? 'activeLink' : 'link'}>
+      <Button className="text-base" onClick={handleSignOut} variant="link">Se déconnecter</Button>
+      <Button className="text-base" asChild variant={path.startsWith('/admin') ? 'activeLink' : 'link'}>
         <Link href="/admin">Admin</Link>
       </Button>
     </div>
   ) : (
     <div>
-      <Button asChild variant={path === '/login' ? 'activeLink' : 'link'}>
+      <Button className="text-base" asChild variant={path === '/login' ? 'activeLink' : 'link'}>
         <Link href="/login">Connexion</Link>
       </Button>
-      <Button asChild variant={path === '/register' ? 'activeLink' : 'link'}>
+      <Button className="text-base" asChild variant={path === '/register' ? 'activeLink' : 'link'}>
         <Link href="/register">Inscription</Link>
       </Button>
     </div>

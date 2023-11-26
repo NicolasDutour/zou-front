@@ -32,8 +32,8 @@ export default function DialogPlan({ plan }: { plan: PlanType }) {
   return (
     <AlertDialog>
       <AlertDialogTrigger>
-        <p className="flex flex-col justify-between p-2 mb-2 shadow-lg rounded-xl border-2 border-secondary hover:bg-green-100 text-gray-600">
-          <span className="text-secondary text-lg"><span className="font-bold text-2xl"> {capitalize(title)} </span> pour <span className="font-bold text-2xl"> {price} €</span> / mois</span> {description}.
+        <p className="flex flex-col justify-between p-2 mb-2 shadow-lg rounded-xl border-2 border-primary hover:bg-green-100 text-gray-600">
+          <span className="text-primary text-lg"><span className="font-bold text-2xl"> {capitalize(title)} </span> pour <span className="font-bold text-2xl"> {price} €</span> / mois</span> {description}.
         </p>
       </AlertDialogTrigger>
       <AlertDialogContent className="bg-green-100">
@@ -59,7 +59,7 @@ export default function DialogPlan({ plan }: { plan: PlanType }) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="bg-white w-full">Close</AlertDialogCancel>
-          <AlertDialogAction onClick={subscribe} className="p-2 bg-secondary w-full rounded-md text-white">Subscribe</AlertDialogAction>
+          <AlertDialogAction onClick={subscribe} className="p-2 bg-primary w-full rounded-md text-white">Subscribe</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -103,7 +103,7 @@ export default function LoginForm() {
               {...register("identifier")}
               id="identifier"
               type="email"
-              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-secondary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.identifier?.message}</p>
           </div>
@@ -114,7 +114,7 @@ export default function LoginForm() {
               Mot de passe
             </label>
             <div className="text-sm">
-              <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-secondary hover:text-green-700">
+              <div onClick={() => router.push('/forgot-password')} className="cursor-pointer font-semibold text-primary hover:text-secondary">
                 Mot de passe oublié ?
               </div>
             </div>
@@ -124,7 +124,7 @@ export default function LoginForm() {
               {...register("password")}
               id="password"
               type="password"
-              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>
           </div>
@@ -133,7 +133,7 @@ export default function LoginForm() {
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
               isLoading ? <Loader width={30} height={30} /> : 'Se connecter'

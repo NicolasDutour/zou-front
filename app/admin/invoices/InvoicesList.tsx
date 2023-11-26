@@ -39,13 +39,13 @@ export default function InvoicesList({ invoices }: { invoices: InvoiceType[] }) 
               <TableCell>Du {invoice.startDate} au {invoice.endDate}</TableCell>
               <TableCell>{invoice.plan}</TableCell>
               <TableCell className="text-right">{invoice.amount.toFixed(2)} €</TableCell>
-              <TableCell> <p className="p-2 text-secondary font-bold text-center">{invoice.status}</p></TableCell>
+              <TableCell> <p className="p-2 text-primary font-bold text-center">{invoice.status}</p></TableCell>
               <TableCell className="text-center">
-                <Button className="text-2xl bg-white border-none shadow-none text-secondary">
+                <Button className="text-2xl bg-white border-none shadow-none text-primary">
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger><GoDownload /></TooltipTrigger>
-                      <TooltipContent className=" bg-white text-secondary text-base border border-secondary">
+                      <TooltipContent className=" bg-white text-primary text-base border border-primary">
                         <p>Télécharger la facture</p>
                       </TooltipContent>
                     </Tooltip>

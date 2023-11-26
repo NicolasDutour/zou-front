@@ -9,21 +9,12 @@ export default function Login() {
   return (
     <div className="flex bg-base h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="mx-auto w-full md:max-w-lg bg-white p-4 rounded-lg shadow-custom">
-        <Image
-          src="/leaf-icon.png"
-          alt="leaf-icon"
-          width={50}
-          height={50}
-          aspect-auto="true"
-          className="rounded-lg mx-auto w-auto"
-          priority
-        />
         <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
-          Connectez vous à votre compte
+          Connectez vous
         </h2>
 
         <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-          <p className=' text-center mx-4 mb-4'>avec</p>
+          {/* <p className=' text-center mx-4 mb-4'>avec</p> */}
 
           {/* <LoginGoogleButton /> */}
           {/* <Link className="text-white" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`}>
