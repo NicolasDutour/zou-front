@@ -3,6 +3,7 @@ import Mapbox from "@/components/MapBox"
 import RestaurantInfo from "@/components/RestaurantInfo";
 import ListMenu from "@/components/ListMenu";
 import { Metadata, ResolvingMetadata } from "next";
+import RestaurantDescription from "@/components/RestaurantDescription";
 
 type Props = {
   params: { slug: string }
@@ -64,8 +65,9 @@ export default async function Restaurant({ params }: Props) {
   const products = restaurantData?.data[0]?.attributes?.products?.data
 
   return (
-    <div className="bg-[#F6F7F8]">
+    <div>
       {restaurant ? <RestaurantBanner restaurant={restaurant} /> : null}
+      {restaurant.description ? <RestaurantDescription description={restaurant.description} /> : null}
       {products ? <ListMenu products={products} /> : null}
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
         {restaurant ? <RestaurantInfo restaurant={restaurant} /> : null}
