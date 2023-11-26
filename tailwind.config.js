@@ -21,8 +21,8 @@ module.exports = {
       },
       boxShadow: {
         'custom': '20px 30px 30px -15px rgba(0, 0, 0, 0.3)',
-        'custom-orange': '30px 30px 20px -15px rgba(237,119,45, 0.3)',
-        'custom-green': '30px 30px 20px -15px rgba(22,163,74, 0.3)',
+        'custom-blue-light': '30px 30px 20px -15px rgba(35, 123, 223, 1)',
+        'custom-blue': '30px 30px 20px -15px rgba(27, 98, 179, 1)',
       },
       colors: {
         border: "hsl(var(--border))",

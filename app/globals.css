@@ -13,10 +13,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
 
-    --primary: #ed772d;
+    --primary: #1b62b3;
     --primary-foreground: #fff;
 
-    --secondary: #16A34A;
+    --secondary: #237bdf;
     --secondary-foreground: #fff;
 
     --yellow: #edda2d;
@@ -88,15 +88,31 @@
 
   50% {
     transform: translateY(20px);
-    /* Descendre de 20px */
   }
 
   100% {
     transform: translateY(-20px);
-    /* Remonter de 20px */
+  }
+}
+
+@keyframes moveRightLeft {
+  0% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(-10px);
   }
 }
 
 .icon-move-down {
   animation: moveUpDown 2s ease-in-out infinite;
+}
+
+.icon-move-right {
+  animation: moveRightLeft 2s ease-in-out infinite;
 }
