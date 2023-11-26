@@ -64,9 +64,9 @@ export const formatTime = (time: string): string => {
   return time
 }
 
-// Concat Ted + plan name + date to make the invoice name
+// Concat Zou + plan name + date to make the invoice name
 export const formatInvoiceName = (plan: string, startDate: string, endDate: string): string => {
-  return `Ted-${plan.toLowerCase()}-${formatDate(startDate)}-${formatDate(endDate)}.pdf`
+  return `Zou-${plan.toLowerCase()}-${formatDate(startDate)}-${formatDate(endDate)}.pdf`
 }
 
 // Remove tirets from the date format
