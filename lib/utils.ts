@@ -73,3 +73,15 @@ export const formatInvoiceName = (plan: string, startDate: string, endDate: stri
 export const formatDate = (date: string): string => {
   return date.replaceAll('-', '')
 }
+
+// Replace a log name file with a shorter one with keeping the extension file
+export const truncateFileName = (name: string, maxLength: number): string => {
+  if (name.length <= maxLength) {
+    return name;
+  } else {
+    const fileExtension = name.split('.').pop();
+    const fileNameWithoutExtension = name.slice(0, -(fileExtension.length + 1));
+    const truncatedFileName = fileNameWithoutExtension.slice(0, maxLength - 3) + "...";
+    return truncatedFileName + "." + fileExtension;
+  }
+}

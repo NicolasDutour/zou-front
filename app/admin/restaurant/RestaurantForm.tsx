@@ -2,27 +2,51 @@
 
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Controller, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import Link from "next/link"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Image from "next/image"
+import { FaLink } from "react-icons/fa6";
 
 import { useToast } from "@/components/ui/use-toast"
 import Loader from "@/components/Loader"
+import { useRouter } from 'next/navigation'
 
 import { TypeFormSchemaRestaurant, FormSchemaRestaurant, UserType } from '@/lib/types';
-import { cn, createSlug } from "@/lib/utils"
+import { capitalize, cn, createSlug, truncateFileName } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 import { useRestaurantFormContext } from "@/context/store"
+import { AiOutlineDelete } from "react-icons/ai"
+import { BiEditAlt } from "react-icons/bi"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
   const dispatch = useDispatch()
+  const router = useRouter()
   const { toast } = useToast()
   // const token = useSelector((state) => state.auth.token)
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
   const { showForm, setShowForm } = useRestaurantFormContext()
   const { restaurantUpdating, setRestaurantUpdating } = useRestaurantFormContext()
-  const tempUser = useSelector((state) => state.auth.user)
+  const [showFileInput, setShowFileInput] = useState(false)
+  // const tempUser = useSelector((state) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
   const [addressSuggestions, setAddressSuggestions] = useState([]);
@@ -45,16 +69,18 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const watchEmail = watch('email')
   const watchPhone = watch('phone')
 
-
-
   useEffect(() => {
     if (user?.restaurants.length > 0) {
-      const { restaurant_name, description, email, address, phone } = user?.restaurants[0]
+      const { restaurant_name, description, email, address, phone, drive, take_away, delivery, eat_in } = user?.restaurants[0]
       setValue('restaurant_name', restaurant_name)
       setValue('description', description)
       setValue('email', email)
       setValue('address', address)
       setValue('phone', phone)
+      setValue('drive', drive)
+      setValue('take_away', take_away)
+      setValue('delivery', delivery)
+      setValue('eat_in', eat_in)
     }
   }, [])
 
@@ -74,12 +100,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   }
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
-    const formData = new FormData()
-    formData.append("ref", 'api::restaurant.restaurant')
-    formData.append("refId", user?.restaurants[0]?.id)
-    formData.append("field", 'banner_photo')
-    formData.append("files", payload.banner_photo[0])
-
     const slug = createSlug(payload?.restaurant_name)
     const newData = {
       ...payload,
@@ -110,15 +130,28 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         try {
           const restaurant = await response.json()
 
-          const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
-            {
-              method: 'POST',
-              headers: {
-                Authorization: `Bearer ${token}`
-              },
-              body: formData,
-              cache: 'no-cache'
-            })
+          if (payload?.banner_photo?.length > 0) {
+            const formData = new FormData()
+            formData.append("ref", 'api::restaurant.restaurant')
+            formData.append("refId", user?.restaurants[0]?.id)
+            formData.append("field", 'banner_photo')
+            formData.append("files", payload.banner_photo[0])
+
+            const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
+              {
+                method: 'POST',
+                headers: {
+                  Authorization: `Bearer ${token}`
+                },
+                body: formData,
+                cache: 'no-cache'
+              })
+
+            if (pictureUpload.ok) {
+              setShowFileInput(false)
+              router.refresh()
+            }
+          }
 
           toast({
             title: `Restaurant ${isUpdatingRestaurant ? 'mis à jour' : 'ajouté'} avec succés !`
@@ -191,8 +224,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   };
 
   const selectAddress = (coordinates: string[]) => {
-    console.log("coordinates", coordinates);
-
     setAddressSuggestions([])
     setOpenAddressDialog(false)
     dispatch(setUserInfo(
@@ -209,15 +240,63 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
     ))
   }
 
+  const imageStyle: React.CSSProperties = {
+    objectFit: "cover",
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`)
+    toast({
+      title: `Lien copié avec succés !`
+    })
+  }
+
+  const updatePhoto = () => {
+    setShowFileInput(true)
+  }
+
+  const removePhoto = async (photoId: number) => {
+    const pictureRemoved = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload/files/${photoId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+    if (pictureRemoved.ok) {
+      setShowFileInput(false)
+      router.refresh()
+      toast({
+        title: "Photo supprimée avec succés !"
+      })
+    }
+
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {
         getValues('restaurant_name') ? (
           <p className="font-medium leading-6 text-gray-900 mt-6">
-            <span className="mr-4">Lien public de votre site web:</span>
-            <Link className="border-2 border-primary p-4 rounded-full hover:border-4 transition-all text-primary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`} target="_blank">
-              {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
-            </Link>
+            <div className="mr-4">Lien public de votre site web:</div>
+            <div className="flex items-center">
+              <Link className="underline underline-offset-4 text-primary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`} target="_blank">
+                {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
+              </Link>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <button onClick={copyToClipboard} className="ml-6 text-xl border border-gray-900 rounded-md px-4 py-2">
+                      <FaLink />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copier le lien</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </p>
         ) : null
       }
@@ -237,21 +316,86 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
               <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
             </div>
           </div>
+        </div>
 
-          <div className="w-full">
-            <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-900">
-              Photo
-            </label>
-            <div className="mt-2">
-              <input
-                {...register("banner_photo")}
-                id="banner_photo"
-                type="file"
-                className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
-              />
-              <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
-              <p className="text-sm mt-2">Image actuelle: <span className="text-primary ">{user?.restaurants[0].banner_photo ? user?.restaurants[0].banner_photo.name : null}</span></p>
-            </div>
+        <div className="md:w-1/2">
+          <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-900">
+            Photo
+          </label>
+          <div className="mt-2">
+            {
+              user?.restaurants[0].banner_photo && !showFileInput ? (
+                <div className="">
+                  <div className="relative border rounded-md h-56">
+                    <Image
+                      src={user?.restaurants[0].banner_photo ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0].banner_photo.url}` : ""}
+                      alt={user?.restaurants[0].banner_photo.name}
+                      style={imageStyle}
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      quality={80}
+                      aspect-auto="true"
+                      className="rounded-lg"
+                    />
+                  </div>
+                  <div className="flex items-center justify-center mt-4">
+                    <p className="mr-4">{truncateFileName(user?.restaurants[0].banner_photo.name, 30)}</p>
+                    <div>
+                      <AlertDialog>
+                        <AlertDialogTrigger className="text-2xl text-red-600">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
+                              <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
+                                <p>Supprimer photo</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Voulez vous supprimer définitivement cette photo ?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                            <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(user?.restaurants[0].banner_photo.id)}>Supprimer</AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
+
+                    <div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <button className="text-2xl text-primary" onClick={updatePhoto}>
+                              <BiEditAlt />
+                            </button>
+                          </TooltipTrigger>
+                          <TooltipContent className=" bg-white text-primary text-base border border-primary">
+                            <p>Mise à jour photo</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <input
+                    {...register("banner_photo")}
+                    id="banner_photo"
+                    type="file"
+                    className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
+                  />
+                  <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
+                </>
+              )
+            }
           </div>
         </div>
 
@@ -342,6 +486,49 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </div>
         </div>
 
+        <p className="text-sm font-medium leading-6 text-gray-900">Sélectionnez les services que vous proposez</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="flex items-center">
+            <label className="mr-2" htmlFor="drive">Drive</label>
+            <input
+              {...register("drive")}
+              id="drive"
+              type="checkbox"
+              className="w-4 h-4"
+            />
+          </div>
+
+          <div className="flex items-center">
+            <label className="mr-2" htmlFor="take_away"> {capitalize('à emporter')} </label>
+            <input
+              {...register("take_away")}
+              id="take_away"
+              type="checkbox"
+              className="w-4 h-4"
+            />
+          </div>
+
+          <div className="flex items-center">
+            <label className="mr-2" htmlFor="delivery">Livraison</label>
+            <input
+              {...register("delivery")}
+              id="delivery"
+              type="checkbox"
+              className="w-4 h-4"
+            />
+          </div>
+
+          <div className="flex items-center">
+            <label className="mr-2" htmlFor="eat_in">Sur place</label>
+            <input
+              {...register("eat_in")}
+              id="eat_in"
+              type="checkbox"
+              className="w-4 h-4"
+            />
+          </div>
+        </div>
+
         {/* <div className="grid grid-cols-4 gap-4">
           <div>
             <label htmlFor="opening_time_morning" className="block text-sm font-medium leading-6 text-gray-900">
@@ -403,23 +590,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </div>
         </div> */}
 
-
-
-        {/* <div>
-          <label htmlFor="photo_banner" className="block text-sm font-medium leading-6 text-gray-900">
-            Photo de présentation du restaurant
-          </label>
-          <div className="mt-2">
-            <input
-              {...register("photo_banner")}
-              id="photo_banner"
-              type="file"
-              className="block p-2 w-1/2 rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-900 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
-            />
-            <p className="text-red-500 text-sm mt-2">{errors.photo_banner?.message}</p>
-          </div>
-        </div> */}
-
         <div className="flex flex-col md:flex-row items-center w-full md:w-1/4 gap-2">
           {
             !isUpdatingRestaurant ? (
@@ -440,18 +610,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
             {isUpdatingRestaurant ? 'Mettre à jour' : 'Créer'}
           </button>
         </div>
-
-        {/* <div className="w-full md:w-1/2">
-          <button
-            type='submit'
-            disabled={isLoading}
-            className="disabled:opacity-40 w-full flex justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-          >
-            {
-              isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'
-            }
-          </button>
-        </div> */}
       </div>
     </form >
   )
