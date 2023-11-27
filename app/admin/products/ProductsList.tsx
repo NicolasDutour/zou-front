@@ -113,16 +113,18 @@ export default function ProductsList({ products, token, updateProduct }: { produ
                   </AlertDialogContent>
                 </AlertDialog>
 
-                <Button onClick={() => updateCurrentProduct(product)} className="text-2xl bg-white border-none shadow-none text-primary">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger><BiEditAlt /></TooltipTrigger>
-                      <TooltipContent className=" bg-white text-primary text-base border border-primary">
-                        <p>Mise à jour produit</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </Button>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={() => updateCurrentProduct(product)} className="text-2xl bg-white border-none shadow-none text-primary">
+                        <BiEditAlt />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className=" bg-white text-primary text-base border border-primary">
+                      <p>Mise à jour produit</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </TableCell>
             </TableRow>
           )
