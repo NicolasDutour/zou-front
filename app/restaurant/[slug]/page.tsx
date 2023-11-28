@@ -18,25 +18,25 @@ export async function generateMetadata(
   const restaurantData = await getRestaurantDetails(slug)
 
   return {
-    title: restaurantData.data[0].attributes.restaurant_name,
-    description: restaurantData.data[0].attributes.description,
+    title: restaurantData.data[0]?.attributes.restaurant_name,
+    description: restaurantData.data[0]?.attributes.description,
     alternates: {
-      canonical: `/${restaurantData.data[0].attributes.slug}`,
+      canonical: `/${restaurantData.data[0]?.attributes.slug}`,
       // languages: {
       //   "fr": `fr/${restaurantData.data[0].attributes.slug}`,
       //   "en-EN": `en/${restaurantData.data[0].attributes.slug}`
       // }
     },
     openGraph: {
-      title: restaurantData.data[0].attributes.restaurant_name,
-      description: restaurantData.data[0].attributes.description,
+      title: restaurantData.data[0]?.attributes.restaurant_name,
+      description: restaurantData.data[0]?.attributes.description,
       type: 'website',
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: restaurantData.data[0].attributes.restaurant_name,
-      description: restaurantData.data[0].attributes.description
+      title: restaurantData.data[0]?.attributes.restaurant_name,
+      description: restaurantData.data[0]?.attributes.description
     }
   }
 }
@@ -67,7 +67,7 @@ export default async function Restaurant({ params }: Props) {
   return (
     <div>
       {restaurant ? <RestaurantBanner restaurant={restaurant} /> : null}
-      {restaurant.description ? <RestaurantDescription description={restaurant.description} /> : null}
+      {restaurant?.description ? <RestaurantDescription description={restaurant.description} /> : null}
       {products ? <ListMenu products={products} /> : null}
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
         {restaurant ? <RestaurantInfo restaurant={restaurant} /> : null}
