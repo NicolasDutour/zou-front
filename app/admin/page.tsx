@@ -3,10 +3,7 @@ import { cookies } from 'next/headers'
 import { Separator } from "@/components/ui/separator";
 import { ProfileForm } from "./ProfileForm";
 
-async function getData() {
-  const cookieStore = cookies()
-  const token = cookieStore.get('token')?.value
-
+async function getData(token: string) {
   if (token) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*&populate[pricing_plan][populate]=*`,
       {
@@ -24,7 +21,9 @@ async function getData() {
 }
 
 export default async function SettingsProfilePage() {
-  const data = await getData()
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+  const data = await getData(token || '')
 
   return (
     <div className="space-y-6">
@@ -35,7 +34,7 @@ export default async function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      {data ? <ProfileForm user={data} /> : null}
+      {data ? <ProfileForm user={data} token={token} /> : null}
     </div>
   )
 }

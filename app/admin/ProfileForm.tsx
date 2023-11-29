@@ -7,13 +7,13 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 
-import Loader from "@/components/Loader"
 import { useToast } from "@/components/ui/use-toast";
 
 import { TypeFormSchemaProfile, FormSchemaProfile, UserType } from '@/lib/types';
 import { setUserInfo } from "@/redux/features/auth/authSlice"
+import LoaderButton from "@/components/LoaderButton"
 
-export function ProfileForm({ user }: { user: UserType }) {
+export function ProfileForm({ user, token }: { user: UserType, token: string }) {
   const router = useRouter();
   const dispatch = useDispatch()
   const { toast } = useToast()
@@ -31,10 +31,10 @@ export function ProfileForm({ user }: { user: UserType }) {
     resolver: zodResolver(FormSchemaProfile),
   });
 
-  const watchIdentifier = watch('identifier')
+  const watchEmail = watch('email')
 
   useEffect(() => {
-    setValue('identifier', user?.email)
+    setValue('email', user?.email)
   }, [])
 
   const onHandleUpdateProfile = async (data: z.infer<typeof FormSchemaProfile>) => {
@@ -44,12 +44,14 @@ export function ProfileForm({ user }: { user: UserType }) {
         {
           method: 'PUT',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify(data),
           cache: 'no-cache'
         })
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const userDetails = await response.json()
           dispatch(setUserInfo(userDetails))
@@ -104,27 +106,29 @@ export function ProfileForm({ user }: { user: UserType }) {
     <form onSubmit={handleSubmit(onHandleUpdateProfile)}>
       <div className="space-y-6 mt-10">
         <div>
-          <label htmlFor="identifier" className="block text-sm font-medium leading-6 text-gray-900">
+          <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
             Email
           </label>
           <div className="mt-2">
             <input
-              {...register("identifier")}
-              id="identifier"
+              {...register("email")}
+              id="email"
               type="email"
               className="block p-2 w-full md:w-1/2 focus:outline-none rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
-            <p className="text-red-500 text-sm mt-2">{errors.identifier?.message}</p>
+            <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
           </div>
         </div>
         <div className="w-full md:w-1/4">
           <button
             type='submit'
-            disabled={isLoading || (watchIdentifier == user?.email)}
+            disabled={isLoading || (watchEmail == user?.email)}
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary hover:bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Mettre à jour'
+              isLoading ? (
+                <LoaderButton />
+              ) : 'Mettre à jour'
             }
           </button>
         </div>
