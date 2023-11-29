@@ -28,7 +28,7 @@ export const FormSchemaRegister = z.object({
 export type TypeFormSchemaRegister = z.infer<typeof FormSchemaRegister>
 
 export const FormSchemaProfile = z.object({
-  identifier: z
+  email: z
     .string()
     .trim()
     .toLowerCase()
@@ -86,6 +86,9 @@ export const FormSchemaForgotPassword = z.object({
 
 export type TypeFormSchemaForgotPassword = z.infer<typeof FormSchemaForgotPassword>
 
+
+const MAX_FILE_SIZE_BANNER = 500000;
+const ACCEPTED_IMAGE_TYPES_BANNER = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 export const FormSchemaRestaurant = z.object({
   restaurant_name: z
     .string()
@@ -122,7 +125,12 @@ export const FormSchemaRestaurant = z.object({
   // closing_time_morning: z.string(),
   // opening_time_afternoon: z.string(),
   // closing_time_afternoon: z.string(),
-  banner_photo: z.any(),
+  banner_photo: z
+    .any()
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE_BANNER, { message: `Taille du fichier mex est ${MAX_FILE_SIZE_BANNER}MB.` })
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES_BANNER.includes(files?.[0]?.type), { message: "Formats acceptés: .jpg, | .jpeg, | .png | .webp" }
+    ),
   drive: z.boolean(),
   take_away: z.boolean(),
   delivery: z.boolean(),
@@ -314,3 +322,16 @@ export type ServiceType = {
     }
   }
 }
+
+const MAX_FILE_SIZE_MENU = 500000;
+const ACCEPTED_IMAGE_TYPES_MENU = ["image/jpeg", "image/jpg", "image/png", "image/webp", "application/pdf"];
+export const FormSchemaMenu = z.object({
+  menu_photo: z
+    .any()
+    .refine((files) => files?.length == 1, "Fichier requis")
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE_MENU, { message: `Taille du fichier max est ${MAX_FILE_SIZE_MENU}MB.` })
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES_MENU.includes(files?.[0]?.type), { message: "Formats acceptés: .jpg, | .jpeg, | .png | .webp | .pdf" }
+    ),
+})
+export type TypeFormSchemaMenu = z.infer<typeof FormSchemaMenu>
