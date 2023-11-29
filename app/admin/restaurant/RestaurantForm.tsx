@@ -10,7 +10,6 @@ import Image from "next/image"
 import { FaLink } from "react-icons/fa6";
 
 import { useToast } from "@/components/ui/use-toast"
-import Loader from "@/components/Loader"
 import { useRouter } from 'next/navigation'
 
 import { TypeFormSchemaRestaurant, FormSchemaRestaurant, UserType } from '@/lib/types';
@@ -36,6 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import LoaderButton from "@/components/LoaderButton"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
   const dispatch = useDispatch()
@@ -68,6 +68,10 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const watchDescription = watch('description')
   const watchEmail = watch('email')
   const watchPhone = watch('phone')
+  const watchDrive = watch('drive')
+  const watchTakeAway = watch('take_away')
+  const watchDelivery = watch('delivery')
+  const watchEatIn = watch('eat_in')
 
   useEffect(() => {
     if (user?.restaurants.length > 0) {
@@ -83,16 +87,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
       setValue('eat_in', eat_in)
     }
   }, [])
-
-  const isAnyFormInputsModified = () => {
-    return (
-      watchRestaurantName == user?.restaurants[0]?.restaurant_name &&
-      watchAddress == user?.restaurants[0]?.address &&
-      watchDescription == user?.restaurants[0]?.description &&
-      watchEmail == user?.restaurants[0]?.email &&
-      watchPhone == user?.restaurants[0]?.phone
-    )
-  }
 
   const closeForm = () => {
     setShowForm(false)
@@ -127,6 +121,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         })
 
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const restaurant = await response.json()
 
@@ -194,8 +189,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
       const errorMessage = error.message;
       console.log("Error code: ", errorCode);
       console.log("Error message: ", errorMessage);
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -271,7 +264,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
         title: "Photo supprimée avec succés !"
       })
     }
-
   }
 
   return (
@@ -604,10 +596,27 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           }
           <button
             type='submit'
-            className={cn("disabled:opacity-40 w-full rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-            )}
+            disabled={
+              isLoading ||
+              (
+                watchRestaurantName == user?.restaurants[0]?.restaurant_name &&
+                watchAddress == user?.restaurants[0]?.address &&
+                watchDescription == user?.restaurants[0]?.description &&
+                watchEmail == user?.restaurants[0]?.email &&
+                watchPhone == user?.restaurants[0]?.phone &&
+                watchDrive == user?.restaurants[0]?.drive &&
+                watchTakeAway == user?.restaurants[0]?.take_away &&
+                watchDelivery == user?.restaurants[0]?.delivery &&
+                watchEatIn == user?.restaurants[0]?.eat_in
+              )
+            }
+            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary hover:bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
-            {isUpdatingRestaurant ? 'Mettre à jour' : 'Créer'}
+            {
+              isLoading ? (
+                <LoaderButton />
+              ) : isUpdatingRestaurant ? 'Mettre à jour' : 'Créer'
+            }
           </button>
         </div>
       </div>

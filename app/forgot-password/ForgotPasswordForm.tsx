@@ -9,6 +9,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Loader from '@/components/Loader';
 import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/types';
+import LoaderButton from '@/components/LoaderButton';
 
 export default function ForgotPasswordForm() {
   const dispatch = useDispatch()
@@ -28,6 +29,7 @@ export default function ForgotPasswordForm() {
 
   const onSubmit = async (data: TypeFormSchemaForgotPassword) => {
     try {
+      setIsLoading(true)
       const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/auth/forgot-password`,
         {
           method: 'POST',
@@ -39,6 +41,7 @@ export default function ForgotPasswordForm() {
         })
 
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const passwordReseted = await response.json()
           toast({
@@ -50,6 +53,7 @@ export default function ForgotPasswordForm() {
         }
       }
     } catch (error) {
+      setIsLoading(false)
       toast({
         title: "Erreur lors de l'analyse de la réponse JSON",
         description: error,
@@ -82,7 +86,9 @@ export default function ForgotPasswordForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Demander un nouveau mot de passe'
+              isLoading ? (
+                <LoaderButton />
+              ) : 'Demander un nouveau mot de passe'
             }
           </button>
         </div>

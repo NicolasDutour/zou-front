@@ -6,7 +6,6 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 
-import Loader from "@/components/Loader"
 import {
   Select,
   SelectContent,
@@ -29,12 +28,12 @@ import { useToast } from "@/components/ui/use-toast"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 import { useProductFormContext } from "@/context/store"
+import LoaderButton from "@/components/LoaderButton"
 
 export function ProductsForm({ user }) {
   const router = useRouter()
   const { toast } = useToast()
   const token = useSelector((state: any) => state.auth.token)
-  // const user = useSelector((state: any) => state.auth.user)
   const [isLoading, setIsLoading] = useState(false)
   const { isUpdatingProduct, setIsUpdatingProduct } = useProductFormContext()
   const { showForm, setShowForm } = useProductFormContext()
@@ -46,10 +45,15 @@ export function ProductsForm({ user }) {
     handleSubmit,
     formState: { errors, },
     setValue,
-    setFocus
+    setFocus,
+    watch
   } = useForm<TypeFormSchemaProduct>({
     resolver: zodResolver(FormSchemaProduct),
   });
+
+  const watchProductName = watch('product_name')
+  const watchIngredients = watch('ingredients')
+  const watchPrice = watch('price')
 
   useEffect(() => {
     if (isUpdatingProduct) {
@@ -96,6 +100,7 @@ export function ProductsForm({ user }) {
           body: JSON.stringify({ data: newData })
         })
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const product = await response.json()
           toast({
@@ -128,6 +133,7 @@ export function ProductsForm({ user }) {
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }
         } catch (error) {
+          setIsLoading(false)
           toast({
             title: "Erreur lors de l'analyse de la réponse JSON",
             description: error,
@@ -140,8 +146,6 @@ export function ProductsForm({ user }) {
       const errorMessage = error.message;
       console.log("Error code: ", errorCode);
       console.log("Error message: ", errorMessage);
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -219,7 +223,7 @@ export function ProductsForm({ user }) {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col md:flex-row items-center w-full md:w-1/4 gap-2">
+              <div className="flex flex-col md:flex-row items-center w-full md:w-1/2 gap-2">
                 <button
                   onClick={closeForm}
                   type='button'
@@ -229,10 +233,27 @@ export function ProductsForm({ user }) {
                 </button>
                 <button
                   type='submit'
-                  className={cn("disabled:opacity-40 w-full rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  )}
+                  disabled={
+                    isLoading ||
+                    (
+                      isUpdatingProduct &&
+                      watchProductName == productUpdating.product_name &&
+                      watchIngredients == productUpdating.ingredients &&
+                      watchPrice == productUpdating.price
+                    ) || (
+                      !isUpdatingProduct &&
+                      watchProductName == '' &&
+                      watchIngredients == '' &&
+                      watchPrice == 0
+                    )
+                  }
+                  className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary hover:bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
-                  {isUpdatingProduct ? 'Mettre à jour' : 'Créer'}
+                  {
+                    isLoading ? (
+                      <LoaderButton />
+                    ) : isUpdatingProduct ? 'Mettre à jour' : 'Créer'
+                  }
                 </button>
               </div>
             </div>

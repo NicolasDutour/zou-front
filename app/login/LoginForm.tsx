@@ -11,6 +11,7 @@ import Loader from '@/components/Loader';
 import { login } from '@/redux/features/auth/authSlice'
 
 import { TypeFormSchemaLogin, FormSchemaLogin } from '@/lib/types';
+import LoaderButton from '@/components/LoaderButton';
 
 export default function LoginForm() {
   const dispatch = useDispatch()
@@ -46,6 +47,7 @@ export default function LoginForm() {
           cache: 'no-cache'
         })
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const userDetails = await response.json()
           dispatch(login(userDetails))
@@ -136,7 +138,9 @@ export default function LoginForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Se connecter'
+              isLoading ? (
+                <LoaderButton />
+              ) : 'Se connecter'
             }
           </button>
         </div>

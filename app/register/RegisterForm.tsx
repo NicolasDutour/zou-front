@@ -11,6 +11,7 @@ import Loader from '@/components/Loader';
 import { signUp } from '@/redux/features/auth/authSlice'
 
 import { TypeFormSchemaRegister, FormSchemaRegister } from '@/lib/types';
+import LoaderButton from '@/components/LoaderButton';
 
 export default function RegisterForm() {
   const dispatch = useDispatch()
@@ -48,6 +49,7 @@ export default function RegisterForm() {
           cache: 'no-cache'
         })
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const userDetails = await response.json()
           dispatch(signUp(userDetails))
@@ -166,7 +168,9 @@ export default function RegisterForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : "S'enregistrer"
+              isLoading ? (
+                <LoaderButton />
+              ) : "S'enregistrer"
             }
           </button>
         </div>

@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import Loader from '@/components/Loader';
 
 import { TypeFormSchemaContact, FormSchemaContact } from '@/lib/types';
+import LoaderButton from '@/components/LoaderButton';
 
 export default function LoginForm() {
   const { toast } = useToast()
@@ -47,6 +48,7 @@ export default function LoginForm() {
           cache: 'no-cache'
         })
       if (response.status === 200) {
+        setIsLoading(false)
         try {
           const contact = await response.json()
 
@@ -146,7 +148,9 @@ export default function LoginForm() {
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             {
-              isLoading ? <Loader width={30} height={30} /> : 'Send'
+              isLoading ? (
+                <LoaderButton />
+              ) : 'Envoyer'
             }
           </button>
         </div>
