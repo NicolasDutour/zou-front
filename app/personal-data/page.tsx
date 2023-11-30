@@ -2,7 +2,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 
 async function getData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/data-personals`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/data-personal`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ async function getData() {
 export default async function PersonalData() {
   const personal = await getData()
 
-  const dateObject = new Date(personal?.data[0].attributes?.updatedAt);
+  const dateObject = new Date(personal?.data?.attributes?.updatedAt);
   const year = dateObject.getFullYear();
   const month = dateObject.getMonth() + 1; // Les mois sont indexés de 0 à 11, donc ajoutez 1.
   const day = dateObject.getDate();
@@ -28,7 +28,7 @@ export default async function PersonalData() {
 
   const processedContent = await remark()
     .use(html)
-    .process(personal?.data[0].attributes?.content);
+    .process(personal?.data?.attributes?.content);
   const contentHtml = processedContent.toString();
 
   return (

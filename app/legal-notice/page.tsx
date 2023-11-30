@@ -2,7 +2,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 
 async function getData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/legal-notices`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/legal-notice`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export default async function LegalNotice() {
     return <div>No legal notice for today</div>
   }
 
-  const dateObject = new Date(legal_notice?.data[0].attributes?.updatedAt);
+  const dateObject = new Date(legal_notice?.data?.attributes?.updatedAt);
   const year = dateObject.getFullYear();
   const month = dateObject.getMonth() + 1; // Les mois sont indexés de 0 à 11, donc ajoutez 1.
   const day = dateObject.getDate();
@@ -32,7 +32,7 @@ export default async function LegalNotice() {
 
   const processedContent = await remark()
     .use(html)
-    .process(legal_notice?.data[0].attributes?.content);
+    .process(legal_notice?.data?.attributes?.content);
   const contentHtml = processedContent.toString();
 
   return (
