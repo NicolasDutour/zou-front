@@ -11,10 +11,10 @@ export default function Services() {
       <div className="max-w-5xl mx-auto">
         <h1 className="text-3xl mb-6 font-bold">Votre page ressemblerait à ça</h1>
         <p className="mr-4">
-          Essayez ce <Link className="text-primary font-bold underline underline-offset-4 tracking-widest" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/nom-de-ton-resto`} target="_blank">
-            restaurant
+          Voir un <Link className="text-primary font-bold underline underline-offset-4 tracking-widest" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/nom-de-ton-resto`} target="_blank">
+            exemple
           </Link>
-          <span className="ml-1">comme exemple</span>
+          <span className="ml-1">concret</span>
         </p>
         <div className="grid place-items-center mt-4">
           <Image
