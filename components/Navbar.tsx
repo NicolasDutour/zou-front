@@ -11,7 +11,7 @@ const Navbar = () => {
 
   return (
     <header className='fixed w-full h-[77px] px-8 py-5 shadow-lg backdrop-blur-md backdrop-filter bg-transparent z-20'>
-      <nav className='flex items-center justify-between max-w-5xl mx-auto'>
+      <nav className='flex items-center justify-between max-w-7xl mx-auto'>
         <Link href="/" passHref>
           <button className='italic text-primary text-4xl font-bold'> Zou </button>
         </Link>
