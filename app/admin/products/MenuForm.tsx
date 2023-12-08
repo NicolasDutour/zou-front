@@ -3,9 +3,9 @@
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { TypeFormSchemaMenu, FormSchemaMenu } from '@/lib/types';
+import { TypeFormSchemaMenu, FormSchemaMenu, MenuAdminType } from '@/lib/types';
 import { cn, truncateFileName } from "@/lib/utils"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import Image from "next/image"
@@ -39,13 +39,10 @@ export function MenuForm({ user, token }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<TypeFormSchemaMenu>({
     resolver: zodResolver(FormSchemaMenu),
   })
-
-  const watchMenuPhoto = watch('menu_photo')
 
   const onSubmit = async (payload: z.infer<typeof FormSchemaMenu>) => {
     try {
@@ -63,8 +60,7 @@ export function MenuForm({ user, token }) {
             headers: {
               Authorization: `Bearer ${token}`
             },
-            body: formData,
-            cache: 'no-cache'
+            body: formData
           })
 
         if (pictureUpload.ok) {
@@ -113,120 +109,119 @@ export function MenuForm({ user, token }) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
         <div className="md:w-1/2">
-          <label htmlFor="menu_photo" className="block text-sm font-medium leading-6 text-gray-900">
-            Menu
+          <label htmlFor="menu_photo" className="block text-lg font-medium leading-6 text-gray-900">
+            Mes menus
           </label>
           {
-            user?.restaurants[0]?.menu_photo && !showFileInput ?
-              user?.restaurants[0].menu_photo?.mime !== "application/pdf" ? (
-                <>
-                  <div className="relative border rounded-md h-56">
-                    <Image
-                      src={user?.restaurants[0]?.menu_photo ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.menu_photo?.url}` : ""}
-                      alt={user?.restaurants[0]?.menu_photo?.name}
-                      style={imageStyle}
-                      fill
-                      priority
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      quality={80}
-                      aspect-auto="true"
-                      className="rounded-lg"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-center mt-4">
-                    <p className="mr-4">{truncateFileName(user?.restaurants[0].menu_photo.name, 30)}</p>
-                    <div>
-                      <AlertDialog>
-                        <AlertDialogTrigger className="text-2xl text-red-600">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
-                              <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
-                                <p>Supprimer photo</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Voulez vous supprimer définitivement cette photo ?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(user?.restaurants[0].menu_photo.id)}>Supprimer</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+            user?.restaurants[0]?.menu_photo?.length > 0 && !showFileInput ?
+              user?.restaurants[0]?.menu_photo?.map((menu: MenuAdminType) => {
+                return menu?.mime !== "application/pdf" ? (
+                  <>
+                    <div className="relative border rounded-md h-56">
+                      <Image
+                        src={menu ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${menu?.url}` : ""}
+                        alt={menu?.name}
+                        style={imageStyle}
+                        fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                        quality={80}
+                        aspect-auto="true"
+                        className="rounded-lg"
+                      />
                     </div>
 
-                    <div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button className="text-2xl text-primary" onClick={updatePhoto}>
+                    <div className="flex items-center justify-center mt-4">
+                      <p className="mr-4">{truncateFileName(menu?.name, 30)}</p>
+                      <div>
+                        <AlertDialog>
+                          <AlertDialogTrigger className="text-2xl text-red-600">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
+                                <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
+                                  <p>Supprimer photo</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Voulez vous supprimer définitivement cette photo ?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(menu?.id)}>Supprimer</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+
+                      <div>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger className="text-2xl text-primary" onClick={updatePhoto}>
                               <BiEditAlt />
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent className=" bg-white text-primary text-base border border-primary">
-                            <p>Mise à jour photo</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                            </TooltipTrigger>
+                            <TooltipContent className=" bg-white text-primary text-base border border-primary">
+                              <p>Mise à jour photo</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </div>
-                  </div>
-                </>
-              ) : (
-                <div className="mt-4">
-                  <div><Link className="text-primary underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.menu_photo?.url}`} target="_blank"> {truncateFileName(user?.restaurants[0]?.menu_photo?.name, 30)} </Link></div>
-                  <div className="flex items-center mt-4">
-                    <div>
-                      <AlertDialog>
-                        <AlertDialogTrigger className="text-2xl text-red-600">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
-                              <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
-                                <p>Supprimer fichier pdf</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Voulez vous supprimer définitivement ce fichier pdf ?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(user?.restaurants[0].menu_photo.id)}>Supprimer</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
+                  </>
+                ) : (
+                  <div className="mt-4">
+                    <div><Link className="text-primary underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${menu?.url}`} target="_blank"> {truncateFileName(menu?.name, 30)} </Link></div>
+                    <div className="flex items-center mt-4">
+                      <div>
+                        <AlertDialog>
+                          <AlertDialogTrigger className="text-2xl text-red-600">
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
+                                <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
+                                  <p>Supprimer fichier pdf</p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Voulez vous supprimer définitivement ce fichier pdf ?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(menu?.id)}>Supprimer</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
 
-                    <div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button className="text-2xl text-primary" onClick={updatePhoto}>
+                      <div>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger className="text-2xl text-primary" onClick={updatePhoto}>
                               <BiEditAlt />
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent className=" bg-white text-primary text-base border border-primary">
-                            <p>Mise à jour fichier pdf</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                            </TooltipTrigger>
+                            <TooltipContent className=" bg-white text-primary text-base border border-primary">
+                              <p>Mise à jour fichier pdf</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
+                )
+              })
+              : (
                 <div className="mt-2">
                   <>
                     <input
