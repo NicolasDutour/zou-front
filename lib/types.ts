@@ -96,9 +96,6 @@ export const FormSchemaRestaurant = z.object({
       message: "Le nom de votre restaurant doit contenir au moins 1 caractère",
     })
     .trim(),
-  website_mode: z
-    .boolean()
-    .default(true),
   description: z
     .string()
     .max(400, {
@@ -127,7 +124,7 @@ export const FormSchemaRestaurant = z.object({
   // closing_time_afternoon: z.string(),
   banner_photo: z
     .any()
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE_BANNER, { message: `Taille du fichier mex est ${MAX_FILE_SIZE_BANNER}MB.` })
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE_BANNER, { message: `Taille du fichier max est ${MAX_FILE_SIZE_BANNER}MB.` })
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES_BANNER.includes(files?.[0]?.type), { message: "Formats acceptés: .jpg, | .jpeg, | .png | .webp" }
     ),
@@ -136,7 +133,10 @@ export const FormSchemaRestaurant = z.object({
   delivery: z.boolean(),
   eat_in: z.boolean()
 })
-export type TypeFormSchemaRestaurant = z.infer<typeof FormSchemaRestaurant>
+export const PartialFormSchemaRestaurant = FormSchemaRestaurant.partial({
+  banner_photo: true
+})
+export type TypePartialFormSchemaRestaurant = z.infer<typeof PartialFormSchemaRestaurant>
 
 export type UserType = {
   id: string,
@@ -332,6 +332,28 @@ export const FormSchemaMenu = z.object({
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE_MENU, { message: `Taille du fichier max est ${MAX_FILE_SIZE_MENU}MB.` })
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES_MENU.includes(files?.[0]?.type), { message: "Formats acceptés: .jpg, | .jpeg, | .png | .webp | .pdf" }
-    ),
+    )
 })
 export type TypeFormSchemaMenu = z.infer<typeof FormSchemaMenu>
+
+export const FormSchemaChoiceMenu = z.object({
+  choice_menu: z.enum(["list_products", "import_files", "both"], {
+    required_error: "Vous devez faire un choix.",
+  }),
+})
+
+export type MenuType = {
+  id: number,
+  attributes: {
+    mime: string,
+    url: string,
+    name: string
+  }
+}
+
+export type MenuAdminType = {
+  id: number,
+  mime: string,
+  url: string,
+  name: string
+}
