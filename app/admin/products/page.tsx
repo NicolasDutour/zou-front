@@ -25,6 +25,9 @@ export default async function SettingsProductsPage() {
 
   const data = await getData(token || '')
 
+  // console.log("data: ", data?.restaurants[0]?.menu_photo)
+
+
   return (
     <div className="space-y-6">
       <div>
