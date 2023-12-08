@@ -6,8 +6,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import Loader from '@/components/Loader';
 
 const MapBox = ({ restaurant }) => {
-  const [longitude, setLongitude] = useState(-74.005941)
-  const [latitude, setLatitude] = useState(40.712784)
+  const [longitude, setLongitude] = useState()
+  const [latitude, setLatitude] = useState()
   const [isLoading, setIsloading] = useState(true)
 
   const getCoords = async () => {
