@@ -116,3 +116,15 @@
 .icon-move-right {
   animation: moveRightLeft 2s ease-in-out infinite;
 }
+
+a.mapbox-improve-map {
+  display: none
+}
+
+.mapboxgl-ctrl-attrib-inner {
+  display: none;
+}
+
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}
