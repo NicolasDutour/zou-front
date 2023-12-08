@@ -4,6 +4,7 @@ import RestaurantInfo from "@/components/RestaurantInfo";
 import ListMenu from "@/components/ListMenu";
 import { Metadata, ResolvingMetadata } from "next";
 import RestaurantDescription from "@/components/RestaurantDescription";
+import ListMenuFiles from "@/components/ListMenuFiles";
 
 type Props = {
   params: { slug: string }
@@ -41,14 +42,15 @@ export async function generateMetadata(
   }
 }
 
-async function getRestaurantDetails(slug: string) {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*`,
+const getRestaurantDetails = async (slug: string) => {
+  const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*&populate[menu_photo][populate]=*`
+  const response = await fetch(url,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'no-cache'
+      cache: 'no-store'
     })
 
   if (!response.ok) {
@@ -61,18 +63,32 @@ async function getRestaurantDetails(slug: string) {
 export default async function Restaurant({ params }: Props) {
   const slug = params?.slug
   const restaurantData = await getRestaurantDetails(slug)
-  const restaurant = restaurantData?.data[0]?.attributes;
-  const products = restaurantData?.data[0]?.attributes?.products?.data
+
+  const { attributes } = restaurantData?.data[0] || {};
+
+  const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data?.length > 0;
+  const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data.length > 0;
+  const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data?.length > 0 && attributes?.products?.data.length > 0;
+
 
   return (
     <div>
-      {restaurant ? <RestaurantBanner restaurant={restaurant} /> : null}
-      {restaurant?.description ? <RestaurantDescription description={restaurant.description} /> : null}
-      {products ? <ListMenu products={products} /> : null}
+      {attributes ? <RestaurantBanner restaurant={attributes} /> : null}
+      {attributes?.description ? <RestaurantDescription description={attributes.description} /> : null}
+
+      {hasFilesMenu && <ListMenuFiles />}
+      {hasListMenu && <ListMenu products={attributes.products.data} />}
+      {hasBothMenus && (
+        <>
+          <ListMenuFiles />
+          <ListMenu products={attributes.products.data} />
+        </>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
-        {restaurant ? <RestaurantInfo restaurant={restaurant} /> : null}
+        {attributes ? <RestaurantInfo restaurant={attributes} /> : null}
         <div>
-          {restaurant ? <Mapbox restaurant={restaurant} /> : null}
+          {attributes ? <Mapbox restaurant={attributes} /> : null}
         </div>
       </div>
     </div >
