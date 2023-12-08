@@ -39,7 +39,7 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
           <h1 className="text-center text-4xl uppercase font-bold text-white">
             {restaurant?.restaurant_name || null}
           </h1>
-          <p className="italic text-center text-lg text-white my-8"> {restaurant?.short_description || null} </p>
+          <h2 className="italic text-center text-lg text-white my-8"> {restaurant?.short_description || null} </h2>
           <div className={`grid grid-cols-1 md:grid-cols-${activeOptions().length} mt-4 gap-2`}>
             {
               activeOptions().map(option => (
