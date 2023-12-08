@@ -6,8 +6,7 @@ async function getAllRestaurants() {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      cache: 'no-cache'
+      }
     })
 
   if (!response.ok) {
