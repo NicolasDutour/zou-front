@@ -12,7 +12,7 @@ import { FaLink } from "react-icons/fa6";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation'
 
-import { TypeFormSchemaRestaurant, FormSchemaRestaurant, UserType } from '@/lib/types';
+import { TypePartialFormSchemaRestaurant, PartialFormSchemaRestaurant, UserType } from '@/lib/types';
 import { capitalize, cn, createSlug, truncateFileName } from "@/lib/utils"
 import { setUserInfo } from "@/redux/features/auth/authSlice"
 import { useRestaurantFormContext } from "@/context/store"
@@ -46,6 +46,8 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const { showForm, setShowForm } = useRestaurantFormContext()
   const { restaurantUpdating, setRestaurantUpdating } = useRestaurantFormContext()
   const [showFileInput, setShowFileInput] = useState(false)
+  const [longitude, setLongitude] = useState('')
+  const [latitude, setLatitude] = useState('')
   // const tempUser = useSelector((state) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
@@ -59,8 +61,8 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
     watch,
     setValue,
     getValues
-  } = useForm<TypeFormSchemaRestaurant>({
-    resolver: zodResolver(FormSchemaRestaurant),
+  } = useForm<TypePartialFormSchemaRestaurant>({
+    resolver: zodResolver(PartialFormSchemaRestaurant),
   });
 
   const watchRestaurantName = watch('restaurant_name')
@@ -93,13 +95,13 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
     setIsUpdatingRestaurant(false)
   }
 
-  const onSubmit = async (payload: z.infer<typeof FormSchemaRestaurant>) => {
+  const onHandleUpdateRestaurant = async (payload: z.infer<typeof PartialFormSchemaRestaurant>) => {
     const slug = createSlug(payload?.restaurant_name)
     const newData = {
       ...payload,
       slug,
-      longitude: user?.restaurants[0].longitude,
-      latitude: user?.restaurants[0].latitude,
+      longitude,
+      latitude,
       users_permissions_user: {
         connect: [user?.id]
       }
@@ -116,8 +118,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify({ data: dataWithoutImage }),
-          cache: 'no-cache'
+          body: JSON.stringify({ data: dataWithoutImage })
         })
 
       if (response.status === 200) {
@@ -138,8 +139,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 headers: {
                   Authorization: `Bearer ${token}`
                 },
-                body: formData,
-                cache: 'no-cache'
+                body: formData
               })
 
             if (pictureUpload.ok) {
@@ -193,23 +193,33 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   }
 
   const fetchAddressSuggestions = async (query: string) => {
-    const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-cache'
-    })
+    try {
+      const res = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${query}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        cache: 'no-store'
+      })
 
-    const address = await res.json()
-    return address
+      const address = await res.json()
+      return address
+    } catch (error) {
+      console.error("Erreur: ", error);
+    }
   };
 
   const handleAddressChange = async (value: string) => {
     setOpenAddressDialog(true)
     if (value.trim() !== '') {
-      const suggestions = await fetchAddressSuggestions(value);
-      setAddressSuggestions(suggestions.features);
+      try {
+        const suggestions = await fetchAddressSuggestions(value);
+        if (suggestions && suggestions.features) {
+          setAddressSuggestions(suggestions.features);
+        }
+      } catch (error) {
+        console.error("Erreur: ", error);
+      }
 
     } else {
       setAddressSuggestions([])
@@ -219,18 +229,8 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   const selectAddress = (coordinates: string[]) => {
     setAddressSuggestions([])
     setOpenAddressDialog(false)
-    dispatch(setUserInfo(
-      {
-        ...user,
-        restaurants: [
-          {
-            ...user.restaurants[0],
-            longitude: coordinates[0].toString(),
-            latitude: coordinates[1].toString()
-          }
-        ]
-      }
-    ))
+    setLongitude(coordinates[0].toString())
+    setLatitude(coordinates[1].toString())
   }
 
   const imageStyle: React.CSSProperties = {
@@ -267,21 +267,19 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onHandleUpdateRestaurant)}>
       {
         getValues('restaurant_name') ? (
-          <p className="font-medium leading-6 text-gray-900 mt-6">
-            <div className="mr-4">Lien public de votre site web:</div>
+          <div className="font-medium leading-6 text-gray-900 mt-6">
+            <p className="mr-4">Lien public de votre site web:</p>
             <div className="flex items-center">
               <Link className="underline underline-offset-4 text-primary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`} target="_blank">
                 {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`}
               </Link>
               <TooltipProvider>
                 <Tooltip>
-                  <TooltipTrigger>
-                    <button onClick={copyToClipboard} className="ml-6 text-xl border border-gray-900 rounded-md px-4 py-2">
-                      <FaLink />
-                    </button>
+                  <TooltipTrigger onClick={copyToClipboard} className="ml-6 text-xl border border-gray-900 rounded-md px-4 py-2">
+                    <FaLink />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Copier le lien</p>
@@ -289,7 +287,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                 </Tooltip>
               </TooltipProvider>
             </div>
-          </p>
+          </div>
         ) : null
       }
       <div className="space-y-6 mt-10">
@@ -363,10 +361,8 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                     <div>
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button className="text-2xl text-primary" onClick={updatePhoto}>
-                              <BiEditAlt />
-                            </button>
+                          <TooltipTrigger className="text-2xl text-primary" onClick={updatePhoto}>
+                            <BiEditAlt />
                           </TooltipTrigger>
                           <TooltipContent className=" bg-white text-primary text-base border border-primary">
                             <p>Mise à jour photo</p>
