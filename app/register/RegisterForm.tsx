@@ -45,8 +45,7 @@ export default function RegisterForm() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(userWithoutConfirmPassword),
-          cache: 'no-cache'
+          body: JSON.stringify(userWithoutConfirmPassword)
         })
       if (response.status === 200) {
         setIsLoading(false)

@@ -36,8 +36,7 @@ export default function ForgotPasswordForm() {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data),
-          cache: 'no-cache'
+          body: JSON.stringify(data)
         })
 
       if (response.status === 200) {

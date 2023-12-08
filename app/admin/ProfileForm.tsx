@@ -47,8 +47,7 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`
           },
-          body: JSON.stringify(data),
-          cache: 'no-cache'
+          body: JSON.stringify(data)
         })
       if (response.status === 200) {
         setIsLoading(false)
