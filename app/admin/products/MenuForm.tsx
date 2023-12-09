@@ -114,9 +114,9 @@ export function MenuForm({ user, token }) {
           </label>
           {
             user?.restaurants[0]?.menu_photo?.length > 0 && !showFileInput ?
-              user?.restaurants[0]?.menu_photo?.map((menu: MenuAdminType) => {
+              user?.restaurants[0]?.menu_photo?.map((menu: MenuAdminType, index: string) => {
                 return menu?.mime !== "application/pdf" ? (
-                  <>
+                  <div key={index}>
                     <div className="relative border rounded-md h-56">
                       <Image
                         src={menu ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${menu?.url}` : ""}
@@ -173,9 +173,9 @@ export function MenuForm({ user, token }) {
                         </TooltipProvider>
                       </div>
                     </div>
-                  </>
+                  </div>
                 ) : (
-                  <div className="mt-4">
+                  <div key={index} className="mt-4">
                     <div><Link className="text-primary underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${menu?.url}`} target="_blank"> {truncateFileName(menu?.name, 30)} </Link></div>
                     <div className="flex items-center mt-4">
                       <div>
