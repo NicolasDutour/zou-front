@@ -47,7 +47,7 @@ export default function DialogPlan({ plan }: { plan: PlanType }) {
               {description}
             </AlertDialogDescription>
 
-            {access.split(',').map((item, index) => {
+            {access?.split(',').map((item, index) => {
               return (
                 <AlertDialogDescription key={index} className="text-xl">
                   {item}
