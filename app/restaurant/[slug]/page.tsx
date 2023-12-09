@@ -76,11 +76,11 @@ export default async function Restaurant({ params }: Props) {
       {attributes ? <RestaurantBanner restaurant={attributes} /> : null}
       {attributes?.description ? <RestaurantDescription description={attributes.description} /> : null}
 
-      {hasFilesMenu && <ListMenuFiles />}
+      {hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />}
       {hasListMenu && <ListMenu products={attributes.products.data} />}
       {hasBothMenus && (
         <>
-          <ListMenuFiles />
+          <ListMenuFiles files={attributes?.menu_photo?.data} />
           <ListMenu products={attributes.products.data} />
         </>
       )}
