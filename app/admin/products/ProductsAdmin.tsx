@@ -136,10 +136,7 @@ export default function ProductsAdmin({ user, token }) {
           body: JSON.stringify({ data })
         })
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error code: ", errorCode);
-      console.log("Error message: ", errorMessage);
+      console.error("Error message: ", error);
     }
   }
 

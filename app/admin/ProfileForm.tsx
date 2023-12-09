@@ -85,10 +85,7 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
       }
     } catch (error) {
       setIsLoading(false)
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error code: ", errorCode);
-      console.log("Error message: ", errorMessage);
+      console.error("Error message: ", error);
     }
   }
 

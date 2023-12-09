@@ -77,19 +77,12 @@ export default function LoginForm() {
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }
         } catch (error) {
-          toast({
-            title: "Erreur lors de l'analyse de la réponse JSON",
-            description: error,
-          })
           console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
         }
       }
     } catch (error) {
       setIsLoading(false)
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error code: ", errorCode);
-      console.log("Error message: ", errorMessage);
+      console.error("Error message: ", error);
     }
   }
 

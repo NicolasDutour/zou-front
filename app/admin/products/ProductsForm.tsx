@@ -130,18 +130,11 @@ export function ProductsForm({ user }) {
           }
         } catch (error) {
           setIsLoading(false)
-          toast({
-            title: "Erreur lors de l'analyse de la réponse JSON",
-            description: error,
-          })
           console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
         }
       }
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log("Error code: ", errorCode);
-      console.log("Error message: ", errorMessage);
+      console.error("Error message: ", error);
     }
   }
 
