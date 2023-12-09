@@ -53,10 +53,6 @@ export default function ForgotPasswordForm() {
       }
     } catch (error) {
       setIsLoading(false)
-      toast({
-        title: "Erreur lors de l'analyse de la réponse JSON",
-        description: error,
-      })
       console.error("Erreur lors de l'analyse de la réponse JSON : ", error);
     }
   }

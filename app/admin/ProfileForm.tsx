@@ -60,10 +60,6 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
           router.push('/admin')
         } catch (error) {
           console.error('ERROR: ', error);
-          toast({
-            title: "ERROR:",
-            description: error
-          })
         }
       } else if (response.status === 400) {
         setIsLoading(false)

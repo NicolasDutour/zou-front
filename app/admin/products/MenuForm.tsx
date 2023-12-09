@@ -72,10 +72,6 @@ export function MenuForm({ user, token }) {
     } catch (error) {
       setIsLoading(false)
       console.error('ERROR: ', error);
-      toast({
-        title: "ERROR:",
-        description: error
-      })
     }
   }
 

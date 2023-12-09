@@ -54,10 +54,6 @@ export default function ProductsList({ products, token, updateProduct }: { produ
         router.refresh()
       } catch (error) {
         console.error('ERROR: ', error);
-        toast({
-          title: "ERROR:",
-          description: error
-        })
       }
     }
   }

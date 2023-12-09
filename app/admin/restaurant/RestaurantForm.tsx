@@ -153,10 +153,6 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           })
         } catch (error) {
           console.error('ERROR: ', error);
-          toast({
-            title: "ERROR:",
-            description: error
-          })
         }
       } else if (response.status === 400) {
         setIsLoading(false)
