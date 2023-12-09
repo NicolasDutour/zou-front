@@ -357,3 +357,10 @@ export type MenuAdminType = {
   url: string,
   name: string
 }
+
+export type FileType = {
+  attributes: {
+    name: string,
+    url: string
+  }
+}
