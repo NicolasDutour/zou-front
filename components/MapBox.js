@@ -20,7 +20,7 @@ const MapBox = ({ restaurant }) => {
     }
 
     getCoords()
-  }, [getCoords])
+  }, [getCoords, restaurant])
 
   return !isLoading ? (
     <Map
