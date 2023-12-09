@@ -35,7 +35,7 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
 
   useEffect(() => {
     setValue('email', user?.email)
-  }, [])
+  }, [setValue, user?.email])
 
   const onHandleUpdateProfile = async (data: z.infer<typeof FormSchemaProfile>) => {
     try {

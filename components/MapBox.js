@@ -20,7 +20,7 @@ const MapBox = ({ restaurant }) => {
 
   useEffect(() => {
     getCoords()
-  }, [])
+  }, [getCoords])
 
   return !isLoading ? (
     <Map
