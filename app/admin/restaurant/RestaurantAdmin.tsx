@@ -28,7 +28,7 @@ export default function RestaurantsAdmin({ user, token }: { user: UserType, toke
     <section>
       {showForm ? <RestaurantForm user={user} token={token} /> : (
         <>
-          <p className="mb-4">Vous n'avez pas encore de restaurant</p>
+          <p className="mb-4"> {"Vous n'avez pas encore de restaurant"} </p>
           <div className="flex flex-col md:flex-row items-center mb-6">
             <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-primary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un restaurant</Button>
           </div>

@@ -18,7 +18,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 text-gray-400 bg-gray-900 p-6 gap-4 border-b border-b-slate-100">
           <div>
             <p className="text-lg font-medium mb-4 text-white">A propos</p>
-            <p>Zou vous permet d'avoir une page web pour y afficher toutes les informations de votre établissement.</p>
+            <p> {"Zou vous permet d'avoir une page web pour y afficher toutes les informations de votre établissement."} </p>
           </div>
           <div>
             <p className="text-lg font-medium mb-4 text-white">Pages</p>

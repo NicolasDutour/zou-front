@@ -183,7 +183,7 @@ export default function ProductsAdmin({ user, token }) {
       </>
     ) : (
       <>
-        <p className="my-4">Vous n'avez pas encore de produits</p>
+        <p className="my-4"> {"Vous n'avez pas encore de produits"} </p>
         <div className="flex flex-col md:flex-row items-center">
           <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-primary  hover:bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un produit</Button>
         </div>
@@ -202,7 +202,7 @@ export default function ProductsAdmin({ user, token }) {
         {
           items.map((item, index) => {
             return (
-              <div className="flex items-center">
+              <div key={index} className="flex items-center">
                 <input
                   className="w-6 cursor-pointer h-9"
                   key={index}

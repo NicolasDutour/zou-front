@@ -58,7 +58,7 @@ export default async function SettingsInvoicesPage() {
         </p>
       </div>
       <Separator />
-      {invoices?.length > 0 ? <InvoicesList invoices={invoices} /> : <p className="mb-4">Vous n'avez pas de factures pour l'instant</p>}
+      {invoices?.length > 0 ? <InvoicesList invoices={invoices} /> : <p className="mb-4">{"Vous n'avez pas de factures pour l'instant"}</p>}
     </div>
   )
 }
