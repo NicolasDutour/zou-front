@@ -22,7 +22,7 @@ export default function RestaurantsAdmin({ user, token }: { user: UserType, toke
       setShowForm(true)
       setIsUpdatingRestaurant(true)
     }
-  }, [])
+  }, [setShowForm, setIsUpdatingRestaurant, user?.restaurants?.length])
 
   return (
     <section>

@@ -88,7 +88,7 @@ export default function ProductsAdmin({ user, token }) {
       clearInterval(typeTextInterval);
       clearTimeout(eraseTextTimeout);
     };
-  }, []);
+  }, [setIsUpdatingProduct, setShowForm, user?.restaurants]);
 
   const handleSearchChange = (e: any) => {
     setSearchProductName(e.target.value);

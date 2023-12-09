@@ -88,7 +88,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
       setValue('delivery', delivery)
       setValue('eat_in', eat_in)
     }
-  }, [])
+  }, [setValue, user?.restaurants])
 
   const closeForm = () => {
     setShowForm(false)

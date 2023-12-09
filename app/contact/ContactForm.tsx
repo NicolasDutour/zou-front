@@ -33,7 +33,7 @@ export default function LoginForm() {
     if (user?.email) {
       setValue("email", user?.email)
     }
-  }, [setFocus])
+  }, [user?.email, setValue])
 
   const onSubmit = async (data: TypeFormSchemaContact) => {
     try {

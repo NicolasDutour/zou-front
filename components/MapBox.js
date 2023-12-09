@@ -10,15 +10,15 @@ const MapBox = ({ restaurant }) => {
   const [latitude, setLatitude] = useState()
   const [isLoading, setIsloading] = useState(true)
 
-  const getCoords = async () => {
-    if (restaurant) {
-      setLongitude(+restaurant?.longitude)
-      setLatitude(+restaurant?.latitude)
-      setIsloading(false)
-    }
-  }
-
   useEffect(() => {
+    const getCoords = async () => {
+      if (restaurant) {
+        setLongitude(+restaurant?.longitude)
+        setLatitude(+restaurant?.latitude)
+        setIsloading(false)
+      }
+    }
+
     getCoords()
   }, [getCoords])
 

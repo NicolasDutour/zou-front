@@ -62,7 +62,7 @@ export function ProductsForm({ user }) {
       setValue('price', productUpdating.price)
       setFocus('product_name')
     }
-  }, [])
+  }, [setValue, setFocus, isUpdatingProduct, productUpdating.product_name, productUpdating.ingredients, productUpdating.price])
 
   const closeForm = () => {
     setShowForm(false)
