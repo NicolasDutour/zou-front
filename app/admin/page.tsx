@@ -34,7 +34,7 @@ export default async function SettingsProfilePage() {
         </p>
       </div>
       <Separator />
-      {data ? <ProfileForm user={data} token={token} /> : null}
+      {data && token ? <ProfileForm user={data} token={token} /> : null}
     </div>
   )
 }
