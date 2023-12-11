@@ -55,8 +55,6 @@ export default function ProductsAdmin({
   ] as const
 
   useEffect(() => {
-    console.log("products", products);
-
     setFilteredProducts(products)
     setChoice(restaurant?.choice_menu)
     let typeTextInterval: any;
@@ -95,7 +93,7 @@ export default function ProductsAdmin({
       clearInterval(typeTextInterval);
       clearTimeout(eraseTextTimeout);
     };
-  }, [setIsUpdatingProduct, setShowForm]);
+  }, [setIsUpdatingProduct, setShowForm, products, restaurant?.choice_menu]);
 
   const handleChangeSearchProductName = (e: any) => {
     const value = e.target.value.toLowerCase()
