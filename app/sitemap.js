@@ -1,3 +1,5 @@
+import dynamic from 'next/dynamic'
+
 async function getAllRestaurants() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants`,
     {
