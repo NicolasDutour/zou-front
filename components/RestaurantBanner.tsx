@@ -28,7 +28,7 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
   ]
 
   const activeOptions = () => {
-    return options.filter(option => restaurant[option.key])
+    return options.filter(option => (restaurant as any)[option.key])
   }
 
   return (

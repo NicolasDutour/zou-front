@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 import RedirectLoginButton from '@/components/RedirectLoginButton';
 import RegisterForm from "./RegisterForm"
 

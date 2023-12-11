@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -28,16 +27,15 @@ import {
 import { capitalize, formatIngredients } from "@/lib/utils"
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
 import { AiOutlineDelete } from "react-icons/ai"
 import { BiEditAlt } from "react-icons/bi"
-import { ProductAdminType } from "@/lib/types"
+import { FilteredProductType } from "@/lib/types"
 
-export default function ProductsList({ products, token, updateProduct }: { products: ProductAdminType[], token: string, updateProduct: ({ }) => void }) {
+export default function ProductsList({ products, token, updateProduct }: { products: FilteredProductType[], token: string, updateProduct: ({ }) => void }) {
   const { toast } = useToast()
   const router = useRouter()
 
-  const deleteProduct = async (id: string) => {
+  const deleteProduct = async (id: number) => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products/${id}`,
       {
         method: 'DELETE',

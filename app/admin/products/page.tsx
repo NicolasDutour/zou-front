@@ -22,11 +22,7 @@ async function getData(token: string) {
 export default async function SettingsProductsPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
-
   const data = await getData(token || '')
-
-  // console.log("data: ", data?.restaurants[0]?.menu_photo)
-
 
   return (
     <div className="space-y-6">
@@ -37,7 +33,16 @@ export default async function SettingsProductsPage() {
         </p>
       </div>
       <Separator />
-      {data ? <ProductsAdmin token={token || ''} user={data} /> : null}
+      {
+        data ? <ProductsAdmin
+          products={data.restaurants[0]?.products}
+          restaurant={data.restaurants[0]}
+          userId={data.id}
+          token={token || ''}
+        />
+          :
+          null
+      }
     </div>
   )
 }

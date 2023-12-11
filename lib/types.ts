@@ -139,38 +139,44 @@ export const PartialFormSchemaRestaurant = FormSchemaRestaurant.partial({
 export type TypePartialFormSchemaRestaurant = z.infer<typeof PartialFormSchemaRestaurant>
 
 export type UserType = {
-  id: string,
-  email: string,
-  username: string,
+  id: string
+  email: string
+  username: string
   restaurants: RestaurantType[]
   pricing_plan: {
     id: string,
-    title: string,
-    description: string,
-    price: number,
-    access?: string,
-    wedoforyou?: string,
+    title: string
+    description: string
+    price: number
+    access?: string
+    wedoforyou?: string
     youmanage?: string
   }
 }
 
 export type RestaurantType = {
-  id: number,
-  restaurant_name: string,
-  address: string,
-  description: string,
-  short_description: string,
-  email: string,
-  phone: string,
-  createdAt: string,
-  userId: string,
-  longitude: string,
-  latitude: string,
-  drive: boolean,
-  take_away: boolean,
-  delivery: boolean,
-  eat_in: boolean,
+  id: number
+  restaurant_name: string
+  address: string
+  description: string
+  short_description: string
+  email: string
+  phone: string
+  createdAt: string
+  userId: string
+  longitude: string
+  latitude: string
+  drive: boolean
+  take_away: boolean
+  delivery: boolean
+  eat_in: boolean
+  choice_menu: string
+  products: ProductType[]
+  menu_photo: MenuAdminType[]
   banner_photo: {
+    id: number
+    name: string
+    url: string
     data: {
       attributes: {
         formats: { large: { url: string } }
@@ -179,53 +185,77 @@ export type RestaurantType = {
   }
 }
 
+export type SuggestionAddress = {
+  type: string
+  geometry: {
+    type: string
+    coordinates: string[]
+  }
+  properties: {
+    label: string
+  }
+}
+
 export type PlanType = {
   id: number,
   attributes: {
-    title: string,
-    description: string,
-    price: number,
-    access?: string,
+    title: string
+    description: string
+    price: number
+    access?: string
     wedoforyou?: string,
     youmanage?: string
   }
 }
 
 export type StepType = {
-  id: number,
+  id: number
   attributes: {
-    title: string,
-    description: string,
+    title: string
+    description: string
   }
 }
 
+export type FilteredProductType = {
+  id: number
+  base: string
+  product_name: string
+  ingredients: string
+  price: number
+  vegetarian: boolean
+  dessert: boolean
+  createdAt: string
+  updatedAt: string
+  publishedAt: string
+}
+
 export type ProductType = {
-  id: string;
+  id: string
   attributes: {
-    base: string;
-    product_name: string;
-    ingredients: string;
-    price: number;
-    vegetarian: boolean,
-    dessert: boolean,
+    base: string
+    product_name: string
+    ingredients: string
+    price: number
+    vegetarian: boolean
+    dessert: boolean
     photo: {
       data: {
         attributes: {
           formats: {
             thumbnail: {
-              name: string,
+              name: string
               url: string
             },
             small: {
-              name: string,
+              name: string
               url: string
             },
             medium: {
-              name: string,
+              name: string
               url: string
             },
             large: {
-              name: string,
+              name: string
               url: string
             }
           }
@@ -246,11 +276,6 @@ export const productAdminSchema = z.object({
 
 export type ProductAdminType = z.infer<typeof productAdminSchema>
 
-// export type accordeaonItem = {
-//   title: string,
-//   description: string
-// }
-
 export const FormSchemaContact = z.object({
   email: z
     .string()
@@ -270,50 +295,50 @@ export const FormSchemaContact = z.object({
 export type TypeFormSchemaContact = z.infer<typeof FormSchemaContact>
 
 export type InvoiceType = {
-  id: number,
-  invoice_name: string,
-  startDate: string,
-  endDate: string,
-  plan: string,
-  amount: number,
-  status: string,
+  id: number
+  invoice_name: string
+  startDate: string
+  endDate: string
+  plan: string
+  amount: number
+  status: string
 }
 
 export type HomeInfoType = {
-  id: number,
+  id: number
   attributes: {
-    title: string,
-    subtitle: string,
-    slogan: string,
-    slogan_bis: string,
-    slogan_ter: string,
-    description: string,
+    title: string
+    subtitle: string
+    slogan: string
+    slogan_bis: string
+    slogan_ter: string
+    description: string
   }
 }
 
 export type ServiceType = {
-  id: number,
+  id: number
   attributes: {
-    title: string,
-    description: string,
+    title: string
+    description: string
     photo: {
       data: {
         attributes: {
           formats: {
             thumbnail: {
-              name: string,
+              name: string
               url: string
-            },
+            }
             small: {
-              name: string,
+              name: string
               url: string
-            },
+            }
             medium: {
-              name: string,
+              name: string
               url: string
-            },
+            }
             large: {
-              name: string,
+              name: string
               url: string
             }
           }
@@ -343,24 +368,29 @@ export const FormSchemaChoiceMenu = z.object({
 })
 
 export type MenuType = {
-  id: number,
+  id: number
   attributes: {
-    mime: string,
-    url: string,
+    mime: string
+    url: string
     name: string
   }
 }
 
 export type MenuAdminType = {
-  id: number,
-  mime: string,
-  url: string,
+  id: number
+  mime: string
+  url: string
   name: string
 }
 
 export type FileType = {
   attributes: {
-    name: string,
+    name: string
     url: string
   }
+}
+
+export type FaqType = {
+  title: string
+  description: string
 }

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card"
 
 
-import { TypeFormSchemaProduct, FormSchemaProduct } from '@/lib/types';
+import { TypeFormSchemaProduct, FormSchemaProduct, RestaurantType } from '@/lib/types';
 import { useSelector } from "react-redux"
 import { useToast } from "@/components/ui/use-toast"
 import { Separator } from "@/components/ui/separator"
@@ -30,7 +30,7 @@ import { cn } from "@/lib/utils"
 import { useProductFormContext } from "@/context/store"
 import LoaderButton from "@/components/LoaderButton"
 
-export function ProductsForm({ user }) {
+export function ProductsForm({ restaurant }: { restaurant: RestaurantType }) {
   const router = useRouter()
   const { toast } = useToast()
   const token = useSelector((state: any) => state.auth.token)
@@ -57,12 +57,12 @@ export function ProductsForm({ user }) {
 
   useEffect(() => {
     if (isUpdatingProduct) {
-      setValue('product_name', productUpdating.product_name)
-      setValue('ingredients', productUpdating.ingredients)
-      setValue('price', productUpdating.price)
+      setValue('product_name', productUpdating?.product_name)
+      setValue('ingredients', productUpdating?.ingredients)
+      setValue('price', productUpdating?.price)
       setFocus('product_name')
     }
-  }, [setValue, setFocus, isUpdatingProduct, productUpdating.product_name, productUpdating.ingredients, productUpdating.price])
+  }, [setValue, setFocus, isUpdatingProduct, productUpdating?.product_name, productUpdating?.ingredients, productUpdating?.price])
 
   const closeForm = () => {
     setShowForm(false)
@@ -76,7 +76,7 @@ export function ProductsForm({ user }) {
     const newData = {
       ...payload,
       restaurant: {
-        connect: [user?.restaurants[0]?.id]
+        connect: [restaurant?.id]
       }
     }
 
@@ -90,7 +90,7 @@ export function ProductsForm({ user }) {
 
     try {
       setIsLoading(true)
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products${isUpdatingProduct ? `/${productUpdating.id}` : ''}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/products${isUpdatingProduct ? `/${productUpdating?.id}` : ''}`,
         {
           method: `${isUpdatingProduct ? 'PUT' : 'POST'}`,
           headers: {
@@ -142,7 +142,7 @@ export function ProductsForm({ user }) {
     <>
       <Card>
         <CardHeader>
-          <CardTitle> {isUpdatingProduct ? `Mise à jour de product name` : "Création d'un nouveau produit"} </CardTitle>
+          <CardTitle> {isUpdatingProduct ? `Mise à jour de ${productUpdating?.product_name}` : "Création d'un nouveau produit"} </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onCreateOrUpdateProduct)}>
@@ -159,7 +159,7 @@ export function ProductsForm({ user }) {
                       type="text"
                       className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                     />
-                    <p className="text-red-500 text-sm mt-2">{errors.product_name?.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{errors?.product_name?.message}</p>
                   </div>
                 </div>
 
@@ -191,7 +191,7 @@ export function ProductsForm({ user }) {
                       type="text"
                       className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                     />
-                    <p className="text-red-500 text-sm mt-2">{errors.ingredients?.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{errors?.ingredients?.message}</p>
                   </div>
                 </div>
 
@@ -208,7 +208,7 @@ export function ProductsForm({ user }) {
                       type="number"
                       className="block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
                     />
-                    <p className="text-red-500 text-sm mt-2">{errors.price?.message}</p>
+                    <p className="text-red-500 text-sm mt-2">{errors?.price?.message}</p>
                   </div>
                 </div>
               </div>
@@ -226,9 +226,9 @@ export function ProductsForm({ user }) {
                     isLoading ||
                     (
                       isUpdatingProduct &&
-                      watchProductName == productUpdating.product_name &&
-                      watchIngredients == productUpdating.ingredients &&
-                      watchPrice == productUpdating.price
+                      watchProductName == productUpdating?.product_name &&
+                      watchIngredients == productUpdating?.ingredients &&
+                      watchPrice == productUpdating?.price
                     ) || (
                       !isUpdatingProduct &&
                       watchProductName == '' &&

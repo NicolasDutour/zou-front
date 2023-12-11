@@ -49,7 +49,7 @@ async function retrieveSusbcription(sub_id: string) {
   }
 }
 
-export default async function SettingsSubscriptionsPage({ params }) {
+export default async function SettingsSubscriptionsPage() {
   // console.log("params", params);
 
   // const cookieStore = cookies()

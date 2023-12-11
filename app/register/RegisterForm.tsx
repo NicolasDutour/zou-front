@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useToast } from "@/components/ui/use-toast"
-import Loader from '@/components/Loader';
 import { signUp } from '@/redux/features/auth/authSlice'
 
 import { TypeFormSchemaRegister, FormSchemaRegister } from '@/lib/types';

@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form"
 
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Loader from '@/components/Loader';
 import { login } from '@/redux/features/auth/authSlice'
 
 import { TypeFormSchemaLogin, FormSchemaLogin } from '@/lib/types';

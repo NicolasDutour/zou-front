@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
 import { useForm } from "react-hook-form"
 import Link from "next/link"
 import * as z from "zod"
@@ -12,9 +11,8 @@ import { FaLink } from "react-icons/fa6";
 import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation'
 
-import { TypePartialFormSchemaRestaurant, PartialFormSchemaRestaurant, UserType } from '@/lib/types';
-import { capitalize, cn, createSlug, truncateFileName } from "@/lib/utils"
-import { setUserInfo } from "@/redux/features/auth/authSlice"
+import { TypePartialFormSchemaRestaurant, PartialFormSchemaRestaurant, UserType, SuggestionAddress } from '@/lib/types';
+import { capitalize, createSlug, truncateFileName } from "@/lib/utils"
 import { useRestaurantFormContext } from "@/context/store"
 import { AiOutlineDelete } from "react-icons/ai"
 import { BiEditAlt } from "react-icons/bi"
@@ -38,18 +36,13 @@ import {
 import LoaderButton from "@/components/LoaderButton"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
-  const dispatch = useDispatch()
   const router = useRouter()
   const { toast } = useToast()
-  // const token = useSelector((state) => state.auth.token)
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
   const { showForm, setShowForm } = useRestaurantFormContext()
-  const { restaurantUpdating, setRestaurantUpdating } = useRestaurantFormContext()
   const [showFileInput, setShowFileInput] = useState(false)
   const [longitude, setLongitude] = useState('')
   const [latitude, setLatitude] = useState('')
-  // const tempUser = useSelector((state) => state.auth.user)
-
   const [isLoading, setIsLoading] = useState(false)
   const [addressSuggestions, setAddressSuggestions] = useState([]);
   const [openAddressDialog, setOpenAddressDialog] = useState(false);
@@ -129,7 +122,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           if (payload?.banner_photo?.length > 0) {
             const formData = new FormData()
             formData.append("ref", 'api::restaurant.restaurant')
-            formData.append("refId", user?.restaurants[0]?.id)
+            formData.append("refId", user?.restaurants[0]?.id.toString())
             formData.append("field", 'banner_photo')
             formData.append("files", payload.banner_photo[0])
 
@@ -369,7 +362,11 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                     type="file"
                     className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
                   />
-                  <p className="text-red-500 text-sm mt-2">{errors.banner_photo?.message}</p>
+                  <p className="text-red-500 text-sm mt-2">
+                    {errors.banner_photo && typeof errors.banner_photo.message === 'string'
+                      ? errors.banner_photo.message
+                      : ''}
+                  </p>
                 </>
               )
             }
@@ -397,7 +394,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
                   addressSuggestions.length > 0 && (
                     <ul className="z-50">
                       {
-                        addressSuggestions.map((suggestion, index) => {
+                        addressSuggestions.map((suggestion: SuggestionAddress, index) => {
                           return (
                             <li key={index} className="cursor-pointer p-2 hover:bg-slate-400 hover:text-white" onClick={() => {
                               setValue('address', suggestion.properties.label)
@@ -424,7 +421,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
             <textarea
               {...register("description")}
               id="description"
-              rows="5"
+              rows={5}
               className="resize-none block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             ></textarea>
             <p className="text-red-500 text-sm mt-2">{errors.description?.message}</p>

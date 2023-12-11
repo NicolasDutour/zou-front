@@ -2,8 +2,6 @@ import { cookies } from 'next/headers'
 
 import Link from 'next/link'
 import AuthButtons from './AuthButtons'
-import Image from "next/image"
-import { Button } from './ui/button'
 
 const Navbar = () => {
   const cookieStore = cookies()

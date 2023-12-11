@@ -19,16 +19,25 @@ import {
 import { Label } from "@/components/ui/label";
 import { MenuForm } from "./MenuForm";
 import { Separator } from "@/components/ui/separator";
+import { FilteredProductType, RestaurantType } from "@/lib/types";
 
-export default function ProductsAdmin({ user, token }) {
+export default function ProductsAdmin({
+  products, restaurant, userId, token
+}: {
+  products: FilteredProductType[],
+  restaurant: RestaurantType,
+  userId: number,
+  token: string
+}) {
   const { isUpdatingProduct, setIsUpdatingProduct } = useProductFormContext()
   const { productUpdating, setProductUpdating } = useProductFormContext()
   const { showForm, setShowForm } = useProductFormContext()
   const [searchProductName, setSearchProductName] = useState('')
-  const [searchBase, setSearchBase] = useState('toutes')
-  const placeholderText = "marguarita...";
-  const [displayedText, setDisplayedText] = useState('');
+  const [selectBase, setSelectBase] = useState('toutes')
+  const placeholder = "marguarita...";
+  const [placeholderText, setPlaceholderText] = useState('');
   const [choice, setChoice] = useState("list_products");
+  const [filteredProducts, setFilteredProducts] = useState<FilteredProductType[]>([])
 
   const items = [
     {
@@ -46,18 +55,16 @@ export default function ProductsAdmin({ user, token }) {
   ] as const
 
   useEffect(() => {
-    setChoice(user?.restaurants[0]?.choice_menu)
+    console.log("products", products);
+
+    setFilteredProducts(products)
+    setChoice(restaurant?.choice_menu)
     let typeTextInterval: any;
     let eraseTextTimeout: any;
 
-    if (user?.restaurants?.products?.length > 0) {
-      setShowForm(true)
-      setIsUpdatingProduct(true)
-    }
-
     const typeText = (text: string, currentIndex: number) => {
       if (currentIndex <= text.length) {
-        setDisplayedText(text.slice(0, currentIndex));
+        setPlaceholderText(text.slice(0, currentIndex));
         typeTextInterval = setTimeout(() => {
           typeText(text, currentIndex + 1);
         }, 100); // Contrôle la vitesse de la machine à écrire
@@ -70,44 +77,45 @@ export default function ProductsAdmin({ user, token }) {
 
     const eraseText = (text: string, currentIndex: number) => {
       if (currentIndex >= 0) {
-        setDisplayedText(text.slice(0, currentIndex));
+        setPlaceholderText(text.slice(0, currentIndex));
         typeTextInterval = setTimeout(() => {
           eraseText(text, currentIndex - 1);
         }, 5); // Contrôle la vitesse de l'effacement
       } else {
         eraseTextTimeout = setTimeout(() => {
-          typeText(placeholderText, 0);
+          typeText(placeholder, 0);
         }, 1000); // Temps d'attente avant de recommencer
       }
     };
 
-    typeText(placeholderText, 0);
+    typeText(placeholder, 0);
 
     return () => {
       // Nettoyez les intervalles ou les timeouts lors du démontage du composant.
       clearInterval(typeTextInterval);
       clearTimeout(eraseTextTimeout);
     };
-  }, [setIsUpdatingProduct, setShowForm, user?.restaurants]);
+  }, [setIsUpdatingProduct, setShowForm]);
 
-  const handleSearchChange = (e: any) => {
-    setSearchProductName(e.target.value);
+  const handleChangeSearchProductName = (e: any) => {
+    const value = e.target.value.toLowerCase()
+    setSearchProductName(value)
+
+    const filtered = products.filter(product =>
+      product.product_name.toLowerCase().includes(value) &&
+      (selectBase === 'toutes' || product.base === selectBase)
+    );
+    setFilteredProducts(filtered);
   }
 
-  const filteredProducts = user?.restaurants[0]?.products.filter((product) => {
-    return product?.product_name.toLowerCase().includes(searchProductName.toLowerCase());
-  });
+  const handleChangeSelectBase = (base: string) => {
+    setSelectBase(base)
 
-  const filterProductByBase = (filteredProducts) => {
-    if (searchBase === 'toutes') {
-      return filteredProducts;
-    } else {
-      return filteredProducts.filter((product) => product.base === searchBase);
-    }
-  };
-
-  const handleSearchChangeBase = (base: string) => {
-    setSearchBase(base)
+    const filtered = products.filter(product =>
+      product.product_name.toLowerCase().includes(searchProductName) &&
+      (base === 'toutes' || product.base === base)
+    );
+    setFilteredProducts(filtered);
   }
 
   const updateProduct = (product: object) => {
@@ -121,12 +129,12 @@ export default function ProductsAdmin({ user, token }) {
     const data = {
       choice_menu: e.target.value,
       users_permissions_user: {
-        connect: [user?.id]
+        connect: [userId]
       }
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants/${user?.restaurants[0]?.id}`,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants/${restaurant?.id}`,
         {
           method: 'PUT',
           headers: {
@@ -141,7 +149,7 @@ export default function ProductsAdmin({ user, token }) {
   }
 
   const renderListProducts = () => {
-    return showForm ? <ProductsForm user={user} /> : user?.restaurants[0]?.products?.length > 0 ? (
+    return showForm ? <ProductsForm restaurant={restaurant} /> : products?.length > 0 ? (
       <>
         <p className="block text-lg font-medium leading-6 mb-4 text-gray-900">
           Mes produits
@@ -153,8 +161,8 @@ export default function ProductsAdmin({ user, token }) {
               className="pl-8"
               type="text"
               value={searchProductName}
-              onChange={handleSearchChange}
-              placeholder={displayedText}
+              onChange={handleChangeSearchProductName}
+              placeholder={placeholderText}
             />
             <div className="text-xl absolute text-primary top-8 left-2">
               <CiSearch />
@@ -163,7 +171,7 @@ export default function ProductsAdmin({ user, token }) {
 
           <div className="md:w-[120px] w-full mr-6 mb-2 md:mb-0">
             <Label className="text-muted-foreground">Filtrer base</Label>
-            <Select onValueChange={handleSearchChangeBase}>
+            <Select onValueChange={handleChangeSelectBase}>
               <SelectTrigger>
                 <SelectValue placeholder="Toutes" />
               </SelectTrigger>
@@ -176,7 +184,7 @@ export default function ProductsAdmin({ user, token }) {
           </div>
           <Button className="rounded-3xl md:self-end w-full md:w-fit px-2 py-1 bg-primary hover:bg-secondary text-center md:inline-block cursor-pointer text-white" onClick={() => setShowForm(true)}>Ajouter un produit</Button>
         </div>
-        <ProductsList products={filterProductByBase(filteredProducts)} token={token || ''} updateProduct={updateProduct} />
+        <ProductsList products={filteredProducts} token={token || ''} updateProduct={updateProduct} />
       </>
     ) : (
       <>
@@ -189,7 +197,7 @@ export default function ProductsAdmin({ user, token }) {
   }
 
   const renderMenuForm = () => {
-    return user ? <MenuForm user={user} token={token || ''} /> : null
+    return restaurant ? <MenuForm restaurant={restaurant} token={token || ''} /> : null
   }
 
   return (

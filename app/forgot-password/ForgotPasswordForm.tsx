@@ -1,18 +1,15 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form"
 
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import Loader from '@/components/Loader';
 import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/types';
 import LoaderButton from '@/components/LoaderButton';
 
 export default function ForgotPasswordForm() {
-  const dispatch = useDispatch()
   const router = useRouter();
   const { toast } = useToast()
 

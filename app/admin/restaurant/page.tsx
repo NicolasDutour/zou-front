@@ -24,7 +24,7 @@ async function getData(token: string) {
 export default async function SettingsRestaurantPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
-  const data = await getData(token)
+  const data = await getData(token || '')
 
   if (!token) {
     redirect('/login')

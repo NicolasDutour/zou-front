@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { TypeFormSchemaMenu, FormSchemaMenu, MenuAdminType } from '@/lib/types';
+import { TypeFormSchemaMenu, FormSchemaMenu, MenuAdminType, UserType, RestaurantType } from '@/lib/types';
 import { cn, truncateFileName } from "@/lib/utils"
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast"
@@ -30,7 +30,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BiEditAlt } from "react-icons/bi";
 import Link from "next/link";
 
-export function MenuForm({ user, token }) {
+export function MenuForm({ restaurant, token }: { restaurant: RestaurantType, token: string }) {
   const router = useRouter()
   const { toast } = useToast()
   const [showFileInput, setShowFileInput] = useState(false)
@@ -50,7 +50,7 @@ export function MenuForm({ user, token }) {
       if (payload?.menu_photo?.length > 0) {
         const formData = new FormData()
         formData.append("ref", 'api::restaurant.restaurant')
-        formData.append("refId", user?.restaurants[0]?.id)
+        formData.append("refId", restaurant?.id.toString())
         formData.append("field", 'menu_photo')
         formData.append("files", payload.menu_photo[0])
 
@@ -104,13 +104,13 @@ export function MenuForm({ user, token }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="space-y-6">
-        <div className="md:w-1/2">
+        <div className="md:w-1/4">
           <label htmlFor="menu_photo" className="block text-lg font-medium leading-6 text-gray-900">
             Mes menus
           </label>
           {
-            user?.restaurants[0]?.menu_photo?.length > 0 && !showFileInput ?
-              user?.restaurants[0]?.menu_photo?.map((menu: MenuAdminType, index: string) => {
+            restaurant?.menu_photo?.length > 0 && !showFileInput ?
+              restaurant?.menu_photo?.map((menu: MenuAdminType, index: number) => {
                 return menu?.mime !== "application/pdf" ? (
                   <div key={index}>
                     <div className="relative border rounded-md h-56">
@@ -171,7 +171,7 @@ export function MenuForm({ user, token }) {
                     </div>
                   </div>
                 ) : (
-                  <div key={index} className="mt-4">
+                  <div key={index} className="mt-4 grid place-items-center border-2 border-muted p-4 rounded-md">
                     <div><Link className="text-primary underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}${menu?.url}`} target="_blank"> {truncateFileName(menu?.name, 30)} </Link></div>
                     <div className="flex items-center mt-4">
                       <div>
@@ -226,7 +226,11 @@ export function MenuForm({ user, token }) {
                       type="file"
                       className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
                     />
-                    <p className="text-red-500 text-sm mt-2">{errors.menu_photo?.message}</p>
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.menu_photo && typeof errors.menu_photo.message === 'string'
+                        ? errors.menu_photo.message
+                        : ''}
+                    </p>
                     <div className="flex flex-col md:flex-row items-center w-full md:w-1/2 gap-2 mt-4">
                       <button
                         type='submit'

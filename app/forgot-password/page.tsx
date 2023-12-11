@@ -1,17 +1,9 @@
 'use client';
-import { useState } from 'react';
+
 import Image from "next/image"
-import { useRouter } from 'next/navigation';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState('');
-  const router = useRouter();
-
-  const resetEmail = () => {
-
-  };
-
   return (
     <>
       <div className="flex bg-base h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
