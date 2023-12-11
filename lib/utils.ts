@@ -80,8 +80,14 @@ export const truncateFileName = (name: string, maxLength: number): string => {
     return name;
   } else {
     const fileExtension = name.split('.').pop();
-    const fileNameWithoutExtension = name.slice(0, -(fileExtension.length + 1));
-    const truncatedFileName = fileNameWithoutExtension.slice(0, maxLength - 3) + "...";
-    return truncatedFileName + "." + fileExtension;
+
+    if (fileExtension) {
+      const fileNameWithoutExtension = name.slice(0, -(fileExtension.length + 1));
+      if (fileNameWithoutExtension) {
+        const truncatedFileName = fileNameWithoutExtension.slice(0, maxLength - 3) + "...";
+        return truncatedFileName + "." + fileExtension;
+      }
+    }
   }
+  return name
 }
