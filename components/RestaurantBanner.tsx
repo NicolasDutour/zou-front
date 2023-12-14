@@ -31,7 +31,7 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
 
   if (picture) {
     backgroundImageStyle = {
-      backgroundImage: environment === 'production' ? picture : `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
+      backgroundImage: environment === 'production' ? `url${picture}` : `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
     };
   }
 
