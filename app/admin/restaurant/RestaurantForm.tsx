@@ -576,7 +576,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </div>
         </div> */}
 
-        <div className="flex flex-col md:flex-row items-center w-full md:w-1/4 gap-2">
+        <div className="flex flex-col md:flex-row items-center w-full md:w-1/2 gap-2">
           {
             !isUpdatingRestaurant ? (
               <button
