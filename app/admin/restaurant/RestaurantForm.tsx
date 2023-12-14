@@ -36,6 +36,8 @@ import {
 import LoaderButton from "@/components/LoaderButton"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
+  console.log("user", user);
+
   const router = useRouter()
   const { toast } = useToast()
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
@@ -296,7 +298,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </label>
           <div className="mt-2">
             {
-              user?.restaurants[0]?.banner_photo && !showFileInput ? (
+              user?.restaurants.length > 0 && user?.restaurants[0]?.banner_photo && !showFileInput ? (
                 <div className="">
                   <div className="relative border rounded-md h-56">
                     <Image
