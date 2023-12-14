@@ -9,11 +9,11 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
     window.scrollBy(0, 400);
   };
 
+  console.log("environment", environment);
   console.log("restaurant", restaurant);
   console.log("restaurant.products", restaurant.products);
 
   console.log("restaurant?.banner_photo?.data", restaurant?.banner_photo?.data);
-  console.log("restaurant.banner_photo?.data?.attributes?.formats?.large.url", restaurant.banner_photo?.data?.attributes?.formats?.large.url);
 
   let backgroundImageStyle
   let picture;
