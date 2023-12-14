@@ -19,7 +19,8 @@ const imageStyle: React.CSSProperties = {
   objectFit: "cover",
 };
 
-const ListMenu = ({ products }: {
+const ListMenu = ({ environment, products }: {
+  environment: string,
   products: ProductType[]
 }) => {
   const [criteria, setCriteria] = useState("tomate")
@@ -75,7 +76,7 @@ const ListMenu = ({ products }: {
                       <PopoverContent className="w-full md:w-96">
                         <div className="w-full">
                           <Image
-                            src={picture ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${picture}` : '/no_image.png'}
+                            src={picture ? environment === 'production' ? picture : `${process.env.NEXT_PUBLIC_STRAPI_URL}${picture}` : '/no_image.png'}
                             alt={product_name}
                             style={imageStyle}
                             width={400}
