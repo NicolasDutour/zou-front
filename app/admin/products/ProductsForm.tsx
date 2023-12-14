@@ -30,10 +30,9 @@ import { cn } from "@/lib/utils"
 import { useProductFormContext } from "@/context/store"
 import LoaderButton from "@/components/LoaderButton"
 
-export function ProductsForm({ restaurant }: { restaurant: RestaurantType }) {
+export function ProductsForm({ restaurant, token }: { restaurant: RestaurantType, token: string }) {
   const router = useRouter()
   const { toast } = useToast()
-  const token = useSelector((state: any) => state.auth.token)
   const [isLoading, setIsLoading] = useState(false)
   const { isUpdatingProduct, setIsUpdatingProduct } = useProductFormContext()
   const { showForm, setShowForm } = useProductFormContext()
