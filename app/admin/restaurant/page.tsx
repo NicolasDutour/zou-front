@@ -25,6 +25,7 @@ export default async function SettingsRestaurantPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
   const data = await getData(token || '')
+  const environment = process.env.NODE_ENV
 
   if (!token) {
     redirect('/login')
@@ -39,7 +40,7 @@ export default async function SettingsRestaurantPage() {
         </p>
       </div>
       <Separator />
-      {data ? <RestaurantsAdmin user={data} token={token || ''} /> : null}
+      {data ? <RestaurantsAdmin environment={environment} user={data} token={token || ''} /> : null}
     </div>
   )
 }
