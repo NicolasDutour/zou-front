@@ -296,7 +296,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </label>
           <div className="mt-2">
             {
-              user?.restaurants[0].banner_photo && !showFileInput ? (
+              user?.restaurants[0]?.banner_photo && !showFileInput ? (
                 <div className="">
                   <div className="relative border rounded-md h-56">
                     <Image
