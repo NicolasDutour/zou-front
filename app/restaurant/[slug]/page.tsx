@@ -64,11 +64,21 @@ export default async function Restaurant({ params }: Props) {
   const slug = params?.slug
   const restaurantData = await getRestaurantDetails(slug)
 
+  console.log("restaurantData", restaurantData.data[0].attributes);
+  console.log("products", restaurantData.data[0].attributes.products?.data);
+
+
+
   const { attributes } = restaurantData?.data[0] || {};
 
-  const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data?.length > 0;
-  const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data.length > 0;
-  const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data?.length > 0 && attributes?.products?.data.length > 0;
+  const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
+  const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data;
+  const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data && attributes?.products?.data.length > 0;
+
+  console.log("hasFilesMenu", hasFilesMenu);
+  console.log("hasListMenu", hasListMenu);
+  console.log("hasBothMenus", hasBothMenus);
+
 
 
   return (
