@@ -23,6 +23,21 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
       backgroundImageStyle = {
         backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
       };
+    } else if (restaurant.banner_photo?.data?.attributes?.formats?.medium) {
+      picture = restaurant.banner_photo?.data?.attributes?.formats?.medium.url;
+      backgroundImageStyle = {
+        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
+      };
+    } else if (restaurant.banner_photo?.data?.attributes?.formats?.small) {
+      picture = restaurant.banner_photo?.data?.attributes?.formats?.small.url;
+      backgroundImageStyle = {
+        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
+      };
+    } else if (restaurant.banner_photo?.data?.attributes?.formats?.thumbnail) {
+      picture = restaurant.banner_photo?.data?.attributes?.formats?.thumbnail.url;
+      backgroundImageStyle = {
+        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
+      };
     }
   }
 
