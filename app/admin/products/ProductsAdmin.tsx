@@ -147,7 +147,7 @@ export default function ProductsAdmin({
   }
 
   const renderListProducts = () => {
-    return showForm ? <ProductsForm restaurant={restaurant} /> : products?.length > 0 ? (
+    return showForm ? <ProductsForm restaurant={restaurant} token={token || ''} /> : products?.length > 0 ? (
       <>
         <p className="block text-lg font-medium leading-6 mb-4 text-gray-900">
           Mes produits
