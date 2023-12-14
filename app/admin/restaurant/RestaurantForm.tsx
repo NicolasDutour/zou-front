@@ -70,6 +70,12 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
 
   useEffect(() => {
     if (user?.restaurants.length > 0) {
+
+      console.log("user?.restaurants[0]?", user?.restaurants[0]);
+      console.log("user?.restaurants[0]?.banner_photo", user?.restaurants[0]?.banner_photo);
+
+
+
       const { restaurant_name, description, email, address, phone, drive, take_away, delivery, eat_in } = user?.restaurants[0]
       setValue('restaurant_name', restaurant_name)
       setValue('description', description)
