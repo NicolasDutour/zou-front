@@ -4,7 +4,7 @@ import { BsArrowDownCircle } from 'react-icons/bs'
 import { RestaurantType } from '@/lib/types'
 import { addSpaceToPhoneNumber, capitalize, cn } from '@/lib/utils';
 
-export default function RestaurantBanner({ restaurant }: { restaurant: RestaurantType }) {
+export default function RestaurantBanner({ environment, restaurant }: { environment: string, restaurant: RestaurantType }) {
   const scrollDown = () => {
     window.scrollBy(0, 400);
   };
@@ -20,25 +20,19 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
   if (restaurant?.banner_photo?.data?.attributes?.formats) {
     if (restaurant.banner_photo?.data?.attributes?.formats?.large) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.large.url;
-      backgroundImageStyle = {
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
-      };
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.medium) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.medium.url;
-      backgroundImageStyle = {
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
-      };
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.small) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.small.url;
-      backgroundImageStyle = {
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
-      };
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.thumbnail) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.thumbnail.url;
-      backgroundImageStyle = {
-        backgroundImage: `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
-      };
     }
+  }
+
+  if (picture) {
+    backgroundImageStyle = {
+      backgroundImage: environment === 'production' ? picture : `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
+    };
   }
 
   const options = [

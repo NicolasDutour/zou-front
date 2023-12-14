@@ -63,6 +63,7 @@ const getRestaurantDetails = async (slug: string) => {
 export default async function Restaurant({ params }: Props) {
   const slug = params?.slug
   const restaurantData = await getRestaurantDetails(slug)
+  const environment = process.env.NODE_ENV
 
   const { attributes } = restaurantData?.data[0] || {};
 
@@ -72,15 +73,15 @@ export default async function Restaurant({ params }: Props) {
 
   return (
     <div>
-      {attributes ? <RestaurantBanner restaurant={attributes} /> : null}
+      {attributes ? <RestaurantBanner environment={environment} restaurant={attributes} /> : null}
       {attributes?.description ? <RestaurantDescription description={attributes.description} /> : null}
 
       {hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />}
-      {hasListMenu && <ListMenu products={attributes.products.data} />}
+      {hasListMenu && <ListMenu environment={environment} products={attributes.products.data} />}
       {hasBothMenus && (
         <>
           <ListMenuFiles files={attributes?.menu_photo?.data} />
-          <ListMenu products={attributes.products.data} />
+          <ListMenu environment={environment} products={attributes.products.data} />
         </>
       )}
 
