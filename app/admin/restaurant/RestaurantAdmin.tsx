@@ -26,7 +26,7 @@ export default function RestaurantsAdmin({ user, token }: { user: UserType, toke
 
   return (
     <section>
-      {showForm ? <RestaurantForm user={user} token={token} /> : (
+      {showForm && user ? <RestaurantForm user={user} token={token} /> : (
         <>
           <p className="mb-4"> {"Vous n'avez pas encore de restaurant"} </p>
           <div className="flex flex-col md:flex-row items-center mb-6">
