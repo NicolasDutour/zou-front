@@ -179,7 +179,12 @@ export type RestaurantType = {
     url: string
     data: {
       attributes: {
-        formats: { large: { url: string } }
+        formats: {
+          large: { url: string },
+          medium: { url: string },
+          small: { url: string },
+          thumbnail: { url: string }
+        }
       }
     }
   }
