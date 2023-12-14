@@ -36,8 +36,6 @@ import {
 import LoaderButton from "@/components/LoaderButton"
 
 export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
-  console.log("user", user);
-
   const router = useRouter()
   const { toast } = useToast()
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
@@ -118,6 +116,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
 
       if (response.status === 200) {
         setIsLoading(false)
+        router.refresh()
         try {
           const restaurant = await response.json()
 
