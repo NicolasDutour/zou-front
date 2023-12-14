@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { UserType } from "@/lib/types";
 import { useEffect } from "react";
 
-export default function RestaurantsAdmin({ user, token }: { user: UserType, token: string }) {
+export default function RestaurantsAdmin({ environment, user, token }: { environment: string, user: UserType, token: string }) {
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
   const { restaurantUpdating, setRestaurantUpdating } = useRestaurantFormContext()
   const { showForm, setShowForm } = useRestaurantFormContext()
@@ -26,7 +26,7 @@ export default function RestaurantsAdmin({ user, token }: { user: UserType, toke
 
   return (
     <section>
-      {showForm && user ? <RestaurantForm user={user} token={token} /> : (
+      {showForm && user ? <RestaurantForm environment={environment} user={user} token={token} /> : (
         <>
           <p className="mb-4"> {"Vous n'avez pas encore de restaurant"} </p>
           <div className="flex flex-col md:flex-row items-center mb-6">

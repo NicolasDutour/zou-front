@@ -35,7 +35,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import LoaderButton from "@/components/LoaderButton"
 
-export function RestaurantForm({ user, token }: { user: UserType, token: string }) {
+export function RestaurantForm({ environment, user, token }: { environment: string, user: UserType, token: string }) {
   const router = useRouter()
   const { toast } = useToast()
   const { isUpdatingRestaurant, setIsUpdatingRestaurant } = useRestaurantFormContext()
@@ -262,7 +262,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           <div className="">
             <div className="relative border rounded-md h-56">
               <Image
-                src={user?.restaurants[0]?.banner_photo ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
+                src={user?.restaurants[0]?.banner_photo ? environment === "production" ? user?.restaurants[0]?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
                 alt={user?.restaurants[0]?.banner_photo.name}
                 style={imageStyle}
                 fill
