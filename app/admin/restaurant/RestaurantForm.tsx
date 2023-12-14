@@ -116,6 +116,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
 
       if (response.status === 200) {
         setIsLoading(false)
+        router.refresh()
         try {
           const restaurant = await response.json()
 
@@ -248,6 +249,88 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
     }
   }
 
+  const displayForm = () => {
+    if (user?.restaurants.length > 0) {
+      if (user?.restaurants[0]?.banner_photo && !showFileInput) {
+        return (
+          <div className="">
+            <div className="relative border rounded-md h-56">
+              <Image
+                src={user?.restaurants[0]?.banner_photo ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
+                alt={user?.restaurants[0]?.banner_photo.name}
+                style={imageStyle}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, 33vw"
+                quality={80}
+                aspect-auto="true"
+                className="rounded-lg"
+              />
+            </div>
+            <div className="flex items-center justify-center mt-4">
+              <p className="mr-4">{truncateFileName(user?.restaurants[0]?.banner_photo.name, 30)}</p>
+              <div>
+                <AlertDialog>
+                  <AlertDialogTrigger className="text-2xl text-red-600">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
+                        <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
+                          <p>Supprimer photo</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Voulez vous supprimer définitivement cette photo ?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Annuler</AlertDialogCancel>
+                      <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(user?.restaurants[0].banner_photo.id)}>Supprimer</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+
+              <div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger className="text-2xl text-primary" onClick={updatePhoto}>
+                      <BiEditAlt />
+                    </TooltipTrigger>
+                    <TooltipContent className=" bg-white text-primary text-base border border-primary">
+                      <p>Mise à jour photo</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
+          </div>
+        )
+      } else {
+        return (
+          <>
+            <input
+              {...register("banner_photo")}
+              id="banner_photo"
+              type="file"
+              className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
+            />
+            <p className="text-red-500 text-sm mt-2">
+              {errors.banner_photo && typeof errors.banner_photo.message === 'string'
+                ? errors.banner_photo.message
+                : ''}
+            </p>
+          </>
+        )
+      }
+    }
+  }
+
   return (
     <form onSubmit={handleSubmit(onHandleUpdateRestaurant)}>
       {
@@ -296,79 +379,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </label>
           <div className="mt-2">
             {
-              user?.restaurants[0].banner_photo && !showFileInput ? (
-                <div className="">
-                  <div className="relative border rounded-md h-56">
-                    <Image
-                      src={user?.restaurants[0].banner_photo ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0].banner_photo.url}` : ""}
-                      alt={user?.restaurants[0].banner_photo.name}
-                      style={imageStyle}
-                      fill
-                      priority
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      quality={80}
-                      aspect-auto="true"
-                      className="rounded-lg"
-                    />
-                  </div>
-                  <div className="flex items-center justify-center mt-4">
-                    <p className="mr-4">{truncateFileName(user?.restaurants[0].banner_photo.name, 30)}</p>
-                    <div>
-                      <AlertDialog>
-                        <AlertDialogTrigger className="text-2xl text-red-600">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger><AiOutlineDelete /></TooltipTrigger>
-                              <TooltipContent className=" bg-white text-red-600 text-base border border-primary">
-                                <p>Supprimer photo</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Voulez vous supprimer définitivement cette photo ?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction className="bg-red-600 rounded-md text-white" onClick={() => removePhoto(user?.restaurants[0].banner_photo.id)}>Supprimer</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-
-                    <div>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger className="text-2xl text-primary" onClick={updatePhoto}>
-                            <BiEditAlt />
-                          </TooltipTrigger>
-                          <TooltipContent className=" bg-white text-primary text-base border border-primary">
-                            <p>Mise à jour photo</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <input
-                    {...register("banner_photo")}
-                    id="banner_photo"
-                    type="file"
-                    className="block p-2 w-full rounded-md border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-seconbg-secondary sm:text-sm sm:leading-6"
-                  />
-                  <p className="text-red-500 text-sm mt-2">
-                    {errors.banner_photo && typeof errors.banner_photo.message === 'string'
-                      ? errors.banner_photo.message
-                      : ''}
-                  </p>
-                </>
-              )
+              displayForm()
             }
           </div>
         </div>
@@ -564,7 +575,7 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           </div>
         </div> */}
 
-        <div className="flex flex-col md:flex-row items-center w-full md:w-1/4 gap-2">
+        <div className="flex flex-col md:flex-row items-center w-full md:w-1/2 gap-2">
           {
             !isUpdatingRestaurant ? (
               <button
@@ -579,18 +590,19 @@ export function RestaurantForm({ user, token }: { user: UserType, token: string 
           <button
             type='submit'
             disabled={
-              isLoading ||
-              (
-                watchRestaurantName == user?.restaurants[0]?.restaurant_name &&
-                watchAddress == user?.restaurants[0]?.address &&
-                watchDescription == user?.restaurants[0]?.description &&
-                watchEmail == user?.restaurants[0]?.email &&
-                watchPhone == user?.restaurants[0]?.phone &&
-                watchDrive == user?.restaurants[0]?.drive &&
-                watchTakeAway == user?.restaurants[0]?.take_away &&
-                watchDelivery == user?.restaurants[0]?.delivery &&
-                watchEatIn == user?.restaurants[0]?.eat_in
-              )
+              isLoading
+              // ||
+              // (
+              //   watchRestaurantName == user?.restaurants[0]?.restaurant_name &&
+              //   watchAddress == user?.restaurants[0]?.address &&
+              //   watchDescription == user?.restaurants[0]?.description &&
+              //   watchEmail == user?.restaurants[0]?.email &&
+              //   watchPhone == user?.restaurants[0]?.phone &&
+              //   watchDrive == user?.restaurants[0]?.drive &&
+              //   watchTakeAway == user?.restaurants[0]?.take_away &&
+              //   watchDelivery == user?.restaurants[0]?.delivery &&
+              //   watchEatIn == user?.restaurants[0]?.eat_in
+              // )
             }
             className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary hover:bg-secondary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
