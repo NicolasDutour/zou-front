@@ -252,11 +252,14 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
   const displayForm = () => {
     if (user?.restaurants.length > 0) {
       if (user?.restaurants[0]?.banner_photo && !showFileInput) {
+        console.log("user?.restaurants[0]?.banner_photo.url", user?.restaurants[0]?.banner_photo.url);
+        console.log("decodeURIComponent(user?.restaurants[0]?.banner_photo.url)", decodeURIComponent(user?.restaurants[0]?.banner_photo.url));
+
         return (
           <div className="">
             <div className="relative border rounded-md h-56">
               <Image
-                src={user?.restaurants[0]?.banner_photo ? environment === "production" ? encodeURIComponent(user?.restaurants[0]?.banner_photo.url) : `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
+                src={user?.restaurants[0]?.banner_photo ? environment === "production" ? decodeURIComponent(user?.restaurants[0]?.banner_photo.url) : `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
                 alt={user?.restaurants[0]?.banner_photo.name}
                 style={imageStyle}
                 fill
