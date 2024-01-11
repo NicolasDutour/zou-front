@@ -93,8 +93,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
     const newData = {
       ...payload,
       slug,
-      longitude: user?.restaurants[0].longitude,
-      latitude: user?.restaurants[0].latitude,
+      longitude: longitude || user?.restaurants[0].longitude,
+      latitude: latitude || user?.restaurants[0].latitude,
       users_permissions_user: {
         connect: [user?.id]
       }
