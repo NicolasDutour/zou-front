@@ -70,8 +70,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
 
   useEffect(() => {
     if (user?.restaurants.length > 0) {
-      console.log("useEffect user?.restaurants[0]", user?.restaurants[0]);
-
       const { restaurant_name, description, email, address, phone, drive, take_away, delivery, eat_in } = user?.restaurants[0]
       setValue('restaurant_name', restaurant_name)
       setValue('description', description)
@@ -92,8 +90,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
 
   const onHandleUpdateRestaurant = async (payload: z.infer<typeof PartialFormSchemaRestaurant>) => {
     const slug = createSlug(payload?.restaurant_name)
-    console.log("payload user?.restaurants[0]", user?.restaurants[0]);
-
     const newData = {
       ...payload,
       slug,
@@ -260,7 +256,7 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
           <div className="">
             <div className="relative border rounded-md h-56">
               <Image
-                src={user?.restaurants[0]?.banner_photo ? environment === "production" ? user?.restaurants[0]?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
+                src={user?.restaurants[0]?.banner_photo ? environment === "production" ? encodeURIComponent(user?.restaurants[0]?.banner_photo.url) : `${process.env.NEXT_PUBLIC_STRAPI_URL}${user?.restaurants[0]?.banner_photo.url}` : ""}
                 alt={user?.restaurants[0]?.banner_photo.name}
                 style={imageStyle}
                 fill
