@@ -90,9 +90,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
 
   const onHandleUpdateRestaurant = async (payload: z.infer<typeof PartialFormSchemaRestaurant>) => {
     const slug = createSlug(payload?.restaurant_name)
-
-    console.log("send payload user?.restaurants[0]", user?.restaurants[0]);
-
     const newData = {
       ...payload,
       slug,
@@ -125,18 +122,12 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
         router.refresh()
         try {
           const restaurant = await response.json()
-
           if (payload?.banner_photo?.length > 0) {
-            console.log("payload.banner_photo[0]", payload.banner_photo[0]);
-
             const formData = new FormData()
             formData.append("ref", 'api::restaurant.restaurant')
             formData.append("refId", user?.restaurants[0]?.id.toString())
             formData.append("field", 'banner_photo')
             formData.append("files", payload.banner_photo[0])
-
-            console.log("formData", formData);
-
 
             const pictureUpload = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload`,
               {
@@ -221,6 +212,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
   };
 
   const selectAddress = (coordinates: string[]) => {
+    console.log("selectAddress coordinates", coordinates);
+
     setAddressSuggestions([])
     setOpenAddressDialog(false)
     setLongitude(coordinates[0].toString())
@@ -263,10 +256,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
   const displayForm = () => {
     if (user?.restaurants.length > 0) {
       if (user?.restaurants[0]?.banner_photo && !showFileInput) {
-        console.log("user?.restaurants[0]", user?.restaurants[0]);
-        console.log("environment", environment);
-
-
         return (
           <div className="">
             <div className="relative border rounded-md h-56">
