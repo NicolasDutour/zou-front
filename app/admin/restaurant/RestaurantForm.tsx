@@ -70,12 +70,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
 
   useEffect(() => {
     if (user?.restaurants.length > 0) {
-
-      console.log("user?.restaurants[0]?", user?.restaurants[0]);
-      console.log("user?.restaurants[0]?.banner_photo", user?.restaurants[0]?.banner_photo);
-
-
-
       const { restaurant_name, description, email, address, phone, drive, take_away, delivery, eat_in } = user?.restaurants[0]
       setValue('restaurant_name', restaurant_name)
       setValue('description', description)
@@ -99,8 +93,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
     const newData = {
       ...payload,
       slug,
-      longitude,
-      latitude,
+      longitude: user?.restaurants[0].longitude,
+      latitude: user?.restaurants[0].latitude,
       users_permissions_user: {
         connect: [user?.id]
       }
