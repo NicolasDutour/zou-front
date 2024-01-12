@@ -53,7 +53,7 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
                   <ul>
                     {
                       access?.split(',').map((item, index) => {
-                        return <li key={index} className="text-left px-10 flex items-center"> <p className="text-primary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
+                        return <li key={index} className="text-left px-10 flex items-center"> <p className="text-secondary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                       })
                     }
                   </ul>
@@ -61,7 +61,7 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
                   <ul>
                     {
                       wedoforyou?.split(',').map((item, index) => {
-                        return <li key={index} className="text-left px-10 flex items-center"> <p className="text-primary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
+                        return <li key={index} className="text-left px-10 flex items-center"> <p className="text-secondary"><FaCheck /></p> <p className="ml-2"> {item} </p> </li>
                       })
                     }
                   </ul>
@@ -91,7 +91,7 @@ export default function PlanCard({ plan }: { plan: PlanType }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="text-center">
-        <p className={cn("text-4xl text-primary mb-4 font-bold", title === 'premium' ? "text-primary" : "text-secondary")}> {price} €<span className="text-sm text-black ml-2">/ mois</span></p>
+        <p className={cn("text-4xl text-primary mb-4 font-bold", title === 'premium' ? "text-secondary" : "text-primary")}> {price} €<span className="text-sm text-black ml-2">/ mois</span></p>
       </CardContent>
     </Card>
   )
