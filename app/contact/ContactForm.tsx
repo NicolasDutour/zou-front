@@ -51,7 +51,8 @@ export default function LoginForm() {
           const contact = await response.json()
 
           toast({
-            title: "Formulaire envoyé avec succés"
+            title: "Formulaire envoyé avec succés",
+            className: "border-primary text-primary"
           })
           router.push('/')
         } catch (error) {
@@ -66,12 +67,14 @@ export default function LoginForm() {
             toast({
               title: "Erreur 400",
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }

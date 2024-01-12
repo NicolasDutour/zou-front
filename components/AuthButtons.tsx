@@ -19,7 +19,8 @@ export default function AuthButtons({ token }: { token: string }) {
     dispatch(logout())
     router.push('/')
     toast({
-      title: "Vous êtes déconnecté"
+      title: "Vous êtes déconnecté",
+      className: "border-primary text-primary"
     })
   }
 

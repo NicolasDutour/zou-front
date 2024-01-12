@@ -47,7 +47,8 @@ export default function ProductsList({ products, token, updateProduct }: { produ
     if (response.status === 200) {
       try {
         toast({
-          title: "Produit supprimé avec succés !"
+          title: "Produit supprimé avec succés !",
+          className: "border-primary text-primary"
         })
         router.refresh()
       } catch (error) {

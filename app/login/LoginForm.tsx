@@ -53,7 +53,8 @@ export default function LoginForm() {
           const userDetails = await response.json()
           dispatch(login(userDetails))
           toast({
-            title: "Vous êtes bien connecté"
+            title: "Vous êtes bien connecté",
+            className: "border-primary text-primary"
           })
           router.push('/admin')
         } catch (error) {
@@ -64,16 +65,23 @@ export default function LoginForm() {
         try {
           const errorResponse = JSON.parse(await response.text());
           if (errorResponse.error && errorResponse.error.message) {
-            const errorMessage = errorResponse.error.message;
+            let errorMessage = errorResponse.error.message;
+            let title = "Erreur 400"
+            if (errorMessage === "Invalid identifier or password") {
+              title = "Erreur d'authentification"
+              errorMessage = "Email ou mot de passe invalide"
+            }
             toast({
-              title: "Erreur 400",
+              title,
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }

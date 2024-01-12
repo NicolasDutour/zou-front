@@ -56,7 +56,8 @@ export default function RegisterForm() {
           const userDetails = await response.json()
           dispatch(signUp(userDetails))
           toast({
-            title: "Vous êtes bien enregistré et connecté"
+            title: "Vous êtes bien enregistré et connecté",
+            className: "border-primary text-primary"
           })
           router.push('/admin')
         } catch (error) {
@@ -67,16 +68,23 @@ export default function RegisterForm() {
         try {
           const errorResponse = JSON.parse(await response.text());
           if (errorResponse.error && errorResponse.error.message) {
-            const errorMessage = errorResponse.error.message;
+            let errorMessage = errorResponse.error.message;
+            let title = "Erreur 400"
+            if (errorMessage === "Email or Username are already taken") {
+              title = "Erreur d'authentification"
+              errorMessage = "Email ou identifiant déjà enregistré"
+            }
             toast({
-              title: "Erreur 400",
+              title,
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }

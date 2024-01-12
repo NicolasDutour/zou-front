@@ -96,7 +96,8 @@ export function MenuForm({ restaurant, token }: { restaurant: RestaurantType, to
       setShowFileInput(false)
       router.refresh()
       toast({
-        title: "Photo supprimée avec succés !"
+        title: "Photo supprimée avec succés !",
+        className: "border-primary text-primary"
       })
     }
   }

@@ -82,7 +82,8 @@ export function ProductsForm({ restaurant, token }: { restaurant: RestaurantType
     if (!token) {
       router.push('/login')
       toast({
-        title: "Vous devez vous reconnecter"
+        title: "Vous devez vous reconnecter",
+        className: "border-primary text-primary"
       })
     }
 
@@ -103,7 +104,8 @@ export function ProductsForm({ restaurant, token }: { restaurant: RestaurantType
         try {
           const product = await response.json()
           toast({
-            title: `Produit ${isUpdatingProduct ? 'mis à jour' : 'ajouté'} avec succés !`
+            title: `Produit ${isUpdatingProduct ? 'mis à jour' : 'ajouté'} avec succés !`,
+            className: "border-primary text-primary"
           })
           router.refresh()
         } catch (error) {
@@ -118,12 +120,14 @@ export function ProductsForm({ restaurant, token }: { restaurant: RestaurantType
             toast({
               title: "Erreur 400",
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }

@@ -41,7 +41,8 @@ export default function ForgotPasswordForm() {
         try {
           const passwordReseted = await response.json()
           toast({
-            title: "Mot de passe mis à jour"
+            title: "Mot de passe mis à jour",
+            className: "border-primary text-primary"
           })
           router.push('/login')
         } catch (error) {

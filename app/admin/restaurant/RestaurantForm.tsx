@@ -142,7 +142,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
           }
 
           toast({
-            title: `Restaurant ${isUpdatingRestaurant ? 'mis à jour' : 'ajouté'} avec succés !`
+            title: `Restaurant ${isUpdatingRestaurant ? 'mis à jour' : 'ajouté'} avec succés !`,
+            className: "border-primary text-primary"
           })
         } catch (error) {
           console.error('ERROR: ', error);
@@ -156,12 +157,14 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
             toast({
               title: "Erreur 400",
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }
@@ -222,7 +225,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(watchRestaurantName)}`)
     toast({
-      title: `Lien copié avec succés !`
+      title: `Lien copié avec succés !`,
+      className: "border-primary text-primary"
     })
   }
 
@@ -243,7 +247,8 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
       setShowFileInput(false)
       router.refresh()
       toast({
-        title: "Photo supprimée avec succés !"
+        title: "Photo supprimée avec succés !",
+        className: "border-primary text-primary"
       })
     }
   }
