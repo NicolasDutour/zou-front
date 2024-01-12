@@ -1,5 +1,3 @@
-"use client"
-
 import { HomeInfoType } from "@/lib/types";
 import Image from "next/image"
 
@@ -7,8 +5,6 @@ import Image from "next/image"
 export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
   const { attributes: { title, subtitle, slogan, slogan_bis, slogan_ter, home_banner_photo } } = homeInfo
   const environment = process.env.NODE_ENV
-
-  console.log("home_banner_photo", home_banner_photo);
 
   let picture: string
   let pictureName
@@ -30,8 +26,6 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
 
   const getImage = () => {
     if (picture) {
-      console.log("picture", picture);
-
       if (environment === 'production') {
         return picture
       }
