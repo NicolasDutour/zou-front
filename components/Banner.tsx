@@ -1,3 +1,5 @@
+"use client"
+
 import { HomeInfoType } from "@/lib/types";
 import Image from "next/image"
 
