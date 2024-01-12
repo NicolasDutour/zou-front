@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod"
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 import { useToast } from "@/components/ui/use-toast"
 import { signUp } from '@/redux/features/auth/authSlice'
@@ -16,6 +18,8 @@ export default function RegisterForm() {
   const dispatch = useDispatch()
   const { toast } = useToast()
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -125,11 +129,12 @@ export default function RegisterForm() {
               Mot de passe
             </label>
           </div>
-          <div className="mt-2">
+          <div className="relative mt-2">
+            <div className='absolute top-2 right-2 text-2xl cursor-pointer' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />} </div>
             <input
               {...register("password")}
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="block w-full rounded-md focus:outline-none  p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>
@@ -141,11 +146,12 @@ export default function RegisterForm() {
               Confirmation mot de passe
             </label>
           </div>
-          <div className="mt-2">
+          <div className="relative mt-2">
+            <div className='absolute top-2 right-2 text-2xl cursor-pointer' onClick={() => setShowConfirmPassword(!showConfirmPassword)}> {showConfirmPassword ? <FaEye /> : <FaEyeSlash />} </div>
             <input
               {...register("confirmPassword")}
               id="confirmPassword"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.confirmPassword?.message}</p>

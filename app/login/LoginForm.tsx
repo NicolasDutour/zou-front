@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from "react-redux";
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form"
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
 
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -16,6 +18,7 @@ export default function LoginForm() {
   const dispatch = useDispatch()
   const { toast } = useToast()
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false)
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -112,11 +115,12 @@ export default function LoginForm() {
               </div>
             </div>
           </div>
-          <div className="mt-2">
+          <div className="relative mt-2">
+            <div className='absolute top-2 right-2 text-2xl cursor-pointer' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />} </div>
             <input
               {...register("password")}
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
             <p className="text-red-500 text-sm mt-2">{errors.password?.message}</p>
