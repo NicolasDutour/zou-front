@@ -55,7 +55,8 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
           const userDetails = await response.json()
           dispatch(setUserInfo(userDetails))
           toast({
-            title: "Mis à jour avec succés !"
+            title: "Mis à jour avec succés !",
+            className: "border-primary text-primary"
           })
           router.push('/admin')
         } catch (error) {
@@ -70,12 +71,14 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
             toast({
               title: "Erreur 400",
               description: errorMessage,
+              className: "border-destructive text-destructive"
             })
             console.error("Erreur 400 : ", errorMessage);
           } else {
             toast({
               title: "Réponse 400 sans message d'erreur valide:",
               description: errorResponse,
+              className: "border-destructive text-destructive"
             })
             console.error("Réponse 400 sans message d'erreur valide : ", errorResponse);
           }
