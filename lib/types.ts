@@ -395,7 +395,14 @@ export type FileType = {
   }
 }
 
-export type FaqType = {
-  title: string
-  description: string
+export type Faq = {
+  id: number;
+  attributes: {
+    title: string;
+    description: string;
+  }
+}
+
+export type FaqResponse = {
+  data: Faq[];
 }

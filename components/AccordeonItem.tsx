@@ -5,15 +5,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { FaqType } from "@/lib/types"
-// import { accordeaonItem } from "@/lib/types";
+import { Faq } from "@/lib/types"
 
-export default function AccordeonItem({ faq, index }: { faq: FaqType, index: number }) {
+export default function AccordeonItem({ faq }: { faq: Faq }) {
   return (
-    <AccordionItem className="bg-white rounded-md p-2" value={`item-${index}`}>
-      <AccordionTrigger className="text-lg font-semibold text-gray-700"> {faq.title} </AccordionTrigger>
+    <AccordionItem className="bg-white rounded-md p-2" value={`item-${faq.id}`}>
+      <AccordionTrigger className="text-lg font-semibold text-gray-700"> {faq.attributes.title} </AccordionTrigger>
       <AccordionContent className="text-base text-gray-700">
-        {faq.description}
+        {faq.attributes.description}
       </AccordionContent>
     </AccordionItem>
   )
