@@ -5,7 +5,7 @@ import {
 import { FaqResponse } from "@/lib/types"
 
 async function getDataFaqs(): Promise<FaqResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs?sort=id:asc`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

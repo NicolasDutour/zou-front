@@ -3,7 +3,7 @@ import PlanCard from "./PlanCard"
 
 
 async function getData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pricing-plans`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pricing-plans?sort=id:asc`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
