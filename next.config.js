@@ -4,7 +4,6 @@ const nextConfig = {
     webpackBuildWorker: true
   },
   images: {
-    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
         protocol: 'http',
