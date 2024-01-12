@@ -21,6 +21,9 @@ export default function Services() {
             src={'/design_ready.png'}
             alt={"design_ready"}
             style={imageStyle}
+            quality={100}
+            placeholder="blur"
+            blurDataURL='/design_ready.png'
             width={800}
             height={400}
             aspect-auto="true"

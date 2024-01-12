@@ -16,9 +16,6 @@ module.exports = {
       },
     },
     extend: {
-      backgroundImage: {
-        'hero-pattern': "url('/home_banner.jpg')",
-      },
       boxShadow: {
         'custom': '20px 30px 30px -15px rgba(0, 0, 0, 0.3)',
         'custom-blue-light': '30px 30px 20px -15px rgba(35, 123, 223, 1)',

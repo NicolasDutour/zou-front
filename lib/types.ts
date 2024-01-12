@@ -180,10 +180,10 @@ export type RestaurantType = {
     data: {
       attributes: {
         formats: {
-          large: { url: string },
-          medium: { url: string },
-          small: { url: string },
-          thumbnail: { url: string }
+          large: { url: string, name: string },
+          medium: { url: string, name: string },
+          small: { url: string, name: string },
+          thumbnail: { url: string, name: string }
         }
       }
     }
@@ -318,6 +318,30 @@ export type HomeInfoType = {
     slogan_bis: string
     slogan_ter: string
     description: string
+    home_banner_photo: {
+      data: {
+        attributes: {
+          formats: {
+            thumbnail: {
+              name: string
+              url: string
+            }
+            small: {
+              name: string
+              url: string
+            }
+            medium: {
+              name: string
+              url: string
+            }
+            large: {
+              name: string
+              url: string
+            }
+          }
+        }
+      }
+    }
   }
 }
 
