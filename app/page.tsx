@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 async function getDataHome() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/home`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/home?&populate[home_banner_photo][populate]=*`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

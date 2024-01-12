@@ -1,28 +1,26 @@
 'use client'
 
-import { BsArrowDownCircle } from 'react-icons/bs'
 import { RestaurantType } from '@/lib/types'
 import { addSpaceToPhoneNumber, capitalize, cn } from '@/lib/utils';
+import Image from "next/image"
 
 export default function RestaurantBanner({ environment, restaurant }: { environment: string, restaurant: RestaurantType }) {
-  let backgroundImageStyle
-  let picture;
+  let picture: string
+  let pictureName
   if (restaurant?.banner_photo?.data?.attributes?.formats) {
     if (restaurant.banner_photo?.data?.attributes?.formats?.large) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.large.url;
+      pictureName = restaurant.banner_photo?.data?.attributes?.formats?.large.name;
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.medium) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.medium.url;
+      pictureName = restaurant.banner_photo?.data?.attributes?.formats?.medium.name;
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.small) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.small.url;
+      pictureName = restaurant.banner_photo?.data?.attributes?.formats?.small.name;
     } else if (restaurant.banner_photo?.data?.attributes?.formats?.thumbnail) {
       picture = restaurant.banner_photo?.data?.attributes?.formats?.thumbnail.url;
+      pictureName = restaurant.banner_photo?.data?.attributes?.formats?.thumbnail.name;
     }
-  }
-
-  if (picture) {
-    backgroundImageStyle = {
-      backgroundImage: environment === 'production' ? `url(${picture})` : `url(${process.env.NEXT_PUBLIC_STRAPI_URL + picture})`,
-    };
   }
 
   const options = [
@@ -36,11 +34,35 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
     return options.filter(option => (restaurant as any)[option.key])
   }
 
+  const getImage = () => {
+    if (picture) {
+      if (environment === 'production') {
+        return picture
+      }
+      return `${process.env.NEXT_PUBLIC_STRAPI_URL}${picture}`
+    }
+    return ''
+  }
+
   return (
     <section className="w-full">
-      <div className={cn(`relative p-10 bg-cover bg-center h-full flex justify-center items-center`, picture ? null : "bg-gray-400")} style={backgroundImageStyle}>
+      <div className="relative h-full flex items-center justify-center">
+        <Image
+          src={getImage()}
+          alt={pictureName || 'banner'}
+          style={{
+            objectFit: "cover",
+          }}
+          fill
+          priority
+          sizes="100vw"
+          quality={100}
+          placeholder="blur"
+          blurDataURL={getImage()}
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        />
         <div className="bg-black opacity-70 absolute inset-0"></div>
-        <div className="z-10 md:max-w-xl mx-auto">
+        <div className="z-10 p-20 md:max-w-xl mx-auto">
           <h1 className="text-center text-4xl uppercase font-bold text-white">
             {restaurant?.restaurant_name || null}
           </h1>
