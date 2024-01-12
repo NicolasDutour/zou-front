@@ -5,16 +5,6 @@ import { RestaurantType } from '@/lib/types'
 import { addSpaceToPhoneNumber, capitalize, cn } from '@/lib/utils';
 
 export default function RestaurantBanner({ environment, restaurant }: { environment: string, restaurant: RestaurantType }) {
-  const scrollDown = () => {
-    window.scrollBy(0, 400);
-  };
-
-  console.log("environment", environment);
-  console.log("restaurant", restaurant);
-  console.log("restaurant.products", restaurant.products);
-
-  console.log("restaurant?.banner_photo?.data", restaurant?.banner_photo?.data);
-
   let backgroundImageStyle
   let picture;
   if (restaurant?.banner_photo?.data?.attributes?.formats) {
@@ -50,7 +40,7 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
     <section className="w-full">
       <div className={cn(`relative p-10 bg-cover bg-center h-full flex justify-center items-center`, picture ? null : "bg-gray-400")} style={backgroundImageStyle}>
         <div className="bg-black opacity-70 absolute inset-0"></div>
-        <div className="mb-10 z-10 md:max-w-xl mx-auto">
+        <div className="z-10 md:max-w-xl mx-auto">
           <h1 className="text-center text-4xl uppercase font-bold text-white">
             {restaurant?.restaurant_name || null}
           </h1>
@@ -63,7 +53,6 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
             }
           </div>
           <p className="text-center text-3xl text-white my-8"> {addSpaceToPhoneNumber(restaurant?.phone) || null} </p>
-          <p onClick={scrollDown} className='icon-move-down flex justify-center mt-12 text-white text-4xl cursor-pointer'><BsArrowDownCircle /></p>
         </div>
       </div>
     </section>

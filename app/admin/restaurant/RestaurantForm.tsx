@@ -102,9 +102,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
 
     const { banner_photo, ...dataWithoutImage } = newData
 
-    console.log("newData", newData);
-
-
     try {
       setIsLoading(true)
       const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants${isUpdatingRestaurant ? `/${user?.restaurants[0]?.id}` : ''}`,
@@ -212,8 +209,6 @@ export function RestaurantForm({ environment, user, token }: { environment: stri
   };
 
   const selectAddress = (coordinates: string[]) => {
-    console.log("selectAddress coordinates", coordinates);
-
     setAddressSuggestions([])
     setOpenAddressDialog(false)
     setLongitude(coordinates[0].toString())
