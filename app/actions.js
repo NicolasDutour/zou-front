@@ -6,7 +6,9 @@ import { cookies } from 'next/headers'
 // Cookies
 export async function createCookie(name, data) {
   const oneDay = 24 * 60 * 60 * 1000
-  cookies().set(name, data, { expires: Date.now() + oneDay })
+  const twoHours = 2 * 60 * 60 * 1000
+  const oneMinute = 60 * 1000;
+  cookies().set(name, data, { httpOnly: true, expires: Date.now() + twoHours })
 }
 
 export async function removeCookie(name) {
