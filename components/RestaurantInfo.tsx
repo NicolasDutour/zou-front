@@ -42,7 +42,7 @@ export default function RestaurantInfo({ restaurant }: { restaurant: RestaurantT
 
   return (
     <div className="flex flex-col justify-around items-center p-6">
-      <div className='mb-8 md:mb-0'>
+      <div>
         <p className="text-center text-2xl mb-4 uppercase text-white"> {restaurant?.restaurant_name}</p>
         <div className='flex items-center mb-4'>
           <IoLocationOutline className="text-white text-2xl" />
