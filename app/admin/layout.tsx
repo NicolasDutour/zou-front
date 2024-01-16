@@ -68,14 +68,16 @@ export default async function SettingsLayout({ children }: SettingsLayoutProps) 
     <div className="space-y-6 p-10 pb-16 md:block">
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
         <aside className="mx-4 lg:w-1/5">
-          {
-            data?.username ? (
-              <div className="shadow-2xl p-4 rounded-2xl mb-4 grid place-items-center">
-                <p className=" text-lg">Bonjour {capitalize(data?.username)}</p>
-              </div>
-            ) : null
-          }
-          <SidebarNav items={sidebarNavItems} />
+          <div className="sticky top-[141px]">
+            {
+              data?.username ? (
+                <div className="shadow-2xl p-4 rounded-2xl mb-4 grid place-items-center">
+                  <p className=" text-lg">Bonjour {capitalize(data?.username)}</p>
+                </div>
+              ) : null
+            }
+            <SidebarNav items={sidebarNavItems} />
+          </div>
         </aside>
         <div className="flex-1 shadow-custom p-6 rounded-2xl">{children}</div>
       </div>
