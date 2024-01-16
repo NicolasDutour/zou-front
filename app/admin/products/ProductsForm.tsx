@@ -23,10 +23,8 @@ import {
 
 
 import { TypeFormSchemaProduct, FormSchemaProduct, RestaurantType } from '@/lib/types';
-import { useSelector } from "react-redux"
 import { useToast } from "@/components/ui/use-toast"
 import { Separator } from "@/components/ui/separator"
-import { cn } from "@/lib/utils"
 import { useProductFormContext } from "@/context/store"
 import LoaderButton from "@/components/LoaderButton"
 

@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { useSelector } from "react-redux";
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form"
 
@@ -14,25 +13,22 @@ import LoaderButton from '@/components/LoaderButton';
 export default function LoginForm() {
   const { toast } = useToast()
   const router = useRouter()
-  const user = useSelector((state: any) => state.auth.user)
-
   const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
     setValue
   } = useForm<TypeFormSchemaContact>({
     resolver: zodResolver(FormSchemaContact),
   });
 
-  useEffect(() => {
-    if (user?.email) {
-      setValue("email", user?.email)
-    }
-  }, [user?.email, setValue])
+  // useEffect(() => {
+  //   if (user?.email) {
+  //     setValue("email", user?.email)
+  //   }
+  // }, [user?.email, setValue])
 
   const onSubmit = async (data: TypeFormSchemaContact) => {
     try {

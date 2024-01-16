@@ -1,22 +1,22 @@
 "use client"
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux"
+import Link from "next/link";
 
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
-import { logout } from "@/redux/features/auth/authSlice";
+import { useUserStore } from "@/zustand/store"
+import { useEffect } from "react";
 
 export default function AuthButtons({ token }: { token: string }) {
-  const dispatch = useDispatch()
   const router = useRouter()
   const path = usePathname()
   const { toast } = useToast()
-  // const token = useSelector((state) => state.auth.token)
+  const logout = useUserStore((state) => state.logout)
+  const isAuth = useUserStore(state => state.isAuth)
 
   const handleSignOut = async () => {
-    dispatch(logout())
+    logout()
     router.push('/')
     toast({
       title: "Vous êtes déconnecté",
@@ -24,7 +24,13 @@ export default function AuthButtons({ token }: { token: string }) {
     })
   }
 
-  return token ? (
+  useEffect(() => {
+    if (token) {
+      useUserStore.setState({ isAuth: true });
+    }
+  }, [token]);
+
+  return isAuth ? (
     <div>
       <Button className="text-base" onClick={handleSignOut} variant="link">Se déconnecter</Button>
       <Button className="text-base" asChild variant={path.startsWith('/admin') ? 'activeLink' : 'link'}>

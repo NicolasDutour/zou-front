@@ -4,7 +4,6 @@ import { cn } from '@/lib/utils'
 import Navbar from '@/components/Navbar'
 import { Toaster } from "@/components/ui/toaster"
 import { headers } from 'next/headers';
-import { Providers } from '@/redux/provider'
 
 import './globals.css'
 import Footer from '@/components/Footer'
@@ -41,21 +40,19 @@ export default function RootLayout({
         "bg-white overflow-x-hidden",
         roboto.className
       )}>
-        <Providers>
-          <ProductFormContextProvider>
-            <RestaurantFormContextProvider>
-              {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
-              <main className={cn(
-                "min-h-screen",
-                (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
-              )}>
-                {children}
-              </main>
-              <Footer />
-              <Toaster />
-            </RestaurantFormContextProvider>
-          </ProductFormContextProvider>
-        </Providers>
+        <ProductFormContextProvider>
+          <RestaurantFormContextProvider>
+            {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
+            <main className={cn(
+              "min-h-screen",
+              (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
+            )}>
+              {children}
+            </main>
+            <Footer />
+            <Toaster />
+          </RestaurantFormContextProvider>
+        </ProductFormContextProvider>
       </body>
     </html>
   )

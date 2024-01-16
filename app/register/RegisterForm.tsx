@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form"
 import { useRouter } from 'next/navigation';
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,18 +8,17 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 
 import { useToast } from "@/components/ui/use-toast"
-import { signUp } from '@/redux/features/auth/authSlice'
+import LoaderButton from '@/components/LoaderButton';
+import { useUserStore } from '@/zustand/store';
 
 import { TypeFormSchemaRegister, FormSchemaRegister } from '@/lib/types';
-import LoaderButton from '@/components/LoaderButton';
 
 export default function RegisterForm() {
-  const dispatch = useDispatch()
   const { toast } = useToast()
-  const router = useRouter();
+  const router = useRouter()
+  const createUser = useUserStore(state => state.createUser)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
   const [isLoading, setIsLoading] = useState(false)
 
   const {
@@ -54,7 +52,7 @@ export default function RegisterForm() {
         setIsLoading(false)
         try {
           const userDetails = await response.json()
-          dispatch(signUp(userDetails))
+          createUser(userDetails.jwt)
           toast({
             title: "Vous êtes bien enregistré et connecté",
             className: "border-primary text-primary"
