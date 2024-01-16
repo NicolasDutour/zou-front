@@ -1,25 +1,20 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 
 import { useToast } from "@/components/ui/use-toast";
+import LoaderButton from "@/components/LoaderButton"
 
 import { TypeFormSchemaProfile, FormSchemaProfile, UserType } from '@/lib/types';
-import { setUserInfo } from "@/redux/features/auth/authSlice"
-import LoaderButton from "@/components/LoaderButton"
 
 export function ProfileForm({ user, token }: { user: UserType, token: string }) {
   const router = useRouter();
-  const dispatch = useDispatch()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
-
-  dispatch(setUserInfo(user))
 
   const {
     register,
@@ -51,17 +46,11 @@ export function ProfileForm({ user, token }: { user: UserType, token: string }) 
         })
       if (response.status === 200) {
         setIsLoading(false)
-        try {
-          const userDetails = await response.json()
-          dispatch(setUserInfo(userDetails))
-          toast({
-            title: "Mis à jour avec succés !",
-            className: "border-primary text-primary"
-          })
-          router.push('/admin')
-        } catch (error) {
-          console.error('ERROR: ', error);
-        }
+        toast({
+          title: "Mis à jour avec succés !",
+          className: "border-primary text-primary"
+        })
+        router.refresh()
       } else if (response.status === 400) {
         setIsLoading(false)
         try {

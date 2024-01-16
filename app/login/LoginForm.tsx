@@ -1,33 +1,30 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form"
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
+import { zodResolver } from "@hookform/resolvers/zod"
 
 import { useToast } from "@/components/ui/use-toast"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { login } from '@/redux/features/auth/authSlice'
-
-import { TypeFormSchemaLogin, FormSchemaLogin } from '@/lib/types';
 import LoaderButton from '@/components/LoaderButton';
 
-export default function LoginForm() {
-  const dispatch = useDispatch()
-  const { toast } = useToast()
-  const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false)
+import { TypeFormSchemaLogin, FormSchemaLogin } from '@/lib/types';
+import { useUserStore } from '@/zustand/store';
 
+export default function LoginForm() {
+  const { toast } = useToast()
+  const router = useRouter()
+  const login = useUserStore(state => state.login)
+  const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setFocus,
-    setValue
+    setFocus
   } = useForm<TypeFormSchemaLogin>({
     resolver: zodResolver(FormSchemaLogin),
   });
@@ -51,7 +48,7 @@ export default function LoginForm() {
         setIsLoading(false)
         try {
           const userDetails = await response.json()
-          dispatch(login(userDetails))
+          login(userDetails.jwt)
           toast({
             title: "Vous êtes bien connecté",
             className: "border-primary text-primary"

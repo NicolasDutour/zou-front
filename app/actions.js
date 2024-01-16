@@ -15,8 +15,6 @@ export async function removeCookie(name) {
   cookies().delete(name)
 }
 
-
-
 // Stripe api
 
 export async function createCustomer(name, email, description) {
