@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from '@/lib/utils'
-import { removeSusbcription } from "@/app/actions"
+import { removeSusbcription } from "@/lib/actions"
 import { useTransition } from 'react';
 
 export default function SubscriptionButton({ sub_id, plan_id }: { sub_id: string, plan_id: string }) {

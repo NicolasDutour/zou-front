@@ -1,8 +1,12 @@
 'use client'
 
+import Image from "next/image"
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { FaPhone } from "react-icons/fa6";
+
 import { RestaurantType } from '@/lib/types'
 import { addSpaceToPhoneNumber, capitalize, cn } from '@/lib/utils';
-import Image from "next/image"
 
 export default function RestaurantBanner({ environment, restaurant }: { environment: string, restaurant: RestaurantType }) {
   let picture: string
@@ -29,11 +33,6 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
     { key: "delivery", value: "livraison" },
     { key: "eat_in", value: "sur place" }
   ]
-
-  const activeOptions = () => {
-    return options.filter(option => (restaurant as any)[option.key])
-  }
-
   const getImage = () => {
     if (picture) {
       if (environment === 'production') {
@@ -67,14 +66,22 @@ export default function RestaurantBanner({ environment, restaurant }: { environm
             {restaurant?.restaurant_name || null}
           </h1>
           <h2 className="italic text-center text-lg text-white my-8"> {restaurant?.short_description || null} </h2>
-          <div className={`grid grid-cols-1 md:grid-cols-${activeOptions().length} mt-4 gap-2`}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 mt-4 gap-2`}>
             {
-              activeOptions().map(option => (
-                <p key={option.key} className='text-white text-center text-lg border rounded-md p-2'> {capitalize(option.value)} </p>
+              options.map(option => (
+                <div key={option.key} className={cn('border rounded-md p-2 flex items-center', (restaurant as any)[option.key] ? 'border-green-600' : 'border-red-600')}>
+                  <div className={cn("mr-6 text-2xl", (restaurant as any)[option.key] ? "text-green-600" : "text-red-600")}>
+                    {(restaurant as any)[option.key] ? <FaCheck /> : <RxCross2 />}
+                  </div>
+                  <p className="text-white text-center text-lg">{capitalize(option.value)}</p>
+                </div>
               ))
             }
           </div>
-          <p className="text-center text-3xl text-white my-8"> {addSpaceToPhoneNumber(restaurant?.phone) || null} </p>
+          <div className="flex justify-center items-center my-8 text-3xl text-white">
+            <FaPhone />
+            <p className="text-center ml-6">{addSpaceToPhoneNumber(restaurant?.phone) || null}</p>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client"
 
-import { createCustomer, createSessionCheckout, listProducts } from '@/app/actions';
+import { createCustomer, createSessionCheckout, listProducts } from '@/lib/actions';
 import { PlanType } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
