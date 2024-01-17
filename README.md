@@ -26,3 +26,19 @@ This website has been deployed on [Vercel Platform](https://vercel.com)
 ### Hosting
 
 This website is host on: [Hostinger](https://www.hostinger.fr/)
+
+## Tips
+- Simulate call Api:
+```bash
+  await new Promise(resolve => setTimeout(resolve, 3000))
+```
+
+## Idées amélioration du site
+- servives en plus des 4 que j'ai déjà " à emporter", "drive"....
+  accessible PMR
+  Terrasse
+  climatisation
+
+- galerie d'images: next lib for that
+
+- paiements disponibles: espèces, chèque, paiement sans contact: mastercad, ticket resto, Visa
