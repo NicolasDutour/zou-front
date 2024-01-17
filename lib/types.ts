@@ -10,16 +10,19 @@ export const FormSchemaRegister = z.object({
     .trim()
     .toLowerCase()
     .email({ message: "Email non valide" })
-    .min(1, 'Ce champs est requis'),
+    .min(1, 'Ce champs est requis')
+    .max(50, 'Maximum 50 caractères'),
   password: z
     .string()
     .trim()
     .min(6, { message: "Minimum 6 caractères" })
+    .max(100, 'Maximum 100 caractères')
     .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/, { message: "Minimum 1 majuscule, 1 chiffre, 1 caractère spécial" }),
   confirmPassword: z
     .string()
     .trim()
     .min(6, { message: "Minimum 6 caractères" })
+    .max(100, 'Maximum 100 caractères')
     .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/, { message: "Minimum 1 majuscule, 1 chiffre, 1 caractère spécial" }),
 }).refine(data => data.password === data.confirmPassword, {
   path: ['confirmPassword'],
