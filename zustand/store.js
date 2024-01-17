@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { removeCookie, createCookie } from "@/app/actions"
+import { removeCookie, createCookie } from "@/lib/actions"
 
 export const useUserStore = create((set) => ({
   isAuth: false,
