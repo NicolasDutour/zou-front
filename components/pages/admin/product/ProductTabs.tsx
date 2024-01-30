@@ -5,7 +5,7 @@ import ProductsVisual from "@/components/pages/admin/product/ProductsVisual"
 import { ProductType } from "@/lib/types/productType";
 
 export const ProductTabs = ({ products }: { products: ProductType[] }) => {
-  const environment = process.env.NODE_ENV
+  // const environment = process.env.NODE_ENV
 
   return (
     <Tabs defaultValue="list" className="w-full">
@@ -14,7 +14,7 @@ export const ProductTabs = ({ products }: { products: ProductType[] }) => {
         <TabsTrigger className="hover:bg-white hover:text-gray-800" value="visual">Visuel</TabsTrigger>
       </TabsList>
       <TabsContent value="list">
-        <ProductsList products={products} environment={environment} />
+        <ProductsList products={products} />
       </TabsContent>
       <TabsContent value="visual">
         <ProductsVisual />
