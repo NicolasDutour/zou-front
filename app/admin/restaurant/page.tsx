@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from "next/image"
 import { IoLocationOutline } from 'react-icons/io5'
 import { AiOutlinePhone } from 'react-icons/ai'
-import { MdAlternateEmail , MdOutlineDeliveryDining , MdOutlineTableRestaurant } from 'react-icons/md'
+import { MdAlternateEmail, MdOutlineDeliveryDining, MdOutlineTableRestaurant } from 'react-icons/md'
 import { IoIosLink } from "react-icons/io";
 
 import { TbPaperBag } from "react-icons/tb";
@@ -68,7 +68,7 @@ export default async function RestaurantPage() {
         />
         <Link
           href="/admin/restaurant/update"
-          className="flex w-1/6 justify-center rounded-md bg-secondary py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+          className="flex w-1/3 md:w-1/6 justify-center rounded-md bg-secondary py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
         >
           Modifier
         </Link>
