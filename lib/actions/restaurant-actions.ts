@@ -42,7 +42,7 @@ export async function createBannerPhoto(formData: any) {
   if (!STRAPI_URL) throw new Error("Missing STRAPI_URL environment variable.");
 
   try {
-    const response = await fetch(url,
+    await fetch(url,
       {
         method: 'POST',
         headers: {

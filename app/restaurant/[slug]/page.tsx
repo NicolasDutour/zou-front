@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 import RestaurantBanner from "@/components/pages/restaurant/RestaurantBanner"
 import Mapbox from "@/components/pages/restaurant/MapBox"
@@ -15,7 +15,6 @@ export async function generateMetadata(
       slug: string
     }
   },
-  parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.slug
 

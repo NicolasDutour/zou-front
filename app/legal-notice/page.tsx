@@ -14,28 +14,28 @@ async function getLegalNoticeData() {
   })
   if (!response.ok) {
     console.error('Failed to fetch data')
+    return 'Error getting legal data'
   }
   return response.json()
 }
 
 export default async function LegalNotice() {
   const legalNoticeDetails = await getLegalNoticeData()
-  const { updatedAt, content } = legalNoticeDetails?.data?.attributes
 
-  if (!legalNoticeDetails.data) {
-    return <div>No legal notice for today</div>
+  if (!legalNoticeDetails?.data?.attributes) {
+    return <div>No legal notice details available</div>;
   }
 
   const processedContent = await remark()
     .use(html)
-    .process(content);
+    .process(legalNoticeDetails?.data?.attributes?.content);
   const contentHtml = processedContent.toString();
 
   return (
     <div className='p-6'>
       <p className='mb-6 text-4xl'>Les mentions légales</p>
       <div dangerouslySetInnerHTML={{ __html: contentHtml.replaceAll('\n', '<br />') }} />
-      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(updatedAt)}.</p>
+      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(legalNoticeDetails?.data?.attributes?.updatedAt)}.</p>
     </div>
   )
 }

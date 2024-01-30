@@ -25,8 +25,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { IoTrashOutline } from "react-icons/io5";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import { CiSearch } from "react-icons/ci"
-import Image from "next/image"
-
+// import Image from "next/image"
 
 import { ProductType } from "@/lib/types/productType"
 import { capitalize, formatCurrency, formatIngredients } from "@/lib/utils"
@@ -34,7 +33,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { removeProductAction } from "@/lib/actions/product-actions";
 
-export default function ProductsList({ products, environment }: { products: ProductType[], environment: string }) {
+export default function ProductsList({ products }: { products: ProductType[] }) {
   const [searchProductName, setSearchProductName] = useState('')
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([])
   const [selectBase, setSelectBase] = useState('toutes')

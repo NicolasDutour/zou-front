@@ -2,12 +2,9 @@ import { Metadata } from "next";
 import Banner from "@/components/home/Banner";
 // import Services from "@/components/home/services/Services";
 import Steps from "@/components/home/steps/Steps";
-import Plans from "@/components/home/plans/Plans";
 import { HomeInfoType } from "@/lib/types/homeType";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { GoSignOut } from "react-icons/go";
-import { LogoutButton } from "@/components/home/LogoutButton";
 
 export async function generateMetadata(): Promise<Metadata> {
   const homeInfo: { data: HomeInfoType } = await getHomeData()

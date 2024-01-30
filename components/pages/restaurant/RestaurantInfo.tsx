@@ -3,7 +3,7 @@ import { IoLocationOutline } from 'react-icons/io5'
 import { AiOutlinePhone } from 'react-icons/ai'
 import { MdAlternateEmail } from 'react-icons/md'
 
-import { addSpaceToPhoneNumber, capitalize, cn } from '@/lib/utils'
+import { addSpaceToPhoneNumber } from '@/lib/utils'
 import { RestaurantType } from '@/lib/types/restaurantType'
 
 

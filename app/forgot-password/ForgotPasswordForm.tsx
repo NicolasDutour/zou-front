@@ -39,7 +39,7 @@ export default function ForgotPasswordForm() {
       if (response.status === 200) {
         setIsLoading(false)
         try {
-          const passwordReseted = await response.json()
+          await response.json()
           toast({
             title: "Mot de passe mis à jour",
             className: "border-primary text-primary"

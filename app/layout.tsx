@@ -1,3 +1,4 @@
+import React from "react"
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import { cn } from '@/lib/utils'

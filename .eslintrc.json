@@ -1,10 +1,15 @@
 {
   "extends": [
     "plugin:tailwindcss/recommended",
-    "next/core-web-vitals"
+    "plugin:import/recommended",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:import/typescript"
   ],
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "no-unused-vars": 1,
+    "tailwindcss/no-custom-classname": 1
   },
   "overrides": [
     {

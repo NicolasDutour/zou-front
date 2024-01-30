@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { useFormState, useFormStatus } from 'react-dom'
@@ -21,7 +20,6 @@ function SubmitButton() {
 }
 
 export default function RegisterForm() {
-  const router = useRouter()
   const [state, dispatch] = useFormState(registerAction, null)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)

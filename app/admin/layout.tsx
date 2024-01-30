@@ -1,3 +1,4 @@
+import React from "react"
 import { cookies } from "next/headers"
 import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"

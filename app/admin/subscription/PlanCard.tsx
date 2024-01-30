@@ -1,6 +1,6 @@
 "use client"
 
-import { createCustomer, createSessionCheckout, listProducts } from '@/lib/actions/stripe-actions';
+import { createCustomer, listProducts } from '@/lib/actions/stripe-actions';
 import { PlanType } from '@/lib/types/homeType';
 import { cn } from '@/lib/utils';
 
@@ -11,8 +11,8 @@ export default function PlanCard({ plan, user }: { plan: PlanType, user: { id: s
     const customer = await createCustomer(user?.username, user?.email, `Zou client has subscribe to plan ${title}`)
 
     if (customer?.data?.id) {
-      const products = await listProducts()
-      const product = products.data.data.find(prod => prod.name === title)
+      await listProducts()
+      // const product = products.data.data.find(prod => prod.name === title)
 
       // if (product?.default_price) {
       //   const res = await createSessionCheckout(customer.data.id, product.default_price)

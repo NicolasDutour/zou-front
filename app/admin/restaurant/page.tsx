@@ -4,12 +4,12 @@ import Link from 'next/link'
 import Image from "next/image"
 import { IoLocationOutline } from 'react-icons/io5'
 import { AiOutlinePhone } from 'react-icons/ai'
-import { MdAlternateEmail } from 'react-icons/md'
+import { MdAlternateEmail , MdOutlineDeliveryDining , MdOutlineTableRestaurant } from 'react-icons/md'
 import { IoIosLink } from "react-icons/io";
-import { MdOutlineDeliveryDining } from "react-icons/md";
+
 import { TbPaperBag } from "react-icons/tb";
 import { FaHandRock } from "react-icons/fa";
-import { MdOutlineTableRestaurant } from "react-icons/md";
+
 
 import { Separator } from "@/components/ui/separator";
 import Breadcrumbs from '@/components/pages/admin/Breadcrumbs';

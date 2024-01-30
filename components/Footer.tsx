@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link";
-import { AiOutlineFacebook, AiOutlineInstagram } from "react-icons/ai";
+// import { AiOutlineFacebook, AiOutlineInstagram } from "react-icons/ai";
 import { usePathname } from "next/navigation"
 
 export default function Footer() {

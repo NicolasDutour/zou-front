@@ -26,7 +26,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   useEffect(() => {
     if (pathname.includes("/update") && product) {
-      const { product_name, ingredients, price, base, vegetarian, dessert } = product
+      const { product_name, ingredients, price, vegetarian, dessert } = product
 
       setValue('product_name', product_name)
       setValue('ingredients', ingredients)

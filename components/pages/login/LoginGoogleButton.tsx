@@ -3,11 +3,8 @@
 import { FcGoogle } from "react-icons/fc"
 import { Button } from '@/components/ui/button';
 import { IconContext } from "react-icons";
-import { useRouter } from 'next/navigation';
-import Cookies from 'js-cookie'
 
 export default function LoginGoogleButton() {
-  const router = useRouter()
   const loginWithGoogle = async () => {
 
   }

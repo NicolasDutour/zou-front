@@ -9,7 +9,7 @@ export default function SubscriptionButton({ sub_id, plan_id }: { sub_id: string
 
   const handleRemoveSusbcription = (sub_id: string) => {
     startTransition(async () => {
-      const data = await removeSusbcription(sub_id);
+      await removeSusbcription(sub_id);
     });
   };
 

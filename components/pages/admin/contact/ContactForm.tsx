@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from "react-hook-form"
 
@@ -19,7 +19,6 @@ export default function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-    setValue
   } = useForm<TypeFormSchemaContact>({
     resolver: zodResolver(FormSchemaContact),
   });
@@ -44,7 +43,7 @@ export default function LoginForm() {
       if (response.status === 200) {
         setIsLoading(false)
         try {
-          const contact = await response.json()
+          await response.json()
 
           toast({
             title: "Formulaire envoyé avec succés",

@@ -13,7 +13,7 @@ export async function profileAction(formData: any, userId: number) {
   if (!STRAPI_URL) throw new Error("Missing STRAPI_URL environment variable.");
 
   try {
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

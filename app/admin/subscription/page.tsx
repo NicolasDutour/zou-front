@@ -1,55 +1,49 @@
-import { cookies } from 'next/headers'
-
 import { Separator } from "@/components/ui/separator";
-import { capitalize, cn } from '@/lib/utils';
-import { PlanType } from '@/lib/types/homeType';
-import PlanCard from './PlanCard';
-import SubscriptionButton from './SubscriptionButton';
-import Stripe from 'stripe';
+// import Stripe from 'stripe';
 import dayjs from "dayjs"
 require('dayjs/locale/fr')
 dayjs.locale('fr')
 
-async function getDataUserInfo(token: string) {
-  if (token) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*&populate[pricing_plan][populate]=*`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      })
-    if (!res.ok) {
-      console.log("error");
-    }
-    return res.json()
-  }
-}
+// async function getDataUserInfo(token: string) {
+//   if (token) {
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*&populate[pricing_plan][populate]=*`,
+//       {
+//         method: 'GET',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           Authorization: `Bearer ${token}`
+//         }
+//       })
+//     if (!res.ok) {
+//       console.log("error");
+//     }
+//     return res.json()
+//   }
+// }
 
-async function getDataPlans() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pricing-plans`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    console.error('Failed to fetch data')
-  }
-  return res.json()
-}
+// async function getDataPlans() {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/pricing-plans`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     }
+//   })
+//   if (!res.ok) {
+//     // This will activate the closest `error.js` Error Boundary
+//     console.error('Failed to fetch data')
+//   }
+//   return res.json()
+// }
 
-async function retrieveSusbcription(sub_id: string) {
-  const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  const data = await stripe.subscriptions.retrieve(sub_id);
-  return {
-    data
-  }
-}
+// async function retrieveSusbcription(sub_id: string) {
+//   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
+//   const data = await stripe.subscriptions.retrieve(sub_id);
+//   return {
+//     data
+//   }
+// }
 
-export default async function SettingsSubscriptionsPage() {
+export default async function SubscriptionsPage() {
   // console.log("params", params);
 
   // const cookieStore = cookies()

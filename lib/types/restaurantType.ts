@@ -1,8 +1,8 @@
 import * as z from "zod"
 import { ProductType } from "./productType";
 
-const MAX_FILE_SIZE_BANNER = 500000;
-const ACCEPTED_IMAGE_TYPES_BANNER = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+// const MAX_FILE_SIZE_BANNER = 500000;
+// const ACCEPTED_IMAGE_TYPES_BANNER = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 export const FormSchemaRestaurant = z.object({
   restaurant_name: z
     .string()

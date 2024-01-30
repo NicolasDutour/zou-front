@@ -19,7 +19,7 @@ export function ProfileForm({ user }: { user: UserType }) {
   });
 
   const onHandleUpdateProfile = async (payload: z.infer<typeof FormSchemaProfile>) => {
-    const data = await profileAction(payload, user?.id)
+    await profileAction(payload, user?.id)
   }
 
   return (
