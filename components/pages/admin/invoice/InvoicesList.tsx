@@ -4,9 +4,9 @@ import { InvoiceItem } from "./InvoiceItem";
 export const InvoicesList = ({ invoices }: { invoices: InvoiceType[] }) => {
   return (
     <>{
-      invoices?.map((invoice) => {
+      invoices?.map((invoice, index) => {
         return (
-          <InvoiceItem invoice={invoice} />
+          <InvoiceItem key={index} invoice={invoice} />
         )
       })
     }</>
