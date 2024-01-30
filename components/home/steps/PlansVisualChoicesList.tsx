@@ -26,7 +26,7 @@ export const PlansVisualChoicesList = ({
   }
 
   return (
-    <>
+    <form>
       {
         plansVisualChoices.map((item, index) => {
           return (
@@ -39,6 +39,6 @@ export const PlansVisualChoicesList = ({
           )
         })
       }
-    </>
+    </form>
   )
 }
