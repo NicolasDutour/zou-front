@@ -32,6 +32,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 async function getHomeData() {
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  console.log("STRAPI_URL", STRAPI_URL);
+
   const url = `${STRAPI_URL}/api/home?&populate[home_banner_photo][populate]=*`;
 
   const response = await fetch(url, {
