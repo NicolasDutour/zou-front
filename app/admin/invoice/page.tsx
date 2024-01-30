@@ -1,18 +1,50 @@
 import { Separator } from "@/components/ui/separator";
-import InvoiceTable from "@/components/pages/admin/invoice/InvoiceTable";
 
-import { invoices } from '@/mock/data';
+import Breadcrumbs from "@/components/pages/admin/Breadcrumbs";
+import { NoInvoice } from "@/components/pages/admin/invoice/NoInvoice";
+import InvoicesList from "@/components/pages/admin/invoice/InvoicesList";
+import { cookies } from "next/headers";
+
+async function getInvoicesData(token: string) {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/users/me?populate[invoices][populate]=*`;
+
+  if (token) {
+    const response = await fetch(url,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      })
+    if (!response.ok) {
+      console.log("error");
+    }
+    return response.json()
+  }
+}
 
 export default async function InvoicePage() {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+  const invoices = await getInvoicesData(token || '')
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-lg font-medium">Factures</h1>
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Factures", href: "/admin/invoice" }
+        ]}
+      />
       <Separator />
-      {invoices?.length > 0 ?
-        <InvoiceTable invoices={invoices} /> :
-        <p className="mb-4">{"Vous n'avez pas de factures pour l'instant"}</p>}
+      {
+        invoices?.length > 0 ? (
+          <InvoicesList invoices={invoices} />
+        ) : (
+          <NoInvoice />
+        )
+      }
     </div>
   )
 }
