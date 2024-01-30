@@ -1,21 +1,24 @@
-import AccordeonItem from "@/components/AccordeonItem"
+import { FaqList } from "@/components/pages/admin/faq/FaqList"
 import {
   Accordion,
 } from "@/components/ui/accordion"
-import { FaqResponse } from "@/lib/types"
+
+import { FaqResponse } from "@/lib/types/faqType"
 
 async function getDataFaqs(): Promise<FaqResponse> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs?sort=id:asc`, {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/faqs?sort=id:asc`;
+
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
   })
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  if (!response.ok) {
     console.error('Failed to fetch data')
   }
-  return res.json()
+  return response.json()
 }
 
 export default async function FAQ() {
@@ -26,16 +29,12 @@ export default async function FAQ() {
   }
 
   return (
-    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-base">
-      <div className="max-w-4xl mx-auto">
+    <section id='faq' className="h-[calc(100vh-77px)] bg-base p-6">
+      <div className="mx-auto max-w-4xl">
         <h1 className="mb-8 text-2xl font-bold">Questions fréquentes</h1>
         <Accordion type="single" collapsible>
-          <div className="grid grid-cols-auto-fit-300 gap-4">
-            {
-              faqs?.data.map(faq => {
-                return <AccordeonItem key={faq.id} faq={faq} />
-              })
-            }
+          <div className="grid grid-cols-1 gap-4">
+            <FaqList faqs={faqs?.data} />
           </div>
         </Accordion>
       </div>

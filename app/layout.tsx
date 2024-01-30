@@ -1,9 +1,8 @@
+import React from "react"
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import { cn } from '@/lib/utils'
-import Navbar from '@/components/Navbar'
 import { Toaster } from "@/components/ui/toaster"
-import { headers } from 'next/headers';
 
 import './globals.css'
 import Footer from '@/components/Footer'
@@ -30,10 +29,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-
-  const headersList = headers();
-  const header_url = headersList.get('referer') || "";
-
   return (
     <html lang="fr" className='scroll-smooth'>
       <body className={cn(
@@ -42,11 +37,7 @@ export default function RootLayout({
       )}>
         <ProductFormContextProvider>
           <RestaurantFormContextProvider>
-            {(header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? null : <Navbar />}
-            <main className={cn(
-              "min-h-screen",
-              (header_url?.includes('restaurant') && !header_url?.includes('admin/restaurant')) ? '' : 'pt-[77px]'
-            )}>
+            <main>
               {children}
             </main>
             <Footer />

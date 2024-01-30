@@ -1,12 +1,12 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button";
-import { useUserStore } from "@/zustand/store"
-import { useEffect } from "react";
+import { useUserStore } from "@/global-state/store"
 
 export default function AuthButtons({ token }: { token: string }) {
   const router = useRouter()
@@ -34,7 +34,7 @@ export default function AuthButtons({ token }: { token: string }) {
     <div>
       <Button className="text-base" onClick={handleSignOut} variant="link">Se déconnecter</Button>
       <Button className="text-base" asChild variant={path.startsWith('/admin') ? 'activeLink' : 'link'}>
-        <Link href="/admin">Admin</Link>
+        <Link href="/admin/profile">Admin</Link>
       </Button>
     </div>
   ) : (

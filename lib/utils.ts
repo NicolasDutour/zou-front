@@ -56,6 +56,8 @@ export const addSpaceToPhoneNumber = (phone: string): string => {
 
   return phoneFormated;
 }
+
+// Return the time with "h" instead of ":" between hour and minutes
 export const formatTime = (time: string): string => {
   if (time) {
     const timeArray = time.split(':')
@@ -90,4 +92,22 @@ export const truncateFileName = (name: string, maxLength: number): string => {
     }
   }
   return name
+}
+
+export const formatCurrency = (amount: number) => {
+  return amount.toLocaleString('fr', {
+    style: 'currency',
+    currency: 'EUR',
+  });
+};
+
+// Return full day with time, ex: "10/12/2023 à 15h23"
+export const formatFullDay = (date: string) => {
+  const dateObject = new Date(date);
+  const year = dateObject.getFullYear();
+  const month = dateObject.getMonth() + 1
+  const day = dateObject.getDate();
+  const hours = dateObject.getHours();
+  const minutes = dateObject.getMinutes();
+  return `${day}/${month}/${year} à ${hours}h${minutes}`
 }

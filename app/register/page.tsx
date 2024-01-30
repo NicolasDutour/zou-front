@@ -1,10 +1,10 @@
-import RedirectLoginButton from '@/components/RedirectLoginButton';
-import RegisterForm from "./RegisterForm"
+import RedirectLoginButton from '@/components/RedirectLoginRegisterButton';
+import RegisterForm from "@/components/pages/register/RegisterForm"
 
 export default function Register() {
   return (
-    <div className="flex bg-base h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 lg:px-8">
-      <div className="mx-auto w-full md:max-w-lg bg-white p-4 rounded-lg shadow-custom">
+    <div className="flex h-[calc(100vh-77px)] flex-1 flex-col justify-center bg-base px-6 lg:px-8">
+      <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-custom md:max-w-lg">
         <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
           Enregistrez vous
         </h2>

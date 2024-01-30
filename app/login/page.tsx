@@ -1,12 +1,12 @@
-import RedirectLoginButton from '@/components/RedirectLoginButton'
-import LoginGoogleButton from "@/components/LoginGoogleButton"
-import LoginForm from './LoginForm'
-import Link from "next/link"
+import RedirectLoginButton from '@/components/RedirectLoginRegisterButton'
+// import LoginGoogleButton from "@/components/LoginGoogleButton"
+import LoginForm from '@/components/pages/login/LoginForm'
+// import Link from "next/link"
 
 export default function Login() {
   return (
-    <div className="flex bg-base h-[calc(100vh-77px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="mx-auto w-full md:max-w-lg bg-white p-4 rounded-lg shadow-custom">
+    <div className="flex h-[calc(100vh-77px)] flex-1 flex-col justify-center bg-base px-6 py-12 lg:px-8">
+      <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-custom md:max-w-lg">
         <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
           Connectez vous
         </h2>

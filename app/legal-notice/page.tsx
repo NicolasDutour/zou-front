@@ -1,44 +1,41 @@
+import { formatFullDay } from '@/lib/utils';
 import { remark } from 'remark';
 import html from 'remark-html';
 
-async function getData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/legal-notice`, {
+async function getLegalNoticeData() {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/legal-notice`;
+
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
   })
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  if (!response.ok) {
     console.error('Failed to fetch data')
+    return 'Error getting legal data'
   }
-  return res.json()
+  return response.json()
 }
 
 export default async function LegalNotice() {
-  const legal_notice = await getData()
+  const legalNoticeDetails = await getLegalNoticeData()
 
-  if (!legal_notice.data) {
-    return <div>No legal notice for today</div>
+  if (!legalNoticeDetails?.data?.attributes) {
+    return <div>No legal notice details available</div>;
   }
-
-  const dateObject = new Date(legal_notice?.data?.attributes?.updatedAt);
-  const year = dateObject.getFullYear();
-  const month = dateObject.getMonth() + 1; // Les mois sont indexés de 0 à 11, donc ajoutez 1.
-  const day = dateObject.getDate();
-  const hours = dateObject.getHours();
-  const minutes = dateObject.getMinutes();
 
   const processedContent = await remark()
     .use(html)
-    .process(legal_notice?.data?.attributes?.content);
+    .process(legalNoticeDetails?.data?.attributes?.content);
   const contentHtml = processedContent.toString();
 
   return (
-    <div className='legal-notice p-6'>
+    <div className='p-6'>
       <p className='mb-6 text-4xl'>Les mentions légales</p>
       <div dangerouslySetInnerHTML={{ __html: contentHtml.replaceAll('\n', '<br />') }} />
-      <p className='font-medium text-sm'>Dernière modification : Le {`${day}/${month}/${year} à ${hours}h${minutes}`}.</p>
+      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(legalNoticeDetails?.data?.attributes?.updatedAt)}.</p>
     </div>
   )
 }
