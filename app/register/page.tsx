@@ -1,5 +1,5 @@
-import RedirectLoginButton from '@/components/RedirectLoginButton';
-import RegisterForm from "./RegisterForm"
+import RedirectLoginButton from '@/components/RedirectLoginRegisterButton';
+import RegisterForm from "@/components/pages/register/RegisterForm"
 
 export default function Register() {
   return (

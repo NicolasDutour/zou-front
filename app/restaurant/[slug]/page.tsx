@@ -1,49 +1,55 @@
-import RestaurantBanner from "@/components/RestaurantBanner"
-import Mapbox from "@/components/MapBox"
-import RestaurantInfo from "@/components/RestaurantInfo";
-import ListMenu from "@/components/ListMenu";
 import { Metadata, ResolvingMetadata } from "next";
-import RestaurantDescription from "@/components/RestaurantDescription";
-import ListMenuFiles from "@/components/ListMenuFiles";
 
-type Props = {
-  params: { slug: string }
-}
+import RestaurantBanner from "@/components/pages/restaurant/RestaurantBanner"
+import Mapbox from "@/components/pages/restaurant/MapBox"
+import RestaurantInfo from "@/components/pages/restaurant/RestaurantInfo";
+import ListMenu from "@/components/pages/restaurant/ListMenu";
+import RestaurantDescription from "@/components/pages/restaurant/RestaurantDescription";
+import ListMenuFiles from "@/components/pages/restaurant/ListMenuFiles";
 
 export async function generateMetadata(
-  { params }: Props,
+  {
+    params
+  }: {
+    params: {
+      slug: string
+    }
+  },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const slug = params.slug
 
-  const restaurantData = await getRestaurantDetails(slug)
+  const restaurantDetails = await getRestaurantDetails(slug)
+  const { restaurant_name, description } = restaurantDetails?.data[0].attributes || {}
 
   return {
-    title: restaurantData.data[0]?.attributes.restaurant_name,
-    description: restaurantData.data[0]?.attributes.description,
+    title: restaurant_name || "",
+    description: description || "",
     alternates: {
-      canonical: `/${restaurantData.data[0]?.attributes.slug}`,
+      canonical: `/${slug}`,
       // languages: {
       //   "fr": `fr/${restaurantData.data[0].attributes.slug}`,
       //   "en-EN": `en/${restaurantData.data[0].attributes.slug}`
       // }
     },
     openGraph: {
-      title: restaurantData.data[0]?.attributes.restaurant_name,
-      description: restaurantData.data[0]?.attributes.description,
+      title: restaurant_name || "",
+      description: description || "",
       type: 'website',
       url: `${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
-      title: restaurantData.data[0]?.attributes.restaurant_name,
-      description: restaurantData.data[0]?.attributes.description
+      title: restaurant_name || "",
+      description: description || ""
     }
   }
 }
 
 const getRestaurantDetails = async (slug: string) => {
-  const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*&populate[menu_photo][populate]=*`
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*&populate[menu_photo][populate]=*`;
+
   const response = await fetch(url,
     {
       method: 'GET',
@@ -60,37 +66,53 @@ const getRestaurantDetails = async (slug: string) => {
   return response.json();
 }
 
-export default async function Restaurant({ params }: Props) {
+export default async function Restaurant({
+  params
+}: {
+  params: {
+    slug: string
+  }
+}) {
   const slug = params?.slug
-  const restaurantData = await getRestaurantDetails(slug)
+  const restaurantDetails = await getRestaurantDetails(slug)
   const environment = process.env.NODE_ENV
 
-  const { attributes } = restaurantData?.data[0] || {};
+  const { attributes } = restaurantDetails?.data[0] || {};
 
   const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
   const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data;
   const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data && attributes?.products?.data.length > 0;
 
+  const renderListMenuFiles = () => hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />;
+  const renderListMenu = () => hasListMenu && <ListMenu environment={environment} products={attributes?.products?.data} />;
+  const renderBothMenus = () => hasBothMenus && (
+    <>
+      <ListMenuFiles files={attributes?.menu_photo?.data} />
+      <ListMenu environment={environment} products={attributes?.products?.data} />
+    </>
+  );
+
+  const renderRestaurantBanner = () => attributes && <RestaurantBanner restaurant={attributes} />;
+  const renderRestaurantDescription = () => attributes?.description && <RestaurantDescription description={attributes.description} />;
+  const renderRestaurantInfo = () => attributes && <RestaurantInfo restaurant={attributes} />;
+  const renderMapbox = () => attributes && <Mapbox restaurant={attributes} />;
+
+
   return (
     <div>
-      {attributes ? <RestaurantBanner environment={environment} restaurant={attributes} /> : null}
-      {attributes?.description ? <RestaurantDescription description={attributes.description} /> : null}
+      {renderRestaurantBanner()}
+      {renderRestaurantDescription()}
 
-      {hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />}
-      {hasListMenu && <ListMenu environment={environment} products={attributes.products.data} />}
-      {hasBothMenus && (
-        <>
-          <ListMenuFiles files={attributes?.menu_photo?.data} />
-          <ListMenu environment={environment} products={attributes.products.data} />
-        </>
-      )}
+      {renderListMenuFiles()}
+      {renderListMenu()}
+      {renderBothMenus()}
 
       <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
-        {attributes ? <RestaurantInfo restaurant={attributes} /> : null}
+        {renderRestaurantInfo()}
         <div>
-          {attributes ? <Mapbox restaurant={attributes} /> : null}
+          {renderMapbox()}
         </div>
       </div>
-    </div >
+    </div>
   )
 }

@@ -1,7 +1,7 @@
-import RedirectLoginButton from '@/components/RedirectLoginButton'
-import LoginGoogleButton from "@/components/LoginGoogleButton"
-import LoginForm from './LoginForm'
-import Link from "next/link"
+import RedirectLoginButton from '@/components/RedirectLoginRegisterButton'
+// import LoginGoogleButton from "@/components/LoginGoogleButton"
+import LoginForm from '@/components/pages/login/LoginForm'
+// import Link from "next/link"
 
 export default function Login() {
   return (

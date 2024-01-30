@@ -1,11 +1,16 @@
-import Banner from "@/components/Banner";
-import Services from "@/components/Services";
-import Plans from "@/components/Plans";
-import Steps from "@/components/Steps";
 import { Metadata } from "next";
+import Banner from "@/components/home/Banner";
+// import Services from "@/components/home/services/Services";
+import Steps from "@/components/home/steps/Steps";
+import Plans from "@/components/home/plans/Plans";
+import { HomeInfoType } from "@/lib/types/homeType";
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { GoSignOut } from "react-icons/go";
+import { LogoutButton } from "@/components/home/LogoutButton";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const homeInfo = await getDataHome()
+  const homeInfo: { data: HomeInfoType } = await getHomeData()
   const { attributes: { title, subtitle } } = homeInfo.data
 
   return {
@@ -28,29 +33,40 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-async function getDataHome() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/home?&populate[home_banner_photo][populate]=*`, {
+async function getHomeData() {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/home?&populate[home_banner_photo][populate]=*`;
+
+  const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
   })
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
+  if (!response.ok) {
     console.error('Failed to fetch data')
   }
-  return res.json()
+  return response.json()
 }
 
-export default async function Home() {
-  const homeInfo = await getDataHome()
+export default async function HomePage() {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+  const homeInfo: { data: HomeInfoType } = await getHomeData()
 
   return (
-    <div>
+    <div className="relative">
+      {
+        token ? (
+          <Link className="fixed top-4 right-4 z-20 bg-secondary hover:bg-primary text-white rounded-lg px-6 py-4" href="/admin/profile">Tableau de bord</Link>
+        ) : (
+          <Link className="fixed top-4 right-4 bg-secondary hover:bg-primary text-white rounded-lg px-6 py-4 z-20" href="/login">Se connecter</Link>
+        )
+      }
       {homeInfo?.data ? <Banner homeInfo={homeInfo.data} /> : null}
-      <Services />
+      {/* <Services /> */}
       <Steps />
-      <Plans />
+      {/* <Plans /> */}
     </div>
   )
 }

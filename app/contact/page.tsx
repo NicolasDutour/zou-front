@@ -1,13 +1,13 @@
+import { Metadata } from "next"
 import Image from "next/image"
 
-import ContactForm from './ContactForm'
-import { Metadata } from "next"
+import ContactForm from '@/components/pages/admin/contact/ContactForm'
 
 export const metadata: Metadata = {
   title: 'Contact'
 }
 
-export default function Login() {
+export default function ContactPage() {
   return (
     <div className="bg-gray-900 h-[calc(100vh-77px)] p-6">
       <div className="max-w-4xl mx-auto">

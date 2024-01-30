@@ -1,18 +1,21 @@
-
+import { cookies } from "next/headers"
 import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"
 import { IoRestaurantOutline } from "react-icons/io5"
 import { MdOutlineEmojiFoodBeverage } from "react-icons/md"
 import { LiaFileInvoiceSolid } from "react-icons/lia"
 
-import { SidebarNav } from "./components/SidebarNav"
-import { cookies } from "next/headers"
-import { capitalize } from "@/lib/utils"
+import { SidebarNav } from "@/components/pages/admin/SidebarNav"
+import { SidebarTop } from "@/components/pages/admin/SidebarTop"
 
-const sidebarNavItems = [
+import { SidebarNavItemType } from "@/lib/types"
+import { UserType } from "@/lib/types/userType"
+import { LogoutButton } from "@/components/home/LogoutButton"
+
+const sidebarNavItems: SidebarNavItemType[] = [
   {
     title: "Profil",
-    href: "/admin",
+    href: "/admin/profile",
     icon: <GoPerson />
   },
   {
@@ -22,31 +25,29 @@ const sidebarNavItems = [
   },
   {
     title: "Produits",
-    href: "/admin/products",
+    href: "/admin/product",
     icon: <MdOutlineEmojiFoodBeverage />
   },
   {
     title: "Abonnement",
-    href: "/admin/subscriptions",
+    href: "/admin/subscription",
     icon: <BsStar />
   },
   {
     title: "Factures",
-    href: "/admin/invoices",
+    href: "/admin/invoice",
     icon: <LiaFileInvoiceSolid />
   }
 ]
 
-interface SettingsLayoutProps {
-  children: React.ReactNode
-}
-
-async function getData() {
+async function getUserData() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/users/me`;
 
   if (token) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[restaurants][populate]=*`,
+    const response = await fetch(url,
       {
         method: 'GET',
         headers: {
@@ -54,32 +55,31 @@ async function getData() {
           Authorization: `Bearer ${token}`
         }
       })
-    if (!res.ok) {
+    if (!response.ok) {
       console.log("error");
     }
-    return res.json()
+    return response.json()
   }
 }
 
-export default async function SettingsLayout({ children }: SettingsLayoutProps) {
-  const data = await getData()
+export default async function Layout({
+  children
+}: {
+  children: React.ReactNode
+}) {
+  const user: UserType = await getUserData()
 
   return (
-    <div className="space-y-6 p-10 pb-16 md:block">
+    <div className="md:block p-4">
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-        <aside className="mx-4 lg:w-1/5">
-          <div className="sticky top-[141px]">
-            {
-              data?.username ? (
-                <div className="shadow-2xl p-4 rounded-2xl mb-4 grid place-items-center">
-                  <p className=" text-lg">Bonjour {capitalize(data?.username)}</p>
-                </div>
-              ) : null
-            }
+        <aside className="lg:w-1/5">
+          <div className="sticky top-4">
+            <SidebarTop user={user} />
             <SidebarNav items={sidebarNavItems} />
+            <LogoutButton />
           </div>
         </aside>
-        <div className="flex-1 shadow-custom p-6 rounded-2xl">{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
     </div>
   )

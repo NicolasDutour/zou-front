@@ -3,10 +3,10 @@ import { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
+  const queryId = request.nextUrl.searchParams.get('id')
   const token = request.cookies.get('token')
   const isAuthRoute = path === '/login' || path === '/register'
   const isPrivateRoute = path.startsWith('/admin')
-
 
   if (isAuthRoute && token?.value) {
     return NextResponse.redirect(new URL('/', request.url))
@@ -19,6 +19,9 @@ export function middleware(request: NextRequest) {
   // Store current request url in a custom header, which you can read later
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set('referer', request.url)
+  if (queryId !== null) {
+    requestHeaders.set('queryId', queryId)
+  }
 
   return NextResponse.next({
     request: {
