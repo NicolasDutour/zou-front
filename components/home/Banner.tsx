@@ -8,6 +8,8 @@ import Link from "next/link";
 export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
   const environment = process.env.NODE_ENV;
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  console.log("STRAPI_URL", STRAPI_URL);
+
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ''
   const { attributes: { title, subtitle, slogan, slogan_bis, slogan_ter, home_banner_photo, price } } = homeInfo;
