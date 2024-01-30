@@ -35,7 +35,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
       setValue('vegetarian', vegetarian)
       setValue('dessert', dessert)
     }
-  }, [setValue])
+  }, [setValue, pathname, product])
 
   async function onHandleCreateOrUpdateProduct(payload: z.infer<typeof FormSchemaProduct>) {
     const newData = {
@@ -61,8 +61,8 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   return (
     <form onSubmit={handleSubmit(onHandleCreateOrUpdateProduct)}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
           <div className='space-y-2'>
             <label htmlFor="product_name" className="block text-sm font-medium leading-6 text-gray-600">
               Nom du produit
@@ -72,9 +72,9 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
                 {...register("product_name")}
                 id="product_name"
                 type="text"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.product_name?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.product_name?.message}</p>
             </div>
           </div>
           <div className='space-y-2'>
@@ -86,9 +86,9 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
                 {...register("ingredients")}
                 id="ingredients"
                 type="text"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.ingredients?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.ingredients?.message}</p>
             </div>
           </div>
           <div className='space-y-2'>
@@ -102,13 +102,13 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
                 })}
                 id="price"
                 type="number"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.price?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.price?.message}</p>
             </div>
           </div>
         </div>
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
           <div className='space-y-2'>
             <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-600">
               Photo du produit
@@ -118,14 +118,14 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
                 {...register("photo")}
                 id="photo"
                 type="file"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">
+              <p className="mt-2 text-sm text-red-500">
                 {errors.photo && typeof errors.photo.message === 'string'
                   ? errors.photo.message
                   : ''}
               </p>
-              <div className="relative border rounded-md h-52 mt-6">
+              <div className="relative mt-6 h-52 rounded-md border">
                 <Image
                   src={product?.photo ? environment === "production" ? product?.photo?.data?.attributes?.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${product?.photo?.data?.attributes?.url}` : "/no_image.png"}
                   alt={product?.photo?.data?.attributes?.name || "no_image"}
@@ -143,31 +143,31 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             </div>
           </div>
         </div>
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-            <div className="flex items-center border p-4 rounded-lg">
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
+          <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("vegetarian")}
                   id="vegetarian"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="vegetarian" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="vegetarian" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 Pizza végétarienne
               </label>
             </div>
-            <div className="flex items-center border p-4 rounded-lg">
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("dessert")}
                   id="dessert"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="dessert" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="dessert" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 Pizza dessert
               </label>
             </div>

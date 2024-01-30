@@ -5,12 +5,12 @@ const Product = ({ product }: { product: ProductType }) => {
   const { product_name, ingredients, price } = product
 
   return (
-    <div className="md:flex items-center border border-gray-200 rounded-lg p-4 bg-white hover:border hover:border-slate-400 transition-all">
-      <div className="w-full md:w-1/4 uppercase tracking-wider font-bold">{product_name || null}</div>
-      <div className="md:pl-6 mb-4 md:mb-0">
+    <div className="items-center rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border hover:border-slate-400 md:flex">
+      <div className="w-full font-bold uppercase tracking-wider md:w-1/4">{product_name || null}</div>
+      <div className="mb-4 md:mb-0 md:pl-6">
         {formatIngredients(ingredients) || null}
       </div>
-      <div className="ml-auto font-bold italic text-lg">
+      <div className="ml-auto text-lg font-bold italic">
         {price.toFixed(2) || null} €
       </div>
     </div>

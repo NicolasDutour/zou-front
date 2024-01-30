@@ -15,20 +15,20 @@ export default function Footer() {
   ) {
     return (
       <footer>
-        <div className="grid md:grid-cols-3 text-gray-400 bg-gray-900 p-6 gap-4 border-b border-b-slate-100">
+        <div className="grid gap-4 border-b border-b-slate-100 bg-gray-900 p-6 text-gray-400 md:grid-cols-3">
           <div>
-            <p className="text-lg font-medium mb-4 text-white">A propos</p>
+            <p className="mb-4 text-lg font-medium text-white">A propos</p>
             <p> {"Zou vous permet d'avoir une page web pour y afficher toutes les informations de votre établissement."} </p>
           </div>
           <div>
-            <p className="text-lg font-medium mb-4 text-white">Pages</p>
+            <p className="mb-4 text-lg font-medium text-white">Pages</p>
             <ul>
               <li><Link href='/faq' className="hover:text-white">FAQ</Link></li>
               {/* <li><Link href="/contact" className="hover:text-white">Nous contacter</Link></li> */}
             </ul>
           </div>
           <div>
-            <p className="text-lg font-medium mb-4 text-white">Contact</p>
+            <p className="mb-4 text-lg font-medium text-white">Contact</p>
             <div>
               <p>dutourn99@gmail.com</p>
               <div className="flex">
@@ -38,7 +38,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="grid md:grid-cols-4 place-items-center bg-gray-900 text-gray-400 p-4 text-sm">
+        <div className="grid place-items-center bg-gray-900 p-4 text-sm text-gray-400 md:grid-cols-4">
           <p className="uppercase">© {new Date().getFullYear() > 2023 ? "2023 -" : ""} {new Date().getFullYear()} - Tous droits réservés</p>
           <Link href="/legal-notice" className="uppercase hover:text-white">Mentions légales</Link>
           <Link href="/personal-data" className="uppercase hover:text-white">Données personnelles</Link>

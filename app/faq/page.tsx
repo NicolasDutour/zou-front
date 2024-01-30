@@ -29,11 +29,11 @@ export default async function FAQ() {
   }
 
   return (
-    <section id='faq' className="p-6 h-[calc(100vh-77px)] bg-base">
-      <div className="max-w-4xl mx-auto">
+    <section id='faq' className="h-[calc(100vh-77px)] bg-base p-6">
+      <div className="mx-auto max-w-4xl">
         <h1 className="mb-8 text-2xl font-bold">Questions fréquentes</h1>
         <Accordion type="single" collapsible>
-          <div className="grid grid-cols-auto-fit-300 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <FaqList faqs={faqs?.data} />
           </div>
         </Accordion>

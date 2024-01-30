@@ -70,7 +70,7 @@ export default async function Layout({
   const user: UserType = await getUserData()
 
   return (
-    <div className="md:block p-4">
+    <div className="p-4 md:block">
       <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
         <aside className="lg:w-1/5">
           <div className="sticky top-4">

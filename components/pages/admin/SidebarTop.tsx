@@ -6,9 +6,9 @@ export const SidebarTop = ({ user }: { user: UserType }) => {
     <>
       {
         user?.username ? (
-          <div className="rounded-xl bg-secondary text-white mb-4 p-2">
-            <p className="text-2xl text-center">Bonjour</p>
-            <p className="text-xl italic text-center">{capitalize(user?.username)}</p>
+          <div className="mb-4 rounded-xl bg-secondary p-2 text-white">
+            <p className="text-center text-2xl">Bonjour</p>
+            <p className="text-center text-xl italic">{capitalize(user?.username)}</p>
           </div>
         ) : null
       }

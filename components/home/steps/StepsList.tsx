@@ -82,7 +82,7 @@ export const StepsList = ({ token }: { token: string }) => {
   return (
     <div>
       <PlansVisualChoicesList choice={choice} setChoice={setChoice} />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
         {
           stepsFiltered()?.map((step, index) => {
             return token && index === 5 ? null : <StepItem key={index} index={index + 1} step={step} />

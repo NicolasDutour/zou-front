@@ -60,7 +60,7 @@ export default async function RestaurantPage() {
 
   return (
     <div className="space-y-6">
-      <div className='flex justify-between items-center'>
+      <div className='flex items-center justify-between'>
         <Breadcrumbs
           breadcrumbs={[
             { label: "Restaurant", href: "/admin/restaurant" }
@@ -77,39 +77,39 @@ export default async function RestaurantPage() {
 
       {
         restaurant ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className='rounded-2xl bg-muted p-4 space-y-4'>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className='space-y-4 rounded-2xl bg-muted p-4'>
               <div className='space-y-2'>
-                <p className=' font-medium text-center text-2xl mb-8 uppercase text-primary'>{restaurant?.restaurant_name} </p>
+                <p className=' mb-8 text-center text-2xl font-medium uppercase text-primary'>{restaurant?.restaurant_name} </p>
                 <div className='flex items-center text-gray-600'>
-                  <p className='text-gray-600 mr-4'>
+                  <p className='mr-4 text-gray-600'>
                     <IoLocationOutline className="text-2xl text-primary" />
                   </p>
                   <p>{restaurant?.address}</p>
                 </div>
                 <div className='flex items-center text-gray-600'>
-                  <p className='text-gray-600 mr-4'>
+                  <p className='mr-4 text-gray-600'>
                     <MdAlternateEmail className="text-2xl text-primary" />
                   </p>
                   <p>{restaurant?.email}</p>
                 </div>
                 <div className='flex items-center text-gray-600'>
-                  <p className='text-gray-600 mr-4'>
+                  <p className='mr-4 text-gray-600'>
                     <AiOutlinePhone className="text-2xl text-primary" />
                   </p>
                   <p>{addSpaceToPhoneNumber(restaurant?.phone)}</p>
                 </div>
                 <div className='flex items-center text-gray-600'>
-                  <p className='text-gray-600 mr-4'>
+                  <p className='mr-4 text-gray-600'>
                     <IoIosLink className="text-2xl text-primary" />
                   </p>
-                  <Link className="underline underline-offset-4 text-primary" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(restaurant?.restaurant_name)}`} target="_blank">
+                  <Link className="text-primary underline underline-offset-4" href={`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(restaurant?.restaurant_name)}`} target="_blank">
                     {`${process.env.NEXT_PUBLIC_FRONT_URL}/restaurant/${createSlug(restaurant?.restaurant_name)}`}
                   </Link>
                 </div>
               </div>
             </div>
-            <div className='relative rounded-2xl bg-muted p-4 space-y-4 h-48 md:h-full'>
+            <div className='relative h-48 space-y-4 rounded-2xl bg-muted p-4 md:h-full'>
               <Image
                 src={restaurant?.banner_photo ? environment === "production" ? restaurant?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` : "/no_image.png"}
                 alt={restaurant?.banner_photo?.name || "no_image"}
@@ -124,23 +124,23 @@ export default async function RestaurantPage() {
                 className="rounded-lg"
               />
             </div>
-            <div className='rounded-2xl bg-muted p-4 space-y-4'>
+            <div className='space-y-4 rounded-2xl bg-muted p-4'>
               <div className='space-y-2'>
-                <p className=' font-medium text-lg mb-8 text-gray-600'> Brève présentation </p>
+                <p className=' mb-8 text-lg font-medium text-gray-600'> Brève présentation </p>
                 <div className='flex items-center text-gray-600'>
                   <p>{restaurant?.short_description}</p>
                 </div>
               </div>
             </div>
-            <div className='rounded-2xl bg-muted p-4 space-y-4'>
+            <div className='space-y-4 rounded-2xl bg-muted p-4'>
               <div className='space-y-2'>
-                <p className=' font-medium text-lg mb-8 text-gray-600'> Services proposés</p>
-                <div className={`grid grid-cols-2 mt-4 gap-4`}>
+                <p className=' mb-8 text-lg font-medium text-gray-600'> Services proposés</p>
+                <div className={`mt-4 grid grid-cols-2 gap-4`}>
                   {options.map(({ key, value, icon }) => {
                     if (restaurant[key] === true) {
                       return (
                         <div key={key} className="flex items-center">
-                          <p className='text-secondary text-6xl mr-4'>{icon}</p>
+                          <p className='mr-4 text-6xl text-secondary'>{icon}</p>
                           <p className='text-secondary'> {capitalize(value)} </p>
                         </div>
                       );
@@ -150,9 +150,9 @@ export default async function RestaurantPage() {
                 </div>
               </div>
             </div>
-            <div className='rounded-2xl bg-muted p-4 space-y-4 md:col-span-2'>
+            <div className='space-y-4 rounded-2xl bg-muted p-4 md:col-span-2'>
               <div className='space-y-2'>
-                <p className=' font-medium text-lg mb-8 text-gray-600'> Présentation de votre établissement </p>
+                <p className=' mb-8 text-lg font-medium text-gray-600'> Présentation de votre établissement </p>
                 <div className='flex items-center text-gray-600'>
                   <p>{restaurant?.description}</p>
                 </div>
@@ -160,14 +160,14 @@ export default async function RestaurantPage() {
             </div>
             {
               hasBothMenus ? (
-                <div className='rounded-2xl bg-muted col-span-2 p-4 space-y-4'>
+                <div className='col-span-2 space-y-4 rounded-2xl bg-muted p-4'>
                   <div className='space-y-2'>
-                    <p className=' font-medium text-xl mb-8 text-gray-600'> Les menus</p>
-                    <div className={`grid grid-cols-2 mt-4 gap-4`}>
+                    <p className=' mb-8 text-xl font-medium text-gray-600'> Les menus</p>
+                    <div className={`mt-4 grid grid-cols-2 gap-4`}>
                       {restaurant?.menu_photo?.map((file: any, index: number) => {
                         return (
                           <div key={index} className="flex items-center">
-                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="p-6 rounded-md border border-primary bg-white hover:bg-primary hover:text-white transition-all flex justify-center items-center cursor-pointer"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-white p-6 transition-all hover:bg-primary hover:text-white"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                           </div>
                         );
                       })}
@@ -179,14 +179,14 @@ export default async function RestaurantPage() {
 
             {
               hasFilesMenu ? (
-                <div className='rounded-2xl bg-muted p-4 space-y-4'>
+                <div className='space-y-4 rounded-2xl bg-muted p-4'>
                   <div className='space-y-2'>
-                    <p className=' font-medium text-xl mb-8 text-gray-600'> Les menus</p>
-                    <div className={`grid grid-cols-2 mt-4 gap-4`}>
+                    <p className=' mb-8 text-xl font-medium text-gray-600'> Les menus</p>
+                    <div className={`mt-4 grid grid-cols-2 gap-4`}>
                       {restaurant?.menu_photo?.map((file: any, index: number) => {
                         return (
                           <div key={index} className="flex items-center">
-                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="p-6 rounded-md border border-primary bg-white hover:bg-primary hover:text-white transition-all flex justify-center items-center cursor-pointer"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-primary bg-white p-6 transition-all hover:bg-primary hover:text-white"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                           </div>
                         );
                       })}

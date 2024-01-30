@@ -5,8 +5,8 @@ import MenuFile from "./MenuFile"
 
 const ListMenuFiles = ({ files }: { files: FileType[] }) => {
   return (
-    <section className="bg-slate-100 py-8 px-6">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4">
+    <section className="bg-slate-100 px-6 py-8">
+      <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2">
         {files.map((file, index) => <MenuFile key={index} file={file} />)}
       </div>
     </section>

@@ -9,7 +9,7 @@ export const OptionItem = ({ option, restaurant }: { option: { key: string, valu
       <div className={cn("mr-6 text-2xl", (restaurant as any)[option.key] ? "text-green-600" : "text-red-600")}>
         {(restaurant as any)[option.key] ? <FaCheck /> : <RxCross2 />}
       </div>
-      <p className="text-white text-center text-lg">{capitalize(option.value)}</p>
+      <p className="text-center text-lg text-white">{capitalize(option.value)}</p>
     </div>
   )
 }

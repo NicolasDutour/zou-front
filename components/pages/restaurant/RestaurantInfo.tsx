@@ -39,22 +39,22 @@ export default function RestaurantInfo({ restaurant }: { restaurant: RestaurantT
   // }
 
   return (
-    <div className="flex flex-col justify-around items-center p-6">
+    <div className="flex flex-col items-center justify-around p-6">
       <div>
-        <p className="text-center text-2xl mb-4 uppercase text-white"> {restaurant?.restaurant_name}</p>
-        <div className='flex items-center mb-4'>
-          <IoLocationOutline className="text-white text-2xl" />
-          <div className='flex flex-col ml-6'>
+        <p className="mb-4 text-center text-2xl uppercase text-white"> {restaurant?.restaurant_name}</p>
+        <div className='mb-4 flex items-center'>
+          <IoLocationOutline className="text-2xl text-white" />
+          <div className='ml-6 flex flex-col'>
             <p className="text-lg text-gray-400">{restaurant?.address && restaurant?.address + ','}</p>
           </div>
         </div>
-        <div className='flex items-center mb-4'>
-          <AiOutlinePhone className="text-white text-2xl" />
-          <p className="text-lg text-gray-400 ml-6">{addSpaceToPhoneNumber(restaurant?.phone) || null}</p>
+        <div className='mb-4 flex items-center'>
+          <AiOutlinePhone className="text-2xl text-white" />
+          <p className="ml-6 text-lg text-gray-400">{addSpaceToPhoneNumber(restaurant?.phone) || null}</p>
         </div>
-        <div className='flex items-center mb-4'>
-          <MdAlternateEmail className="text-white text-2xl" />
-          <p className="text-lg text-gray-400 ml-6">{restaurant?.email || null}</p>
+        <div className='mb-4 flex items-center'>
+          <MdAlternateEmail className="text-2xl text-white" />
+          <p className="ml-6 text-lg text-gray-400">{restaurant?.email || null}</p>
         </div>
       </div>
       {/* <div>

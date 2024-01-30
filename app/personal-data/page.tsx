@@ -28,10 +28,10 @@ export default async function PersonalData() {
   const contentHtml = processedContent.toString();
 
   return (
-    <div className='legal-notice p-6'>
+    <div className='p-6'>
       <p className='mb-6 text-4xl'>Les données personnelles</p>
       <div dangerouslySetInnerHTML={{ __html: contentHtml.replaceAll('\n', '<br />') }} />
-      <p className='font-medium text-sm'>Dernière modification : Le {formatFullDay(updatedAt)}.</p>
+      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(updatedAt)}.</p>
     </div>
   )
 }

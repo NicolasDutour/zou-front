@@ -2,8 +2,8 @@ import Link from 'next/link'
 
 export const NoRestaurant = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className='rounded-2xl bg-muted p-4 space-y-4'>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className='space-y-4 rounded-2xl bg-muted p-4'>
         <div className='space-y-2'>
           <p>Vous n'avez pas encore de restaurant</p>
           <Link

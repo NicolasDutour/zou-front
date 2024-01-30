@@ -67,16 +67,16 @@ export default function ForgotPasswordForm() {
               {...register("email")}
               id="email"
               type="email"
-              className="block w-full rounded-md focus:outline-none p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
+              className="block w-full rounded-md p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
             />
-            <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
+            <p className="mt-2 text-sm text-red-500">{errors.email?.message}</p>
           </div>
         </div>
         <div>
           <button
             type='submit'
             disabled={isLoading}
-            className="disabled:opacity-40 flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-40"
           >
             {
               isLoading ? (

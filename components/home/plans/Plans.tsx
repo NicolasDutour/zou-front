@@ -25,10 +25,10 @@ export default async function Plans() {
   }
 
   return (
-    <section className="bg-white py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl mb-6 font-bold">Un abonnement unique</h1>
-        <div className="flex flex-wrap gap-6 justify-center items-center">
+    <section className="bg-white px-6 py-20">
+      <div className="mx-auto max-w-5xl">
+        <h1 className="mb-6 text-3xl font-bold">Un abonnement unique</h1>
+        <div className="flex flex-wrap items-center justify-center gap-6">
           <PlansList plans={plans?.data} />
         </div>
       </div>

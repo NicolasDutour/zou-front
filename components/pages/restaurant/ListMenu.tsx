@@ -40,10 +40,10 @@ const ListMenu = ({ environment, products }: {
   }
 
   return (
-    <section className="bg-slate-100 py-8 px-6">
-      <div className="max-w-5xl mx-auto">
+    <section className="bg-slate-100 px-6 py-8">
+      <div className="mx-auto max-w-5xl">
         <Tabs defaultValue="tomate" className="w-full">
-          <TabsList className={`bg-gray-800 mb-6 grid w-full gap-1 grid-cols-1 md:grid-cols-${criterias.length}`}>
+          <TabsList className={`md:grid-cols-${criterias.length} mb-6 grid w-full grid-cols-1 gap-1 bg-gray-800`}>
             {criterias.map((criteria, index) => <TabsTrigger className="text-lg hover:bg-white hover:text-gray-800" key={index} onClick={() => setCriteria(criteria)} value={criteria}> {capitalize(criteria)} </TabsTrigger>)}
           </TabsList>
           <TabsContent value={criteria}>
@@ -82,8 +82,8 @@ const ListMenu = ({ environment, products }: {
                             aspect-auto="true"
                             className="rounded-lg"
                           />
-                          <p className="text-gray-900 font-bold py-2 text-2xl">{product_name}</p>
-                          <p className="text-sm mb-4">{formatIngredients(ingredients)}</p>
+                          <p className="py-2 text-2xl font-bold text-gray-900">{product_name}</p>
+                          <p className="mb-4 text-sm">{formatIngredients(ingredients)}</p>
                           <p className="text-xl font-bold">{price.toFixed(2) || null} €</p>
                         </div>
                       </PopoverContent>

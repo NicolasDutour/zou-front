@@ -49,7 +49,7 @@ export function RestaurantForm({
       setValue('delivery', delivery)
       setValue('eat_in', eat_in)
     }
-  }, [setValue])
+  }, [setValue, pathname, restaurant])
 
   const fetchAddressSuggestions = async (query: string) => {
     try {
@@ -120,9 +120,9 @@ export function RestaurantForm({
 
   return (
     <form onSubmit={handleSubmit(onHandleCreateOrUpdateRestaurant)}>
-      <p className="text-sm mb-2 font-medium">Champs obligatoires <span className="text-red-600">*</span></p>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
+      <p className="mb-2 text-sm font-medium">Champs obligatoires <span className="text-red-600">*</span></p>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
           <div className='space-y-2'>
             <label htmlFor="restaurant_name" className="block text-sm font-medium leading-6 text-gray-600">
               Nom du restaurant <span className="text-red-600">*</span>
@@ -133,9 +133,9 @@ export function RestaurantForm({
                 id="restaurant_name"
                 type="text"
                 autoFocus
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.restaurant_name?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.restaurant_name?.message}</p>
             </div>
           </div>
           <div className='relative space-y-2'>
@@ -148,13 +148,13 @@ export function RestaurantForm({
                 id="address"
                 type="text"
                 onChange={(e) => handleAddressChange(e.target.value)}
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.address?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.address?.message}</p>
             </div>
             {
               openAddressDialog && (
-                <div className="absolute overflow-scroll overflow-x-hidden z-40 bottom-30 left-0 h-44 w-full rounded-lg bg-white text-black border border-primary">
+                <div className="relative left-0 top-0 z-40 h-44 w-full overflow-scroll overflow-x-hidden rounded-lg border border-primary bg-white text-black">
                   {
                     addressSuggestions.length > 0 && (
                       <ul className="z-50">
@@ -186,9 +186,9 @@ export function RestaurantForm({
                 {...register("email")}
                 id="email"
                 type="email"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.email?.message}</p>
             </div>
           </div>
           <div className='space-y-2'>
@@ -200,13 +200,13 @@ export function RestaurantForm({
                 {...register("phone")}
                 id="phone"
                 type="tel"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">{errors.phone?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.phone?.message}</p>
             </div>
           </div>
         </div>
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
           <div className='space-y-2'>
             <label htmlFor="banner_photo" className="block text-sm font-medium leading-6 text-gray-600">
               Photo principale de votre restaurant
@@ -216,14 +216,14 @@ export function RestaurantForm({
                 {...register("banner_photo")}
                 id="banner_photo"
                 type="file"
-                className="block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               />
-              <p className="text-red-500 text-sm mt-2">
+              <p className="mt-2 text-sm text-red-500">
                 {errors.banner_photo && typeof errors.banner_photo.message === 'string'
                   ? errors.banner_photo.message
                   : ''}
               </p>
-              <div className="relative border rounded-md h-52 mt-6">
+              <div className="relative mt-6 h-52 rounded-md border">
                 <Image
                   src={restaurant?.banner_photo ? environment === "production" ? restaurant?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` : "/no_image.png"}
                   alt={restaurant?.banner_photo?.name || "no_image"}
@@ -241,7 +241,7 @@ export function RestaurantForm({
             </div>
           </div>
         </div>
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
           <div className='space-y-2'>
             <label htmlFor="short_description" className="block text-sm font-medium leading-6 text-gray-600">
               Brève description
@@ -251,69 +251,69 @@ export function RestaurantForm({
                 {...register("short_description")}
                 id="short_description"
                 rows={4}
-                className="resize-none block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full resize-none rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               ></textarea>
-              <p className="text-red-500 text-sm mt-2">{errors.short_description?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.short_description?.message}</p>
             </div>
           </div>
         </div>
-        <div className='rounded-2xl bg-muted p-4 space-y-4'>
-          <div className='grid grid-cols-1 md:grid-cols-2 gap-2'>
-            <div className="flex items-center border p-4 rounded-lg">
+        <div className='space-y-4 rounded-2xl bg-muted p-4'>
+          <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("drive")}
                   id="drive"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="drive" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="drive" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 Drive
               </label>
             </div>
-            <div className="flex items-center border p-4 rounded-lg">
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("take_away")}
                   id="take_away"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="take_away" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="take_away" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 A emporter
               </label>
             </div>
-            <div className="flex items-center border p-4 rounded-lg">
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("delivery")}
                   id="delivery"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="delivery" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="delivery" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 Livraison
               </label>
             </div>
-            <div className="flex items-center border p-4 rounded-lg">
+            <div className="flex items-center rounded-lg border p-4">
               <div className="mt-2">
                 <input
                   {...register("eat_in")}
                   id="eat_in"
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="size-4"
                 ></input>
               </div>
-              <label htmlFor="eat_in" className="block text-sm font-medium leading-6 text-gray-600 ml-2">
+              <label htmlFor="eat_in" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
                 Sur place
               </label>
             </div>
           </div>
         </div>
-        <div className='rounded-2xl md:col-span-2 bg-muted p-4 space-y-4'>
+        <div className='space-y-4 rounded-2xl bg-muted p-4 md:col-span-2'>
           <div className='space-y-2'>
             <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-600">
               Présentation de votre restaurant
@@ -323,9 +323,9 @@ export function RestaurantForm({
                 {...register("description")}
                 id="description"
                 rows={7}
-                className="resize-none block p-2 w-full focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+                className="block w-full resize-none rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
               ></textarea>
-              <p className="text-red-500 text-sm mt-2">{errors.description?.message}</p>
+              <p className="mt-2 text-sm text-red-500">{errors.description?.message}</p>
             </div>
           </div>
         </div>

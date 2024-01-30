@@ -69,16 +69,16 @@ export default function ProductsList({ products, environment }: { products: Prod
       {
         products?.length > 0 ? (
           <div className="flex items-end justify-between">
-            <div className="relative w-full mr-2">
+            <div className="relative mr-2 w-full">
               <Label className="text-muted-foreground">Rechercher un produit</Label>
               <input
                 id='ingredients'
                 type="text"
                 value={searchProductName}
                 onChange={handleChangeSearchProductName}
-                className="pl-8 block p-2 w-full rounded-md focus:outline-none border-0 bg-white/5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white/5 p-2 py-1.5 pl-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
               />
-              <div className="text-xl absolute text-primary top-8 left-2">
+              <div className="absolute left-2 top-8 text-xl text-primary">
                 <CiSearch />
               </div>
             </div>
@@ -97,17 +97,17 @@ export default function ProductsList({ products, environment }: { products: Prod
             </div>
             <Link
               href="/admin/product/create"
-              className="flex justify-center items-center w-full md:w-1/3 h-[36px] rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+              className="flex h-[36px] w-full items-center justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary md:w-1/3"
             >
               <p>Ajouter un produit</p>
-              <div className="text-2xl ml-4">
+              <div className="ml-4 text-2xl">
                 <AiOutlinePlus />
               </div>
             </Link>
           </div>
         ) : null
       }
-      <div className="rounded-2xl bg-muted p-4 mt-4">
+      <div className="mt-4 rounded-2xl bg-muted p-4">
         <Table>
           <TableHeader>
             <TableRow>
@@ -117,7 +117,7 @@ export default function ProductsList({ products, environment }: { products: Prod
               <TableHead className="w-5/12 border-gray-700 font-medium">Ingredients</TableHead>
               <TableHead className="w-1/12 border-gray-700 font-medium">Prix</TableHead>
               <TableHead className="w-1/12 border-gray-700 font-medium">Statut</TableHead>
-              <TableHead className="w-2/12 border-gray-700 font-medium text-center"></TableHead>
+              <TableHead className="w-2/12 border-gray-700 text-center font-medium"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -144,23 +144,23 @@ export default function ProductsList({ products, environment }: { products: Prod
                   <TableCell>{formatIngredients(product.ingredients)}</TableCell>
                   <TableCell className="text-right">{formatCurrency(product.price)}</TableCell>
                   <TableCell className="">
-                    <p className="px-2 py-1 text-white bg-green-500 rounded-full font-medium text-center">{product.publishedAt ? 'Publié' : ''}</p>
+                    <p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{product.publishedAt ? 'Publié' : ''}</p>
                   </TableCell>
                   <TableCell className="flex items-center justify-around">
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <div className="text-xl border border-red-400 p-2 rounded-lg text-red-500"><IoTrashOutline /></div>
+                        <div className="rounded-lg border border-red-400 p-2 text-xl text-red-500"><IoTrashOutline /></div>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="underline underline-offset-4 text-primary">{product.product_name}</span> ?</AlertDialogTitle>
+                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-primary underline underline-offset-4">{product.product_name}</span> ?</AlertDialogTitle>
                           <AlertDialogDescription>
                             Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Annuler</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="bg-primary rounded-md text-white">Supprimer</AlertDialogAction>
+                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-primary text-white">Supprimer</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -169,7 +169,7 @@ export default function ProductsList({ products, environment }: { products: Prod
                         pathname: "/admin/product/update",
                         query: { id: product.id }
                       }}
-                      className="text-xl border border-secondary p-2 rounded-lg text-secondary cursor-pointer">
+                      className="cursor-pointer rounded-lg border border-secondary p-2 text-xl text-secondary">
                       <MdOutlineModeEditOutline />
                     </Link>
                   </TableCell>

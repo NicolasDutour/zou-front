@@ -14,7 +14,7 @@ export const ProductsVisualChoicesItem = ({
   return (
     <div className="flex items-center">
       <input
-        className="w-6 cursor-pointer h-9"
+        className="h-9 w-6 cursor-pointer"
         onChange={handleChangeRadioBox}
         type="radio"
         value={item.key}

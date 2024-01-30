@@ -34,7 +34,7 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
 
   return (
     <section className="w-full">
-      <div className="relative h-full flex items-center justify-center">
+      <div className="relative flex h-full items-center justify-center">
         <Image
           src={picture}
           alt={pictureName}
@@ -47,22 +47,22 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
           quality={100}
           placeholder="blur"
           blurDataURL={picture}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 z-0 size-full object-cover"
         />
-        <div className="bg-black opacity-70 absolute inset-0"></div>
-        <div className="z-10 p-20 md:max-w-xl mx-auto">
-          <h1 className="text-center text-4xl uppercase font-bold text-white">{restaurant_name}</h1>
-          <h2 className="italic text-center text-lg text-white my-8"> {short_description} </h2>
-          <div className={`grid grid-cols-1 md:grid-cols-2 mt-4 gap-2`}>
+        <div className="absolute inset-0 bg-black opacity-70"></div>
+        <div className="z-10 mx-auto p-20 md:max-w-xl">
+          <h1 className="text-center text-4xl font-bold uppercase text-white">{restaurant_name}</h1>
+          <h2 className="my-8 text-center text-lg italic text-white"> {short_description} </h2>
+          <div className={`mt-4 grid grid-cols-1 gap-2 md:grid-cols-2`}>
             {
               options.map(option => (
                 <OptionItem key={option.key} option={option} restaurant={restaurant} />
               ))
             }
           </div>
-          <div className="flex justify-center items-center my-8 text-3xl text-white">
+          <div className="my-8 flex items-center justify-center text-3xl text-white">
             <FaPhone />
-            <p className="text-center ml-6">{addSpaceToPhoneNumber(phone)}</p>
+            <p className="ml-6 text-center">{addSpaceToPhoneNumber(phone)}</p>
           </div>
         </div>
       </div>

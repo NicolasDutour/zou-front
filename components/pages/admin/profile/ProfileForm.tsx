@@ -24,7 +24,7 @@ export function ProfileForm({ user }: { user: UserType }) {
 
   return (
     <form onSubmit={handleSubmit(onHandleUpdateProfile)}>
-      <div className="rounded-2xl bg-muted p-4 space-y-4">
+      <div className="space-y-4 rounded-2xl bg-muted p-4">
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-600">
           Email
         </label>
@@ -34,9 +34,9 @@ export function ProfileForm({ user }: { user: UserType }) {
             id="email"
             type="email"
             defaultValue={user?.email}
-            className="block p-2 w-full md:w-1/2 focus:outline-none rounded-md border-0 bg-white py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6"
+            className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6 md:w-1/2"
           />
-          <p className="text-red-500 text-sm mt-2">{errors.email?.message}</p>
+          <p className="mt-2 text-sm text-red-500">{errors.email?.message}</p>
         </div>
         <div className="flex w-1/2 gap-2">
           <Link

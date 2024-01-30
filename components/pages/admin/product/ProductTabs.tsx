@@ -9,7 +9,7 @@ export const ProductTabs = ({ products }: { products: ProductType[] }) => {
 
   return (
     <Tabs defaultValue="list" className="w-full">
-      <TabsList className="bg-gray-600 mb-6 grid w-1/4 gap-1 grid-cols-1 md:grid-cols-2">
+      <TabsList className="mb-6 grid w-1/4 grid-cols-1 gap-1 bg-gray-600 md:grid-cols-2">
         <TabsTrigger className="hover:bg-white hover:text-gray-800" value="list">Liste</TabsTrigger>
         <TabsTrigger className="hover:bg-white hover:text-gray-800" value="visual">Visuel</TabsTrigger>
       </TabsList>

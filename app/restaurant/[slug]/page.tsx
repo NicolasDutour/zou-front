@@ -107,7 +107,7 @@ export default async function Restaurant({
       {renderListMenu()}
       {renderBothMenus()}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 bg-gray-800">
+      <div className="grid grid-cols-1 bg-gray-800 md:grid-cols-2">
         {renderRestaurantInfo()}
         <div>
           {renderMapbox()}

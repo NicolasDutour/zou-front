@@ -13,7 +13,7 @@ export default function LoginGoogleButton() {
   }
 
   return (
-    <Button onClick={loginWithGoogle} className="flex justify-center text-white cursor-pointer border border-white hover:border-2 hover:border-primary p-2 w-full rounded-full mb-4" variant="outline">
+    <Button onClick={loginWithGoogle} className="mb-4 flex w-full cursor-pointer justify-center rounded-full border border-white p-2 text-white hover:border-2 hover:border-primary" variant="outline">
       <IconContext.Provider value={{ className: "text-2xl" }}>
         <div>
           <FcGoogle />

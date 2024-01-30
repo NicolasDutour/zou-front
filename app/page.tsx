@@ -58,9 +58,9 @@ export default async function HomePage() {
     <div className="relative">
       {
         token ? (
-          <Link className="fixed top-4 right-4 z-20 bg-secondary hover:bg-primary text-white rounded-lg px-6 py-4" href="/admin/profile">Tableau de bord</Link>
+          <Link className="fixed right-4 top-4 z-20 rounded-lg bg-secondary px-6 py-4 text-white hover:bg-primary" href="/admin/profile">Tableau de bord</Link>
         ) : (
-          <Link className="fixed top-4 right-4 bg-secondary hover:bg-primary text-white rounded-lg px-6 py-4 z-20" href="/login">Se connecter</Link>
+          <Link className="fixed right-4 top-4 z-20 rounded-lg bg-secondary px-6 py-4 text-white hover:bg-primary" href="/login">Se connecter</Link>
         )
       }
       {homeInfo?.data ? <Banner homeInfo={homeInfo.data} /> : null}

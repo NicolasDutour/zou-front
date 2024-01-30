@@ -9,7 +9,7 @@ import { Faq } from "@/lib/types/faqType"
 
 export default function AccordeonItem({ faq }: { faq: Faq }) {
   return (
-    <AccordionItem className="bg-white rounded-md p-2" value={`item-${faq.id}`}>
+    <AccordionItem className="rounded-md bg-white p-2" value={`item-${faq.id}`}>
       <AccordionTrigger className="text-lg font-semibold text-gray-700"> {faq.attributes.title} </AccordionTrigger>
       <AccordionContent className="text-base text-gray-700">
         {faq.attributes.description}

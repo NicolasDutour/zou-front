@@ -7,9 +7,9 @@ export default function Steps() {
   const token = cookieStore.get('token')?.value || ''
 
   return (
-    <section className="bg-base py-10 px-6">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-3xl mb-6 font-bold">Je choisi ma formule</h1>
+    <section className="bg-base px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <h1 className="mb-6 text-3xl font-bold">Je choisi ma formule</h1>
         <StepsList token={token} />
       </div>
     </section>

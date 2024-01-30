@@ -8,10 +8,10 @@ const Navbar = () => {
   const token = cookieStore.get('token')?.value
 
   return (
-    <header className='fixed w-full h-[77px] px-8 py-5 shadow-lg backdrop-blur-md backdrop-filter bg-transparent z-20'>
-      <nav className='flex items-center justify-between max-w-7xl mx-auto'>
+    <header className='fixed z-20 h-[77px] w-full bg-transparent px-8 py-5 shadow-lg backdrop-blur-md'>
+      <nav className='mx-auto flex max-w-7xl items-center justify-between'>
         <Link href="/" passHref>
-          <button className='italic text-primary text-4xl font-bold'> Zou </button>
+          <button className='text-4xl font-bold italic text-primary'> Zou </button>
         </Link>
         <AuthButtons token={token || ''} />
       </nav>

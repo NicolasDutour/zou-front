@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="bg-gray-900 h-[calc(100vh-77px)] p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="h-[calc(100vh-77px)] bg-gray-900 p-6">
+      <div className="mx-auto max-w-4xl">
         <div>
           <Image
             src="/leaf-icon.png"
@@ -18,7 +18,7 @@ export default function ContactPage() {
             width={50}
             height={50}
             aspect-auto="true"
-            className="rounded-lg mx-auto w-auto"
+            className="mx-auto w-auto rounded-lg"
             priority
           />
           <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-white">

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const NoProduct = () => {
   return (
-    <div className="rounded-2xl w-full md:w-1/2 bg-muted p-4 mt-4">
+    <div className="mt-4 w-full rounded-2xl bg-muted p-4 md:w-1/2">
       <div className='space-y-2'>
         <p>Vous n'avez pas encore ajouté de produits</p>
         <Link

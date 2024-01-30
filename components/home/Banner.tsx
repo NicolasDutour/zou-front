@@ -30,7 +30,7 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
 
   return (
     <section className="relative w-full">
-      <div className="relative h-full flex items-center justify-center">
+      <div className="relative flex h-full items-center justify-center">
         <Image
           src={picture}
           alt={pictureName}
@@ -43,28 +43,28 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
           quality={100}
           placeholder="blur"
           blurDataURL={picture}
-          className="absolute inset-0 w-full h-full object-cover z-0"
+          className="absolute inset-0 z-0 size-full object-cover"
         />
-        <div className="absolute inset-0 bg-black opacity-70 z-10"></div>
+        <div className="absolute inset-0 z-10 bg-black opacity-70"></div>
         <div className="z-10 px-6 py-16 text-center text-white">
-          <h1 className="text-8xl font-bold text-primary mb-6 italic"> {title} </h1>
-          <p className="text-4xl mb-4 font-bold"> {subtitle} </p>
-          <p className="text-6xl mb-4 font-bold text-yellow-400"> {formatCurrency(price)} <span className="text-2xl text-white ml-2">/ mois</span> </p>
+          <h1 className="mb-6 text-8xl font-bold italic text-primary"> {title} </h1>
+          <p className="mb-4 text-4xl font-bold"> {subtitle} </p>
+          <p className="mb-4 text-6xl font-bold text-yellow-400"> {formatCurrency(price)} <span className="ml-2 text-2xl text-white">/ mois</span> </p>
           <p className="text-xl"> {slogan} </p>
           <p className="text-xl"> {slogan_bis} </p>
-          <p className="text-xl">Et <span className="italic font-bold underline underline-offset-4 tracking-widest text-2xl"> {title}</span> {slogan_ter} </p>
+          <p className="text-xl">Et <span className="text-2xl font-bold italic tracking-widest underline underline-offset-4"> {title}</span> {slogan_ter} </p>
           {
             !token ? (
               <div>
-                <div className="flex justify-center items-center gap-4 mt-4">
+                <div className="mt-4 flex items-center justify-center gap-4">
                   <Link
                     href="/register"
-                    className="flex w-1/2 justify-center rounded-md text-lg bg-secondary py-1.5 leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+                    className="flex w-1/2 justify-center rounded-md bg-secondary py-1.5 text-lg leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
                   >
                     Je me lance
                   </Link>
                 </div>
-                <p className="mt-12"> Vous êtes déjà client ? <Link href="/login" className="ml-6 underline underline-offset-2 hover:text-secondary border-2 border-secondary rounded-lg p-4">Connectez vous</Link></p>
+                <p className="mt-12"> Vous êtes déjà client ? <Link href="/login" className="ml-6 rounded-lg border-2 border-secondary p-4 underline underline-offset-2 hover:text-secondary">Connectez vous</Link></p>
               </div>
             ) : null
           }

@@ -10,8 +10,8 @@ export default function Breadcrumbs({
 }) {
   return (
     <nav aria-label="Breadcrumb" className="">
-      <Link href="/" className='flex items-center mb-4 text-primary'> <IoMdArrowBack /> <span className='ml-2 hover:underline underline-offset-2'>Retour vers Zou</span> </Link>
-      <ol className='flex text-sm md:text-lg font-medium'>
+      <Link href="/" className='mb-4 flex items-center text-primary'> <IoMdArrowBack /> <span className='ml-2 underline-offset-2 hover:underline'>Retour vers Zou</span> </Link>
+      <ol className='flex text-sm font-medium md:text-lg'>
         {breadcrumbs.map((breadcrumb, index) => (
           <li
             key={breadcrumb.href}

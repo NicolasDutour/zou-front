@@ -37,9 +37,9 @@ export default async function ProfilePage() {
         />
       </div>
       <Separator />
-      <div className='rounded-2xl bg-muted p-4 space-y-4'>
+      <div className='space-y-4 rounded-2xl bg-muted p-4'>
         <div className='flex items-center'>
-          <p className='w-1/4 text-gray-600'>Email: <span className='text-black font-medium'>{data?.email}</span> </p>
+          <p className='w-1/4 text-gray-600'>Email: <span className='font-medium text-black'>{data?.email}</span> </p>
           <Link
             href="/admin/profile/update"
             className="flex w-1/4 justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
