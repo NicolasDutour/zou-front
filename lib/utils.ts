@@ -95,10 +95,12 @@ export const truncateFileName = (name: string, maxLength: number): string => {
 }
 
 export const formatCurrency = (amount: number) => {
-  return amount.toLocaleString('fr', {
-    style: 'currency',
-    currency: 'EUR',
-  });
+  if (amount) {
+    return amount?.toLocaleString('fr', {
+      style: 'currency',
+      currency: 'EUR',
+    });
+  }
 };
 
 // Return full day with time, ex: "10/12/2023 à 15h23"
