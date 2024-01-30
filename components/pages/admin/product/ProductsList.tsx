@@ -141,8 +141,8 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
                   </TableCell>
                   <TableCell>{capitalize(product.base.toLowerCase())}</TableCell>
                   <TableCell>{formatIngredients(product.ingredients)}</TableCell>
-                  <TableCell className="text-right">{formatCurrency(product.price)}</TableCell>
-                  <TableCell className="">
+                  <TableCell>{formatCurrency(product.price)}</TableCell>
+                  <TableCell>
                     <p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{product.publishedAt ? 'Publié' : ''}</p>
                   </TableCell>
                   <TableCell className="flex items-center justify-around">
