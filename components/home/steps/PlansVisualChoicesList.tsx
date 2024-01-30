@@ -5,7 +5,7 @@ import { PlansVisualChoicesItem } from "./PlanVisualChoicesItem"
 const plansVisualChoices = [
   {
     key: "not_autonomous",
-    value: "Zou gère tout",
+    value: "Zou s'occupe de tout",
   },
   {
     key: "autonomous",
