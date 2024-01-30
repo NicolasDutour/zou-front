@@ -37,12 +37,12 @@ export default async function ProfilePage() {
         />
       </div>
       <Separator />
-      <div className='space-y-4 rounded-2xl bg-muted p-4'>
-        <div className='flex items-center'>
-          <p className='w-1/4 text-gray-600'>Email: <span className='font-medium text-black'>{data?.email}</span> </p>
+      <div className='space-y-4 w-full md:w-1/2 rounded-2xl bg-muted p-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-4'>
+          <p className='text-gray-600'>Email: <span className='font-medium text-black'>{data?.email}</span> </p>
           <Link
             href="/admin/profile/update"
-            className="flex w-1/4 justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+            className="flex justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
           >
             Modifier votre email
           </Link>
