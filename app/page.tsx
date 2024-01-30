@@ -64,7 +64,6 @@ export default async function HomePage() {
       {homeInfo?.data ? <Banner homeInfo={homeInfo.data} /> : null}
       {/* <Services /> */}
       <Steps />
-      {/* <Plans /> */}
     </div>
   )
 }
