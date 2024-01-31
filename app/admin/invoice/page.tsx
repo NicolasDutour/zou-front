@@ -27,8 +27,8 @@ async function getInvoicesData(token: string) {
 
 export default async function InvoicePage() {
   const cookieStore = cookies()
-  const token = cookieStore.get('token')?.value
-  const invoices = await getInvoicesData(token || '')
+  const token = cookieStore.get('token')?.value || ''
+  const user = await getInvoicesData(token)
 
   return (
     <div className="space-y-6">
@@ -39,8 +39,8 @@ export default async function InvoicePage() {
       />
       <Separator />
       {
-        invoices?.length > 0 ? (
-          <InvoicesList invoices={invoices} />
+        user?.invoices?.length > 0 ? (
+          <InvoicesList invoices={user?.invoices} />
         ) : (
           <NoInvoice />
         )
