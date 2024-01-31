@@ -9,14 +9,20 @@ import { cn } from "@/lib/utils"
 import { SidebarNavItemType } from '@/lib/types'
 import { useMobileMenuStore } from '@/global-state/store'
 
-export const SidebarNavItem = ({ item }: { item: SidebarNavItemType }) => {
+export const SidebarNavItem = ({ item, mobile }: { item: SidebarNavItemType, mobile?: boolean }) => {
   const pathname = usePathname()
   const toggleMenu = useMobileMenuStore(state => state.toggleMobileMenu)
+
+  const handleMobileMenu = () => {
+    if (mobile) {
+      toggleMenu()
+    }
+  }
 
   return (
     <Link
       href={item.href}
-      onClick={toggleMenu}
+      onClick={handleMobileMenu}
       className={cn(
         buttonVariants({ variant: "ghost" }),
         pathname.startsWith(item.href)
