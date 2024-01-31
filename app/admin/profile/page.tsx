@@ -37,8 +37,8 @@ export default async function ProfilePage() {
         />
       </div>
       <Separator />
-      <div className='space-y-4 w-full md:w-1/2 rounded-2xl bg-muted p-4'>
-        <div className='grid grid-cols-1 md:grid-cols-2 items-center gap-4'>
+      <div className='w-full space-y-4 rounded-2xl bg-muted p-4 md:w-1/2'>
+        <div className='grid grid-cols-1 items-center gap-4 md:grid-cols-2'>
           <p className='text-gray-600'>Email: <span className='font-medium text-black'>{data?.email}</span> </p>
           <Link
             href="/admin/profile/update"
