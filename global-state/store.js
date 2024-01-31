@@ -20,5 +20,10 @@ export const useUserStore = create((set) => ({
       set({ isAuth: false }),
       removeCookie('token')
     )
-  },
+  }
+}))
+
+export const useMobileMenuStore = create((set) => ({
+  openMobileMenu: false,
+  toggleMobileMenu: () => set((state) => ({ openMobileMenu: !state.openMobileMenu })),
 }))

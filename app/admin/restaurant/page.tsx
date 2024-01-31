@@ -68,7 +68,7 @@ export default async function RestaurantPage() {
         />
         <Link
           href="/admin/restaurant/update"
-          className="flex w-1/3 md:w-1/6 justify-center rounded-md bg-secondary py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+          className="flex w-1/3 justify-center rounded-md bg-secondary py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary md:w-1/6"
         >
           Modifier
         </Link>

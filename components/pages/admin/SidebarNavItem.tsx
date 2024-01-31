@@ -19,7 +19,7 @@ export const SidebarNavItem = ({ item }: { item: SidebarNavItemType }) => {
         pathname.startsWith(item.href)
           ? "hover:text-primary text-primary font-semibold"
           : "text-gray-600 hover:text-primary",
-        "justify-start  hover:bg-blue-300 bg-muted text-md p-6 md:last-of-type:rounded-b-2xl rounded-none first:rounded-t-2xl tracking-wider mb-2"
+        "justify-start  hover:bg-blue-300 bg-muted text-md p-6 lg:last-of-type:rounded-b-2xl rounded-none lg:first:rounded-t-2xl tracking-wider lg:mb-2"
       )}
     >
       <span className="mr-4 text-2xl"> {item.icon} </span> {item.title}

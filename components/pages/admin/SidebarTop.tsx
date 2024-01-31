@@ -1,14 +1,17 @@
 import { UserType } from "@/lib/types/userType"
 import { capitalize } from "@/lib/utils"
+import { BurgerMenu } from "./BurgerMenu"
 
 export const SidebarTop = ({ user }: { user: UserType }) => {
   return (
     <>
       {
         user?.username ? (
-          <div className="mb-4 rounded-xl bg-secondary p-2 text-white">
-            <p className="text-center text-2xl">Bonjour</p>
-            <p className="text-center text-xl italic">{capitalize(user?.username)}</p>
+          <div className="fixed top-0 mb-4 w-full bg-secondary p-4 text-white lg:relative lg:rounded-xl">
+            <div className="absolute left-4 top-4 cursor-pointer lg:hidden">
+              <BurgerMenu />
+            </div>
+            <p className="text-center text-2xl">Bonjour <span className="text-xl italic">{capitalize(user?.username)}</span> </p>
           </div>
         ) : null
       }

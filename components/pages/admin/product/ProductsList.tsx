@@ -67,7 +67,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
     <div>
       {
         products?.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="relative">
               <Label className="text-muted-foreground">Rechercher un produit</Label>
               <input
@@ -96,7 +96,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
             </div>
             <Link
               href="/admin/product/create"
-              className="flex h-[36px] w-full md:w-auto md:self-end ml-auto items-center justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+              className="ml-auto flex h-[36px] w-full items-center justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary md:w-auto md:self-end"
             >
               <p>Ajouter un produit</p>
               <div className="ml-4 text-2xl">

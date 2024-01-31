@@ -15,7 +15,7 @@ export const LogoutButton = () => {
 
   return (
     <button
-      className="mt-2 flex w-full items-center justify-start rounded-2xl bg-secondary p-2 text-base tracking-wider text-white hover:bg-primary"
+      className="flex w-full items-center justify-start bg-secondary p-2 text-base tracking-wider text-white hover:bg-primary lg:mt-2 lg:rounded-2xl"
       onClick={handleSignOut}>
       <span className="mr-4 text-xl"> <GoSignOut /> </span> Se déconnecter
     </button>

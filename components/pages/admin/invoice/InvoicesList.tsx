@@ -47,7 +47,7 @@ export default function InvoicessList({ invoices }: { invoices: InvoiceType[] })
                 type="text"
                 value={searchInvoiceName}
                 onChange={handleChangeSearchInvoiceName}
-                className="block w-full md:w-1/3 rounded-md border-0 bg-white/5 p-2 py-1.5 pl-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white/5 p-2 py-1.5 pl-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 md:w-1/3"
               />
               <div className="absolute left-2 top-8 text-xl text-primary">
                 <CiSearch />
@@ -72,12 +72,12 @@ export default function InvoicessList({ invoices }: { invoices: InvoiceType[] })
               return (
                 <TableRow className="bg-white" key={invoice.id}>
                   <TableCell className="font-medium">{capitalize(invoice.invoice_name.toLowerCase())}</TableCell>
-                  <TableCell className="font-medium">Du {invoice.startDate} au {invoice.endDate}</TableCell>
+                  <TableCell className="font-medium">Du {invoice.start_date} au {invoice.end_date}</TableCell>
                   <TableCell> {formatCurrency(invoice.amount)} </TableCell>
                   <TableCell><p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{invoice.status}</p></TableCell>
                   <TableCell className="flex items-center justify-around">
                     <Link
-                      href="/no_image.png"
+                      href={invoice?.image.url}
                       target="_blank"
                       className="cursor-pointer rounded-lg border border-secondary p-2 text-xl text-secondary">
                       <GoDownload />
