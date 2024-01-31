@@ -7,13 +7,16 @@ import { buttonVariants } from "@/components/ui/button"
 
 import { cn } from "@/lib/utils"
 import { SidebarNavItemType } from '@/lib/types'
+import { useMobileMenuStore } from '@/global-state/store'
 
 export const SidebarNavItem = ({ item }: { item: SidebarNavItemType }) => {
   const pathname = usePathname()
+  const toggleMenu = useMobileMenuStore(state => state.toggleMobileMenu)
 
   return (
     <Link
       href={item.href}
+      onClick={toggleMenu}
       className={cn(
         buttonVariants({ variant: "ghost" }),
         pathname.startsWith(item.href)
