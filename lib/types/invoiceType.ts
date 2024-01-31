@@ -1,8 +1,8 @@
 export type InvoiceType = {
   id: number
   invoice_name: string
-  start_date: Date
-  end_date: Date
+  start_date: string
+  end_date: string
   amount: number
   status: string
   image: {
