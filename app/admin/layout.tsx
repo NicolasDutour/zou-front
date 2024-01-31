@@ -82,7 +82,7 @@ export default async function Layout({
             <SideBar items={sidebarNavItems} />
           </div>
         </aside>
-        <div className="flex-1 px-4 pt-20 lg:p-0">{children}</div>
+        <div className="flex-1 px-4 pb-4 pt-20 lg:p-0">{children}</div>
       </div>
     </div>
   )

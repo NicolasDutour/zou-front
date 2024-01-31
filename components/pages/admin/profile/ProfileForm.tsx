@@ -38,7 +38,7 @@ export function ProfileForm({ user }: { user: UserType }) {
           />
           <p className="mt-2 text-sm text-red-500">{errors.email?.message}</p>
         </div>
-        <div className="flex w-1/2 gap-2">
+        <div className="flex w-full md:w-1/2 lg:h-1/4 gap-2">
           <Link
             href="/admin/profile"
             className="flex w-full justify-center rounded-md bg-white px-3 py-1.5 text-sm font-medium leading-6 text-gray-600 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
