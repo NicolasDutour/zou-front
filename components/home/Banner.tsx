@@ -64,7 +64,10 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
                     Je me lance
                   </Link>
                 </div>
-                <p className="mt-12"> Vous êtes déjà client ? <Link href="/login" className="ml-6 rounded-lg border-2 border-secondary p-4 underline underline-offset-2 hover:text-secondary">Connectez vous</Link></p>
+                <div className="mt-12 flex flex-wrap justify-center items-center">
+                  <p>Vous êtes déjà client ?</p>
+                  <Link href="/login" className="sm:ml-4 rounded-lg border-2 border-secondary p-4 underline underline-offset-2 hover:text-secondary">Connectez vous</Link>
+                </div>
               </div>
             ) : null
           }
