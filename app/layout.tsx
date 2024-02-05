@@ -3,6 +3,8 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { Toaster } from "@/components/ui/toaster"
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react'
 
 import './globals.css'
 import Footer from '@/components/Footer'
@@ -42,6 +44,8 @@ export default function RootLayout({
             </main>
             <Footer />
             <Toaster />
+            <SpeedInsights />
+            <Analytics />
           </RestaurantFormContextProvider>
         </ProductFormContextProvider>
       </body>
