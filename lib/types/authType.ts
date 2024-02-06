@@ -9,41 +9,53 @@ export const FormSchemaRegister = z.object({
     .string()
     .trim()
     .toLowerCase()
-    .email({ message: "Email non valide" })
     .min(1, 'Ce champs est requis')
-    .max(50, 'Maximum 50 caractères'),
+    .max(50, 'Maximum 50 caractères')
+    .email({ message: "Email non valide" }),
   password: z
     .string()
     .trim()
-    .min(6, { message: "Minimum 6 caractères" })
-    .max(100, 'Maximum 100 caractères')
-    .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/, { message: "Minimum 1 majuscule, 1 chiffre, 1 caractère spécial" }),
+    .refine(value => value !== undefined && value.length > 0, { message: "Ce champs est requis" })
+    .refine(value => value !== undefined && value.length >= 6, { message: "Minimum 6 caractères" })
+    .refine(value => value !== undefined && value.length <= 100, { message: "Maximum 100 caractères" })
+    .refine(value => /^(?=.*[A-Z]).+$/g.test(value), { message: "Minimum 1 majuscule" })
+    .refine(value => /^(?=.*[0-9]).+$/g.test(value), { message: "Minimum 1 chiffre" })
+    .refine(value => /^(?=.*[\W_]).+$/g.test(value), { message: "Minimum 1 caractère spécial" }),
   confirmPassword: z
     .string()
     .trim()
-    .min(6, { message: "Minimum 6 caractères" })
-    .max(100, 'Maximum 100 caractères')
-    .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/, { message: "Minimum 1 majuscule, 1 chiffre, 1 caractère spécial" }),
+    .refine(value => value !== undefined && value.length > 0, { message: "Ce champs est requis" })
+    .refine(value => value !== undefined && value.length >= 6, { message: "Minimum 6 caractères" })
+    .refine(value => value !== undefined && value.length <= 100, { message: "Maximum 100 caractères" })
+    .refine(value => /^(?=.*[A-Z]).+$/g.test(value), { message: "Minimum 1 majuscule" })
+    .refine(value => /^(?=.*[0-9]).+$/g.test(value), { message: "Minimum 1 chiffre" })
+    .refine(value => /^(?=.*[\W_]).+$/g.test(value), { message: "Minimum 1 caractère spécial" }),
 }).refine(data => data.password === data.confirmPassword, {
   path: ['confirmPassword'],
   message: 'Les mots de passe ne correspondent pas'
 })
+export type TypeFormSchemaRegister = z.infer<typeof FormSchemaRegister>
 
 export const FormSchemaLogin = z.object({
   identifier: z
     .string()
     .trim()
     .toLowerCase()
-    .email({ message: "Email non valide" })
     .min(1, 'Ce champs est requis')
-    .max(50, 'Maximum 50 caractères'),
+    .max(50, 'Maximum 50 caractères')
+    .email({ message: "Email non valide" }),
   password: z
     .string()
     .trim()
-    .min(6, { message: "Minimum 6 caractères" })
-    .max(100, 'Maximum 100 caractères')
-    .regex(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[\W_]).+$/, { message: "Minimum 1 majuscule, 1 chiffre, 1 caractère spécial" }),
+    .refine(value => value !== undefined && value.length > 0, { message: "Ce champs est requis" })
+    .refine(value => value !== undefined && value.length >= 6, { message: "Minimum 6 caractères" })
+    .refine(value => value !== undefined && value.length <= 100, { message: "Maximum 100 caractères" })
+    .refine(value => /^(?=.*[A-Z]).+$/g.test(value), { message: "Minimum 1 majuscule" })
+    .refine(value => /^(?=.*[0-9]).+$/g.test(value), { message: "Minimum 1 chiffre" })
+    .refine(value => /^(?=.*[\W_]).+$/g.test(value), { message: "Minimum 1 caractère spécial" }),
 })
+export type TypeFormSchemaLogin = z.infer<typeof FormSchemaLogin>
+
 
 export const FormSchemaForgotPassword = z.object({
   email: z
