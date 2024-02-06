@@ -38,7 +38,7 @@ export default function Plans() {
               </CardTitle>
               <CardDescription className="text-secondary">
                 <ul className="mt-4 text-sm text-secondary space-y-2">
-                  <li className="list-disc">Paiement unique ( ex: 10 produits, facturé 20€ en une fois )</li>
+                  <li className="list-disc">Paiement unique ( ex: 10 produits vous seront facturés 20€ une seule fois )</li>
                 </ul>
               </CardDescription>
             </CardHeader>
