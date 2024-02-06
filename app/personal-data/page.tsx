@@ -35,7 +35,7 @@ export default async function PersonalData() {
     <div className='p-6'>
       <p className='mb-6 text-4xl'>Les données personnelles</p>
       <div dangerouslySetInnerHTML={{ __html: contentHtml.replaceAll('\n', '<br />') }} />
-      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(personalDetails?.data?.attributes?.updatedAt)}.</p>
+      <p className='text-sm font-medium'>Dernière modification : Le {formatFullDay(personalDetails?.data?.attributes?.updatedAt, true)}.</p>
     </div>
   )
 }
