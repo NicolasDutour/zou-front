@@ -67,8 +67,8 @@ export const formatTime = (time: string): string => {
 }
 
 // Concat Zou + plan name + date to make the invoice name
-export const formatInvoiceName = (plan: string, startDate: string, endDate: string): string => {
-  return `Zou-${plan.toLowerCase()}-${formatDate(startDate)}-${formatDate(endDate)}.pdf`
+export const formatInvoiceName = (name: string, startDate: string, endDate: string): string => {
+  return `Facture-${capitalize(name)}-Abonnement-${formatDate(startDate)}-${formatDate(endDate)}.pdf`
 }
 
 // Remove tirets from the date format
@@ -104,12 +104,12 @@ export const formatCurrency = (amount: number) => {
 };
 
 // Return full day with time, ex: "10/12/2023 à 15h23"
-export const formatFullDay = (date: string) => {
+export const formatFullDay = (date: string, withTime?: boolean) => {
   const dateObject = new Date(date);
   const year = dateObject.getFullYear();
-  const month = dateObject.getMonth() + 1
+  const month = dateObject.getMonth() + 1;
   const day = dateObject.getDate();
   const hours = dateObject.getHours();
   const minutes = dateObject.getMinutes();
-  return `${day}/${month}/${year} à ${hours}h${minutes}`
+  return `${day < 10 ? '0' : ''}${day}/${month < 10 ? '0' : ''}${month}/${year} ${withTime ? `à ${hours}h${minutes < 10 ? '0' : ''}${minutes}` : ''}`;
 }

@@ -3,53 +3,49 @@
 import { useState } from 'react';
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
-import { useFormState, useFormStatus } from 'react-dom'
-
 import { registerAction } from '@/lib/actions/register-actions';
-
-function SubmitButton() {
-  const { pending } = useFormStatus()
-  return (
-    <button
-      disabled={pending}
-      className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-40"
-    >
-      {pending ? "Création..." : "Créer un compte"}
-    </button>
-  )
-}
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormSchemaRegister, TypeFormSchemaRegister } from '@/lib/types/authType';
+import { useRouter } from 'next/navigation';
+import SubmitButton from '../login/SubmitButton';
 
 export default function RegisterForm() {
-  const [state, dispatch] = useFormState(registerAction, null)
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<TypeFormSchemaRegister>({
+    resolver: zodResolver(FormSchemaRegister),
+  });
+
+  const handleRegister = async (formData: TypeFormSchemaRegister) => {
+    const response = await registerAction(formData)
+    if (response) {
+      router.push('/admin/profile')
+    }
+  }
+
   return (
-    <form action={dispatch}>
+    <form onSubmit={handleSubmit(handleRegister)}>
       <div className="space-y-2">
         <div>
           <label htmlFor="username" className="block text-sm font-medium leading-6 text-black">
-            Identifiant
+            Prénom
           </label>
           <div className="mt-2">
             <input
+              {...register("username")}
               id="username"
-              name="username"
               type="text"
               autoFocus
               className="block w-full rounded-md p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
-            {state?.error?.username ? (
-              <div
-                id="customer-error"
-                aria-live="polite"
-                className="mt-2 text-sm text-red-500"
-              >
-                {state.error.username.map((error: string) => (
-                  <p key={error}>{error}</p>
-                ))}
-              </div>
-            ) : null}
+            <p className="mt-2 text-sm text-red-500">{errors.username?.message}</p>
           </div>
         </div>
 
@@ -59,22 +55,12 @@ export default function RegisterForm() {
           </label>
           <div className="mt-2">
             <input
+              {...register("email")}
               id="email"
-              name="email"
               type="email"
               className="block w-full rounded-md p-1.5  text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
-            {state?.error?.email ? (
-              <div
-                id="customer-error"
-                aria-live="polite"
-                className="mt-2 text-sm text-red-500"
-              >
-                {state.error.username.map((error: string) => (
-                  <p key={error}>{error}</p>
-                ))}
-              </div>
-            ) : null}
+            <p className="mt-2 text-sm text-red-500">{errors.email?.message}</p>
           </div>
         </div>
 
@@ -87,22 +73,12 @@ export default function RegisterForm() {
           <div className="relative mt-2">
             <div className='absolute right-2 top-2 cursor-pointer text-xl text-gray-400' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />} </div>
             <input
+              {...register("password")}
               id="password"
-              name="password"
               type={showPassword ? "text" : "password"}
               className="block w-full rounded-md p-1.5  text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
-            {state?.error?.password ? (
-              <div
-                id="customer-error"
-                aria-live="polite"
-                className="mt-2 text-sm text-red-500"
-              >
-                {state.error.password.map((error: string) => (
-                  <p key={error}>{error}</p>
-                ))}
-              </div>
-            ) : null}
+            <p className="mt-2 text-sm text-red-500">{errors.password?.message}</p>
           </div>
         </div>
         <div>
@@ -114,27 +90,17 @@ export default function RegisterForm() {
           <div className="relative mt-2">
             <div className='absolute right-2 top-2 cursor-pointer text-xl text-gray-400' onClick={() => setShowConfirmPassword(!showConfirmPassword)}> {showConfirmPassword ? <FaEye /> : <FaEyeSlash />} </div>
             <input
+              {...register("confirmPassword")}
               id="confirmPassword"
-              name="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
               className="block w-full rounded-md p-1.5 text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6"
             />
-            {state?.error?.confirmPassword ? (
-              <div
-                id="customer-error"
-                aria-live="polite"
-                className="mt-2 text-sm text-red-500"
-              >
-                {state.error.confirmPassword.map((error: string) => (
-                  <p key={error}>{error}</p>
-                ))}
-              </div>
-            ) : null}
+            <p className="mt-2 text-sm text-red-500">{errors.confirmPassword?.message}</p>
           </div>
         </div>
 
         <div>
-          {SubmitButton()}
+          <SubmitButton />
         </div>
       </div>
     </form>

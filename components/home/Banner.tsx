@@ -47,7 +47,7 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
         />
         <div className="absolute inset-0 z-10 bg-black opacity-70"></div>
         <div className="z-10 px-6 py-16 text-center text-white">
-          <h1 className="mb-6 text-8xl font-bold italic text-primary"> {title} </h1>
+          <h1 className="mb-6 text-8xl font-bold italic text-yellow-400"> {title} </h1>
           <h2 className="mb-4 text-4xl font-bold"> {subtitle} </h2>
           <p className="mb-4 text-6xl font-bold text-yellow-400"> {formatCurrency(price)} <span className="ml-2 text-2xl text-white">/ mois</span> </p>
           <p className="text-xl"> {slogan} </p>
@@ -64,9 +64,9 @@ export default function Banner({ homeInfo }: { homeInfo: HomeInfoType }) {
                     Je me lance
                   </Link>
                 </div>
-                <div className="mt-12 flex flex-wrap justify-center items-center">
+                <div className="mt-12 flex flex-wrap items-center justify-center">
                   <p>Vous êtes déjà client ?</p>
-                  <Link href="/login" className="sm:ml-4 rounded-lg border-2 border-secondary p-4 underline underline-offset-2 hover:text-secondary">Connectez vous</Link>
+                  <Link href="/login" className="rounded-lg border-2 border-secondary p-4 underline underline-offset-2 hover:text-secondary sm:ml-4">Connectez vous</Link>
                 </div>
               </div>
             ) : null

@@ -33,11 +33,11 @@ const sidebarNavItems: SidebarNavItemType[] = [
     href: "/admin/subscription",
     icon: <BsStar />
   },
-  {
-    title: "Factures",
-    href: "/admin/invoice",
-    icon: <LiaFileInvoiceSolid />
-  }
+  // {
+  //   title: "Factures",
+  //   href: "/admin/invoice",
+  //   icon: <LiaFileInvoiceSolid />
+  // }
 ]
 
 async function getUserData() {
