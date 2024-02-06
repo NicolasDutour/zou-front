@@ -29,10 +29,10 @@ This website is host on: [Hostinger](https://www.hostinger.fr/)
 
 ### How Stripe works. The steps
 1. Create a customer
-2. Create a product with the Id of the customer (ex: abonnement)
-3. Create a price with the Id of the product
-4. Create a session checkout
-5. Redirect to stripe integrated page for payment
+2. Create a product related to a customer with a customer.id (ex: abonnement ou achat unique)
+3. Create a price related to a product with a price.id
+4. Create a subscription related to a product with a price ( We can have multiple subscriptions on the same product )
+5. Create a session checkout which redirect us to stripe integrated page ( that's where we enter card details for payment )
 
 ### Tips
 - Simulate call Api:
