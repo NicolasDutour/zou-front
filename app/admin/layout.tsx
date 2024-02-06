@@ -4,7 +4,6 @@ import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"
 import { IoRestaurantOutline } from "react-icons/io5"
 import { MdOutlineEmojiFoodBeverage } from "react-icons/md"
-import { LiaFileInvoiceSolid } from "react-icons/lia"
 
 import { SidebarTop } from "@/components/pages/admin/SidebarTop"
 

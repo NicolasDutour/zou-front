@@ -12,14 +12,13 @@ import {
 } from "@/components/ui/table"
 import { CiSearch } from "react-icons/ci"
 
-import { capitalize, formatCurrency } from "@/lib/utils"
+import { formatCurrency, formatFullDay, formatInvoiceName } from "@/lib/utils"
 import { Label } from "@/components/ui/label";
-import { InvoiceType } from "@/lib/types/invoiceType";
 import { GoDownload } from "react-icons/go";
 
-export default function InvoicessList({ invoices }: { invoices: InvoiceType[] }) {
+export default function InvoicesList({ invoices }: { invoices: any }) {
   const [searchInvoiceName, setSearchInvoiceName] = useState('')
-  const [filteredInvoices, setFilteredInvoices] = useState<InvoiceType[]>([])
+  const [filteredInvoices, setFilteredInvoices] = useState<any>([])
 
   useEffect(() => {
     setFilteredInvoices(invoices)
@@ -29,8 +28,8 @@ export default function InvoicessList({ invoices }: { invoices: InvoiceType[] })
     const value = e.target.value.toLowerCase()
     setSearchInvoiceName(value)
 
-    const filtered = invoices.filter(invoice =>
-      invoice.invoice_name.toLowerCase().includes(value)
+    const filtered = invoices.filter((invoice: any) =>
+      invoice.account_name.toLowerCase().includes(value)
     );
     setFilteredInvoices(filtered);
   }
@@ -61,23 +60,27 @@ export default function InvoicessList({ invoices }: { invoices: InvoiceType[] })
           <TableHeader>
             <TableRow>
               <TableHead className="w-4/12 border-gray-700 font-medium">Nom</TableHead>
-              <TableHead className="w-3/12 border-gray-700 font-medium">Date</TableHead>
+              <TableHead className="w-3/12 border-gray-700 font-medium">Début</TableHead>
+              <TableHead className="w-3/12 border-gray-700 font-medium">Fin</TableHead>
               <TableHead className="w-2/12 border-gray-700 font-medium">Montant</TableHead>
+              <TableHead className="w-2/12 border-gray-700 font-medium">Raison</TableHead>
               <TableHead className="w-2/12 border-gray-700 font-medium">Statut</TableHead>
               <TableHead className="w-1/12 border-gray-700 text-center font-medium"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredInvoices?.map((invoice) => {
+            {filteredInvoices?.map((invoice: any) => {
               return (
                 <TableRow className="bg-white" key={invoice.id}>
-                  <TableCell className="font-medium">{capitalize(invoice.invoice_name.toLowerCase())}</TableCell>
-                  <TableCell className="font-medium">Du {invoice.start_date} au {invoice.end_date}</TableCell>
-                  <TableCell> {formatCurrency(invoice.amount)} </TableCell>
-                  <TableCell><p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{invoice.status}</p></TableCell>
+                  <TableCell>{formatInvoiceName(invoice.account_name, new Date(invoice.period_start * 1000).toISOString(), new Date(invoice.period_end * 1000).toISOString())}</TableCell>
+                  <TableCell>{formatFullDay(new Date(invoice.period_start * 1000).toISOString(), false)}</TableCell>
+                  <TableCell>{formatFullDay(new Date(invoice.period_end * 1000).toISOString(), false)}</TableCell>
+                  <TableCell> {formatCurrency(invoice.amount_paid / 100)} </TableCell>
+                  <TableCell> {invoice.billing_reason ? "Abonnement" : "Option"} </TableCell>
+                  <TableCell><p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{invoice.status === 'paid' ? 'Payé' : ''}</p></TableCell>
                   <TableCell className="flex items-center justify-around">
                     <Link
-                      href={invoice?.image.url}
+                      href={invoice.invoice_pdf}
                       target="_blank"
                       className="cursor-pointer rounded-lg border border-secondary p-2 text-xl text-secondary">
                       <GoDownload />

@@ -4,6 +4,7 @@ import { HomeInfoType } from "@/lib/types/homeType";
 import Link from "next/link";
 import { cookies } from "next/headers";
 import Plans from "@/components/home/plans/Plans";
+// import Services from "@/components/home/services/Services";
 
 export async function generateMetadata(): Promise<Metadata> {
   const homeInfo: { data: HomeInfoType } = await getHomeData()
@@ -61,6 +62,7 @@ export default async function HomePage() {
         )
       }
       {homeInfo?.data ? <Banner homeInfo={homeInfo.data} /> : null}
+      {/* <Services /> */}
       <Plans />
     </div>
   )

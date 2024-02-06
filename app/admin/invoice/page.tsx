@@ -4,13 +4,11 @@ import Breadcrumbs from "@/components/pages/admin/Breadcrumbs";
 import { NoInvoice } from "@/components/pages/admin/invoice/NoInvoice";
 import InvoicesList from "@/components/pages/admin/invoice/InvoicesList";
 import { cookies } from "next/headers";
+import { listInvoices } from "@/lib/actions/stripe-actions";
 
-async function getInvoicesData(token: string) {
-  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${STRAPI_URL}/api/users/me?populate[invoices][populate]=*`;
-
+async function getUserData(token: string) {
   if (token) {
-    const response = await fetch(url,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`,
       {
         method: 'GET',
         headers: {
@@ -18,17 +16,22 @@ async function getInvoicesData(token: string) {
           Authorization: `Bearer ${token}`
         }
       })
-    if (!response.ok) {
+    if (!res.ok) {
       console.log("error");
     }
-    return response.json()
+    return res.json()
   }
 }
 
 export default async function InvoicePage() {
+  let invoices
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ''
-  const user = await getInvoicesData(token)
+  const data = await getUserData(token)
+  if (data) {
+    invoices = await listInvoices(data.stripeUserId)
+    console.log("invoices", invoices.data);
+  }
 
   return (
     <div className="space-y-6">
@@ -39,8 +42,8 @@ export default async function InvoicePage() {
       />
       <Separator />
       {
-        user?.invoices?.length > 0 ? (
-          <InvoicesList invoices={user?.invoices} />
+        invoices?.data ? (
+          <InvoicesList invoices={invoices?.data} />
         ) : (
           <NoInvoice />
         )
