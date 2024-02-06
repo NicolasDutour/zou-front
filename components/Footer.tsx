@@ -14,7 +14,7 @@ export default function Footer() {
   ) {
     return (
       <footer>
-        <div className="grid place-items-center bg-gray-900 p-4 text-sm text-gray-400 grid-cols-1 md:grid-cols-5">
+        <div className="grid grid-cols-1 place-items-center bg-gray-900 p-4 text-sm text-gray-400 md:grid-cols-5">
           <p>© {new Date().getFullYear() > 2023 ? "2023 -" : ""} {new Date().getFullYear()} - Tous droits réservés</p>
           <Link href="/legal-notice" className="hover:text-white">Mentions légales</Link>
           <Link href="/personal-data" className="hover:text-white">Données personnelles</Link>
