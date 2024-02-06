@@ -18,13 +18,5 @@ export type UserType = {
   username: string
   updatedAt: string
   restaurants: RestaurantType[]
-  pricing_plan: {
-    id: string,
-    title: string
-    description: string
-    price: number
-    access?: string
-    wedoforyou?: string
-    youmanage?: string
-  }
+  stripeUserId: string
 }
