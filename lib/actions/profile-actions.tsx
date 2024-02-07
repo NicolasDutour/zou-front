@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function profileAction(formData: any, userId: number) {
   const token = cookies().get("token")?.value;
@@ -13,7 +12,7 @@ export async function profileAction(formData: any, userId: number) {
   if (!STRAPI_URL) throw new Error("Missing STRAPI_URL environment variable.");
 
   try {
-    await fetch(url, {
+    const response = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -21,9 +20,12 @@ export async function profileAction(formData: any, userId: number) {
       },
       body: JSON.stringify(formData),
     });
+
+    if (response.ok) {
+      return await response.json();
+    }
   } catch (error) {
     console.error(error);
     return { error: "Erreur serveur profile, essayez plus tard svp." };
   }
-  redirect('/admin/profile')
 }

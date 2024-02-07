@@ -20,6 +20,10 @@ export async function loginAction(formData: any) {
 
     const data = await response.json();
 
+    if (response.status === 400) {
+      return { error: data.error.message };
+    }
+
     if (response.ok) {
       cookies().set("token", data.jwt)
       cookies().set("userId", data?.user.id)

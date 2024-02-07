@@ -20,6 +20,11 @@ export async function registerAction(formData: any) {
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      return { error: data.message };
+    }
+
     if (response.ok) {
       cookies().set("token", data.jwt)
       cookies().set("userId", data?.user.id)

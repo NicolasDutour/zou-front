@@ -8,8 +8,10 @@ import { FormSchemaProfile, TypeFormSchemaProfile, UserType } from '@/lib/types/
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useRouter } from "next/navigation";
 
 export function ProfileForm({ user }: { user: UserType }) {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -19,7 +21,10 @@ export function ProfileForm({ user }: { user: UserType }) {
   });
 
   const onHandleUpdateProfile = async (payload: z.infer<typeof FormSchemaProfile>) => {
-    await profileAction(payload, user?.id)
+    const response = await profileAction(payload, user?.id)
+    if (response) {
+      router.push('/admin/profile')
+    }
   }
 
   return (
