@@ -10,8 +10,10 @@ import { loginAction } from '@/lib/actions/login-actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { FormSchemaLogin, TypeFormSchemaLogin } from '@/lib/types/authType';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function LoginForm() {
+  const { toast } = useToast()
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
 
@@ -25,7 +27,20 @@ export default function LoginForm() {
 
   const handleLogin = async (formData: TypeFormSchemaLogin) => {
     const response = await loginAction(formData)
-    if (response) {
+    if (response?.error === "Invalid identifier or password") {
+      toast({
+        title: "Erreur d'identification",
+        description: "Identifiant ou mot de passe invalide.",
+        className: "border-destructive text-destructive",
+      })
+    }
+
+    if (response?.user) {
+      toast({
+        title: "Félicitation !",
+        description: "Vous êtes bien connecté.",
+        className: "border-secondary text-secondary",
+      })
       router.push('/admin/profile')
     }
   }

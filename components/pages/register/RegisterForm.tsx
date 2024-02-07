@@ -9,8 +9,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormSchemaRegister, TypeFormSchemaRegister } from '@/lib/types/authType';
 import { useRouter } from 'next/navigation';
 import SubmitButton from './SubmitButton';
+import { useToast } from '@/components/ui/use-toast';
 
 export default function RegisterForm() {
+  const { toast } = useToast()
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -26,6 +28,11 @@ export default function RegisterForm() {
   const handleRegister = async (formData: TypeFormSchemaRegister) => {
     const response = await registerAction(formData)
     if (response) {
+      toast({
+        title: "Félicitation !",
+        description: "Vous êtes bien enregistré et connecté.",
+        className: "border-secondary text-secondary",
+      })
       router.push('/admin/profile')
     }
   }
