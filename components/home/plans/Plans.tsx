@@ -1,16 +1,13 @@
 
-import { MonthlyCard } from "@/components/pages/admin/subscription/MonthlyCard"
-import { OptionsCard } from "@/components/pages/admin/subscription/OptionsCard"
+import { PlansList } from "./PlansList";
+// import { OptionsCard } from "@/components/pages/admin/subscription/OptionsCard"
 
-export default function Plans() {
+export const Plans = ({ plans }: { plans: any }) => {
   return (
     <section className="bg-base px-6 py-10">
       <div className="mx-auto lg:max-w-5xl">
-        <h3 className="mb-6 text-3xl font-medium">Une formule unique</h3>
-        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-          <MonthlyCard />
-          <OptionsCard />
-        </div>
+        <PlansList plans={plans} />
+        {/* <OptionsCard /> */}
       </div>
     </section>
   )
