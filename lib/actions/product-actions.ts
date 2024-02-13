@@ -9,13 +9,13 @@ export async function createOrUpdateProductAction(payload: any, pathname: any, p
   if (!token) throw new Error("Not Authorized.");
 
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${STRAPI_URL}/api/products${pathname?.includes("/update") ? `/${productId}` : ''}`;
+  const url = `${STRAPI_URL}/api/products${pathname?.includes("edit") ? `/${productId}` : ''}`;
 
   if (!STRAPI_URL) throw new Error("Missing STRAPI_URL environment variable.");
 
   try {
     const response = await fetch(url, {
-      method: `${pathname?.includes("/update") ? 'PUT' : 'POST'}`,
+      method: `${pathname?.includes("edit") ? 'PUT' : 'POST'}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -55,7 +55,7 @@ export async function createProductPhoto(formData: any) {
     console.error("error", error);
     return { error: "Erreur serveur création photo, essayez plus tard svp." };
   }
-  redirect('/admin/product')
+  redirect('/dashboard/product')
 }
 
 export async function removeProductAction(productId?: any) {
@@ -79,5 +79,5 @@ export async function removeProductAction(productId?: any) {
     console.error(error);
     return { error: "Erreur serveur création produit, essayez plus tard svp." };
   }
-  revalidatePath('/admin/product')
+  revalidatePath('/dashboard/product')
 }

@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   const sessionId = request.nextUrl.searchParams.get('session_id')
   const token = request.cookies.get('token')
   const isAuthRoute = path === '/login' || path === '/register'
-  const isPrivateRoute = path.startsWith('/admin')
+  const isPrivateRoute = path.startsWith('/dashboard')
 
   if (isAuthRoute && token?.value) {
     return NextResponse.redirect(new URL('/', request.url))
@@ -44,7 +44,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/admin/:path*',
+    '/dashboard/:path*',
     '/login',
     '/register',
     '/faq',

@@ -8,13 +8,13 @@ export async function createOrUpdateRestaurantAction(payload: any, pathname: any
   if (!token) throw new Error("Not Authorized.");
 
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${STRAPI_URL}/api/restaurants${pathname?.includes("/update") ? `/${restaurantId}` : ''}`;
+  const url = `${STRAPI_URL}/api/restaurants${pathname?.includes("edit") ? `/${restaurantId}` : ''}`;
 
   if (!STRAPI_URL) throw new Error("Missing STRAPI_URL environment variable.");
 
   try {
     const response = await fetch(url, {
-      method: `${pathname?.includes("/update") ? 'PUT' : 'POST'}`,
+      method: `${pathname?.includes("edit") ? 'PUT' : 'POST'}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -54,5 +54,5 @@ export async function createBannerPhoto(formData: any) {
     console.error("error", error);
     return { error: "Erreur serveur, essayez plus tard svp." };
   }
-  redirect('/admin/restaurant')
+  redirect('/dashboard/restaurant')
 }

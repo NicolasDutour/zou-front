@@ -45,8 +45,8 @@ export async function createSessionCheckout(
       quantity: 1,
     }],
     mode,
-    success_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?success&session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?canceled`,
+    success_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/dashboard/subscription?success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/dashboard/subscription?canceled`,
   })
   if (session?.url) {
     redirect(session.url)

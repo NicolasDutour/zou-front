@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/types/authType';
+import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/definitions/authType';
 import LoaderButton from '@/components/LoaderButton';
 
 export default function ForgotPasswordForm() {
@@ -42,7 +42,7 @@ export default function ForgotPasswordForm() {
           await response.json()
           toast({
             title: "Mot de passe mis à jour",
-            className: "border-primary text-primary"
+            className: "border-blueDark text-blueDark"
           })
           router.push('/login')
         } catch (error) {
@@ -76,7 +76,7 @@ export default function ForgotPasswordForm() {
           <button
             type='submit'
             disabled={isLoading}
-            className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-40"
+            className="flex w-full justify-center rounded-md bg-blueDark px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDark disabled:opacity-40"
           >
             {
               isLoading ? (
