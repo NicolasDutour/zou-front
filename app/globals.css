@@ -4,6 +4,14 @@
 
 @layer base {
   :root {
+    --blue-lighter: #237bdf;
+    --blue: #135A9A;
+    --blue-dark: #22354e;
+    --blue-darker: #1a293c;
+    --gray: #8c9fb9;
+    --error: #ff4d4f;
+    --yellow: #edda2d;
+
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
 
@@ -13,16 +21,6 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
 
-    --primary: #135A9A;
-    --primary-foreground: #fff;
-
-    --secondary: #237bdf;
-    --secondary-foreground: #fff;
-
-    --yellow: #edda2d;
-
-    --base: #F8FAFD;
-    --base-bis: #EDE9FE;
 
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
