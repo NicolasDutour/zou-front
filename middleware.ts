@@ -4,6 +4,8 @@ import { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname
   const queryId = request.nextUrl.searchParams.get('id')
+  const subscriptionStatus = request.nextUrl.searchParams.get('success')
+  const sessionId = request.nextUrl.searchParams.get('session_id')
   const token = request.cookies.get('token')
   const isAuthRoute = path === '/login' || path === '/register'
   const isPrivateRoute = path.startsWith('/admin')
@@ -21,6 +23,14 @@ export function middleware(request: NextRequest) {
   requestHeaders.set('referer', request.url)
   if (queryId !== null) {
     requestHeaders.set('queryId', queryId)
+  }
+
+  if (subscriptionStatus !== null) {
+    requestHeaders.set('subscriptionStatus', subscriptionStatus)
+  }
+
+  if (sessionId !== null) {
+    requestHeaders.set('sessionId', sessionId)
   }
 
   return NextResponse.next({
