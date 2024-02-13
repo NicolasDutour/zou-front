@@ -3,7 +3,7 @@ import Banner from "@/components/home/Banner";
 import { HomeInfoType } from "@/lib/types/homeType";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import Plans from "@/components/home/plans/Plans";
+import { Plans } from "@/components/home/plans/Plans";
 // import Services from "@/components/home/services/Services";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,10 +47,27 @@ async function getHomeData() {
   return response.json()
 }
 
+async function getDataPlans() {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/plans?sort=amount:asc`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  if (!response.ok) {
+    console.error('Failed to fetch data')
+  }
+  return response.json()
+}
+
 export default async function HomePage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
   const homeInfo: { data: HomeInfoType } = await getHomeData()
+  const plans = await getDataPlans()
 
   return (
     <div className="relative">
@@ -63,7 +80,7 @@ export default async function HomePage() {
       }
       {homeInfo?.data ? <Banner homeInfo={homeInfo.data} /> : null}
       {/* <Services /> */}
-      <Plans />
+      {plans?.data ? <Plans plans={plans.data} /> : null}
     </div>
   )
 }
