@@ -1,73 +1,56 @@
 'use server'
 
-import { redirect } from "next/navigation";
-import Stripe from "stripe"
+import { redirect } from 'next/navigation'
+import Stripe from "stripe";
 
 export async function createCustomer(name: string, email: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.customers.create({
-    name,
-    email
-  })
+  const customer = await stripe.customers.create({ name, email })
+  return customer.id
 }
 
 export async function createProduct(name: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.products.create({ name });
+  const product = await stripe.products.create({ name })
+  return product.id
 }
 
 export async function createPrice(
   productId: string,
   unit_amount: number,
   currency: string,
-  interval: "day" | "week" | "month" | "year",
-  trial_period_days: number
+  interval: 'day' | 'week' | 'month' | 'year',
 ) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.prices.create(
-    {
-      unit_amount,
-      currency,
-      recurring: { interval, trial_period_days },
-      product: productId,
-    }
-  )
-}
-
-export async function createSubscription(stripeCustomerId: string, priceId: string) {
-  const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.subscriptions.create({
-    customer: stripeCustomerId,
-    items: [
-      { price: priceId }
-    ]
+  const price = await stripe.prices.create({
+    unit_amount,
+    currency,
+    product: productId,
+    recurring: { interval }
   })
+  return price.id
 }
 
-export async function createSessionCheckout(stripeCustomerId: string, hasOptions: boolean, priceId: string) {
+export async function createSessionCheckout(
+  stripeCustomerId: string,
+  priceId: string,
+  mode: 'payment' | 'setup' | 'subscription'
+) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  const line_items = [
-    {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    customer: stripeCustomerId,
+    line_items: [{
       price: priceId,
       quantity: 1,
-    }
-  ]
-  if (hasOptions) {
-    // line_items.push(
-    //   {
-    //     price: priceIdOption,
-    //     quantity: optionsQuantity,
-    //   },
-    // )
-  }
-  const session = await stripe.checkout.sessions.create({
-    customer: stripeCustomerId,
-    line_items,
-    mode: 'subscription',
-    success_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?success=true`,
-    cancel_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?canceled=true`,
+    }],
+    mode,
+    success_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?success&session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${process.env.NEXT_PUBLIC_FRONT_URL}/admin/subscription?canceled`,
   })
-  if (session.url) redirect(session?.url);
+  if (session?.url) {
+    redirect(session.url)
+  }
 }
 
 export async function cancelSubscription(subscriptionId: string) {
@@ -75,26 +58,17 @@ export async function cancelSubscription(subscriptionId: string) {
   return await stripe.subscriptions.cancel(subscriptionId, { invoice_now: false, prorate: false })
 }
 
-export async function retrieveCustomer(customerId: string) {
+export async function retrieveSession(sessionId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.customers.retrieve(customerId)
+  return await stripe.checkout.sessions.retrieve(sessionId);
 }
 
 export async function listSubscriptions(stripeCustomerId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.subscriptions.list({
-    customer: stripeCustomerId
-  })
+  return await stripe.subscriptions.list({ customer: stripeCustomerId })
 }
 
 export async function listInvoices(stripeCustomerId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.invoices.list({
-    customer: stripeCustomerId
-  })
-}
-
-export async function listProducts() {
-  const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.products.list();
+  return await stripe.invoices.list({ customer: stripeCustomerId })
 }
