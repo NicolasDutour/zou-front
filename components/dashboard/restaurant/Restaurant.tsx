@@ -44,8 +44,6 @@ export default async function Restaurant() {
   const environment = process.env.NODE_ENV
   const restaurant = data?.restaurants[0]
 
-  console.log("restaurant", restaurant);
-
   const hasFilesMenu = restaurant?.choice_menu === "import_files" && restaurant?.menu_photo?.length > 0;
   const hasBothMenus = restaurant?.choice_menu === "both" && restaurant?.menu_photo?.length > 0 && restaurant?.products?.length > 0;
 
@@ -119,7 +117,7 @@ export default async function Restaurant() {
               </div>
             </div>
             <div className="w-full space-y-8 rounded-2xl p-4 bg-blueDark text-white border border-gray col-span-2">
-              <p className=' mb-8 text-lg font-medium'> Présentation de votre établissement </p>
+              <p className='text-lg font-medium'> Présentation de votre établissement </p>
               <p>{restaurant?.description}</p>
             </div>
 
@@ -131,7 +129,7 @@ export default async function Restaurant() {
                     {restaurant?.menu_photo?.map((file: any, index: number) => {
                       return (
                         <div key={index} className="flex items-center">
-                          <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-blueDark bg-white p-6 transition-all hover:bg-blueDark hover:text-white"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                          <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-gray bg-blueDarker p-6 transition-colors ease-out duration-700 hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                         </div>
                       );
                     })}
@@ -143,12 +141,12 @@ export default async function Restaurant() {
             {
               hasFilesMenu ? (
                 <div className='space-y-4 rounded-2xl text-white bg-blueDark p-4'>
-                  <p className=' text-xl font-medium'>Les menuuuuuus</p>
+                  <p className=' text-xl font-medium'>Les menus</p>
                   <div className={`mt-4 grid grid-cols-2 gap-4`}>
                     {restaurant?.menu_photo?.map((file: any, index: number) => {
                       return (
                         <div key={index} className="flex items-center">
-                          <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-blueDark bg-blueDarker p-6 transition-all hover:bg-blueDark hover:text-white"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                          <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-gray bg-blueDarker p-6 transition-colors ease-out duration-700 hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                         </div>
                       );
                     })}
