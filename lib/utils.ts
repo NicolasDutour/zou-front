@@ -96,10 +96,21 @@ export const truncateFileName = (name: string, maxLength: number): string => {
 
 export const formatCurrency = (amount: number) => {
   if (amount) {
-    return amount?.toLocaleString('fr', {
-      style: 'currency',
-      currency: 'EUR',
-    });
+    if (Math.floor(amount) === amount) {
+      return amount?.toLocaleString('fr', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+      });
+    } else {
+      return amount?.toLocaleString('fr', {
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
   }
 };
 
