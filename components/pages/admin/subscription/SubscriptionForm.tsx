@@ -2,119 +2,99 @@
 
 import Link from "next/link";
 import { UserType } from '@/lib/types/userType';
-import { createCustomer, createPrice, createProduct, createSessionCheckout, createSubscription } from "@/lib/actions/stripe-actions";
+import { createCustomer, createPrice, createProduct, createSessionCheckout } from "@/lib/actions/stripe-actions";
 import { profileAction } from "@/lib/actions/profile-actions";
+import { useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { formatCurrency } from "@/lib/utils";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSchemaProductsOptionPlan, TypeFormSchemaProductsOption } from "@/lib/types/planType";
-import { Switch } from "@/components/ui/switch";
-import { MonthlyCard } from "./MonthlyCard";
-import { OptionsCard } from "./OptionsCard";
+import { cn, formatCurrency } from "@/lib/utils";
+import { PlanType } from "@/lib/types/planType";
 
-export function SubscriptionForm({ user }: { user: UserType }) {
-  const [options, setOptions] = useState(false)
-  const [totalPrice, setTotalPrice] = useState(0)
+export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanType[] }) {
+  const [subscription, setSubscription] = useState(null as PlanType | null)
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors }
-  } = useForm<TypeFormSchemaProductsOption>({
-    resolver: zodResolver(FormSchemaProductsOptionPlan),
-  });
-
-  const productsOptionsWatch = watch('productsOptions', 0)
-
-  const handleOptions = (checked: boolean) => {
-    setOptions(checked)
-  }
-
-  useEffect(() => {
-    if (options) {
-      setTotalPrice(productsOptionsWatch * 2)
-    } else {
-      setValue('productsOptions', 0)
-      setTotalPrice(0)
-    }
-  }, [productsOptionsWatch, options, setValue])
-
-  async function onHandleCreateOrUpdateSubscription() {
+  async function onHandleCreateOrUpdateSubscription(e) {
+    e.preventDefault()
     let customer = user?.stripeUserId;
     if (!customer) {
-      const data = await createCustomer(user?.username, user?.email);
-      if (data) {
-        await profileAction({ stripeUserId: data.id }, user?.id);
-        customer = data.id;
+      console.log("no stripe customer");
+
+      if (user?.username && user?.email) {
+        console.log("has username and email", user?.username, user?.email);
+
+        const customerId = await createCustomer(user?.username, user?.email)
+        if (customerId) {
+          console.log("stripe customerId created", customerId);
+
+          const response = await profileAction({ stripeUserId: customerId }, user?.id)
+          if (response) {
+            customer = customerId
+          }
+        }
       }
     }
 
     if (customer) {
-      const product = await createProduct("zou-plan");
-      console.log("product", product);
+      console.log("has stripe customer", customer);
 
-      const price = await createPrice("prod_PVlhTgGX0SB5ya", totalPrice, "EUR", "week", 2);
-      console.log("price", price);
+      if (
+        user?.stripe_products[0]?.stripeProductName === "zou-plan" &&
+        user?.stripe_products[0]?.stripe_subscriptions[0].stripeSubscriptionId
+      ) {
+        console.log("subscription created");
 
-      const plan = await createSubscription(customer, "price_1OgkClBt6PYjLNhAp0019Cjq");
-      console.log("plan", plan);
+      } else {
+        const planProductId = await createProduct("zou-plan");
+        if (planProductId && subscription) {
+          console.log("stripe product created", planProductId);
 
-      const session = await createSessionCheckout(customer, false, "price_1OgkClBt6PYjLNhAp0019Cjq");
-      console.log("session", session);
-    } else {
-      console.error("Failed to create Stripe user");
+
+          const planPriceId = await createPrice(planProductId, subscription?.attributes?.amount * 100, "EUR", "day");
+          if (planPriceId) {
+            console.log("stripe price created", planPriceId);
+
+            await createSessionCheckout(customer, planPriceId, "subscription");
+          }
+        }
+      }
     }
   }
 
-  return (
-    <form onSubmit={handleSubmit(onHandleCreateOrUpdateSubscription)}>
-      <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-3">
-        <MonthlyCard />
-        {options ? <OptionsCard /> : null}
-      </div>
-      <div className="my-4 flex items-center space-x-2">
-        <Label htmlFor="options">Sans Options</Label>
-        <Switch
-          checked={options}
-          onCheckedChange={handleOptions}
-          className="data-[state=checked]:bg-yellow-400 data-[state=unchecked]:bg-secondary" id="options" />
-        <Label htmlFor="options">Avec Options</Label>
-      </div>
+  const handlePlan = (value: string) => {
+    setSubscription(JSON.parse(value))
+  }
 
-      {
-        options ? (
-          <div className="mb-6 flex w-full flex-col md:w-1/2">
-            <Label htmlFor="productsOptions" className="mt-4 block text-sm font-medium leading-6 text-secondary">
-              Nombre de produits que nous ajouterons pour vous:
-            </Label>
-            <input
-              {...register('productsOptions', {
-                setValueAs: (value) => Number(value),
-              })}
-              type="number"
-              value={productsOptionsWatch}
-              id="productsOptions"
-              className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary sm:leading-6 md:w-1/4"
-            />
-            <p className="mt-2 text-sm text-red-500">{errors.productsOptions?.message}</p>
-          </div>
-        ) : null
-      }
-      <div className="w-full rounded-2xl bg-muted p-4 md:w-1/2">
-        <p className="mb-4 text-lg text-secondary">Votre commande:</p>
-        <p>- Formule principale: <span className="text-secondary">{formatCurrency(19)}</span> </p>
+  const monthlyAmount = (amount: number, period: number, period_type: string) => {
+    if (period_type === 'an') return formatCurrency(amount / 12)
+    return formatCurrency(amount / period)
+  }
+
+  return (
+    <form onSubmit={onHandleCreateOrUpdateSubscription}>
+      <RadioGroup onValueChange={handlePlan} className="grid grid-cols-3 gap-4">
         {
-          options && productsOptionsWatch > 0 ? (
-            <p>- Vos options: <span className="text-secondary">{totalPrice > 0 ? formatCurrency(totalPrice) : "0 €"}</span> </p>
-          ) : null
+          plans.map((plan: PlanType) => {
+            return (
+              <div key={plan.id}>
+                <RadioGroupItem value={JSON.stringify(plan)} id={plan.attributes.name} className="peer sr-only" />
+                <Label
+                  htmlFor={plan.attributes.name}
+                  className="flex flex-col items-center justify-between cursor-pointer rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-yellow-400 [&:has([data-state=checked])]:border-yellow-400"
+                >
+                  <div>
+                    <p className="text-4xl mb-2">{plan.attributes.period}</p>
+                    <p> {plan.attributes.period_type} </p>
+                  </div>
+                  <p className="text-xl">{monthlyAmount(plan.attributes.amount, plan.attributes.period, plan.attributes.period_type)}<span className="text-gray-500 text-sm"> / mois</span></p>
+                  <p className={cn("rounded-full text-center w-full p-2 mt-4", plan.attributes.name === subscription?.attributes?.name ? "bg-yellow-400 text-secondary" : "bg-secondary text-white")}> {plan.attributes.period} {plan.attributes.period_type}  pour {formatCurrency(plan.attributes.amount)} </p>
+                </Label>
+              </div>
+            )
+          })
         }
-        <p className="mt-4 text-xl">- Total: <span className="text-secondary">{formatCurrency(totalPrice + 19)}</span> </p>
-      </div>
-      <div className="mt-4 flex w-full gap-2 md:w-1/2">
+      </RadioGroup>
+
+      <div className="mt-4 flex w-full gap-2 md:w-1/3">
         <Link
           href="/admin/subscription"
           className="flex w-full  justify-center rounded-md bg-muted px-3 py-1.5 text-sm font-medium leading-6 text-gray-600 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
@@ -123,7 +103,8 @@ export function SubscriptionForm({ user }: { user: UserType }) {
         </Link>
         <button
           type="submit"
-          className="flex w-full  justify-center rounded-md bg-secondary px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary"
+          disabled={!subscription}
+          className={cn("flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-secondary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2", subscription ? "bg-secondary" : "bg-gray-300 cursor-not-allowed")}
         >
           Je souscris
         </button>

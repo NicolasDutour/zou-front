@@ -2,8 +2,8 @@ import Breadcrumbs from "@/components/pages/admin/Breadcrumbs";
 import { NoSubscription } from "@/components/pages/admin/subscription/NoSubscription";
 import { StripeSubscriptionsList } from "@/components/pages/admin/subscription/StripeSubscriptionsList";
 import { Separator } from "@/components/ui/separator";
-import { listSubscriptions } from "@/lib/actions/stripe-actions";
-import { cookies } from "next/headers";
+import { listSubscriptions, retrieveSession } from "@/lib/actions/stripe-actions";
+import { cookies, headers } from "next/headers";
 
 async function getUserData(token: string) {
   if (token) {
@@ -23,14 +23,21 @@ async function getUserData(token: string) {
 }
 
 export default async function SubscriptionsPage() {
+  const headersList = headers()
+  const sessionId = headersList.get('sessionId') || ''
+
   let stripeSubscriptions
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ''
   const data = await getUserData(token)
 
-  if (data.stripeUserId) {
-    stripeSubscriptions = await listSubscriptions(data.stripeUserId)
-    console.log("stripeSubscriptions", stripeSubscriptions.data);
+  if (data.stripeUserId && sessionId) {
+    const session = await retrieveSession(sessionId);
+    console.log("session", session);
+    if (session.payment_status === 'paid') {
+      console.log("session paid !!!");
+      stripeSubscriptions = await listSubscriptions(data.stripeUserId)
+    }
   }
 
   return (

@@ -17,8 +17,6 @@ const periodicity: any = {
 }
 
 export const SubscrivedOptionItem = ({ sub }: { sub: any }) => {
-  console.log("sub", sub);
-
   return (
     <div className="flex w-full items-center rounded-xl border-2 border-secondary bg-white p-4 text-card-foreground shadow">
       <div>

@@ -21,10 +21,30 @@ async function getUserData(token: string) {
   }
 }
 
+async function getDataPlans() {
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
+  const url = `${STRAPI_URL}/api/plans?sort=amount:asc`;
+
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+  if (!response.ok) {
+    console.error('Failed to fetch data')
+  }
+  return response.json()
+}
+
 export default async function CreateSubscriptionPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ""
   const user = await getUserData(token)
+  const plans = await getDataPlans()
+
+  // console.log("user", user);
+  // console.log("stripe_subscriptions", user?.stripe_products[0]?.stripe_subscriptions);
 
   return (
     <div className="space-y-6">
@@ -33,7 +53,8 @@ export default async function CreateSubscriptionPage() {
           breadcrumbs={[
             { label: "Abonnement", href: "/admin/subscription" },
             {
-              label: "Création de votre abonnement",
+              label: `${user?.stripeUserId && user?.stripe_products[0]?.stripeProductName === "zou-plan" &&
+                user?.stripe_products[0]?.stripe_subscriptions[0].stripeSubscriptionId ? "Ajout d'une option" : "Création de votre abonnement"}`,
               href: "/admin/subscription/create",
               active: true,
             },
@@ -41,7 +62,7 @@ export default async function CreateSubscriptionPage() {
         />
       </div>
       <Separator />
-      {user ? <SubscriptionForm user={user} /> : null}
+      {user && plans ? <SubscriptionForm user={user} plans={plans.data} /> : null}
     </div>
   )
 }
