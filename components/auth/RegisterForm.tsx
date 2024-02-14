@@ -51,7 +51,7 @@ export default function RegisterForm() {
         description: "Vous êtes bien enregistré et connecté.",
         className: "border-blue text-blue",
       })
-      router.push('/dashboard/profile')
+      router.push('/dashboard/overview')
     }
   }
 
