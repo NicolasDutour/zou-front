@@ -1,13 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    webpackBuildWorker: true
-  },
   images: {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '192.168.1.18',
+        hostname: '192.168.1.166',
         port: '1337',
         pathname: '/**',
       },

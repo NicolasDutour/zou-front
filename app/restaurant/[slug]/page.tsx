@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 
-import RestaurantBanner from "@/components/pages/restaurant/RestaurantBanner"
-import Mapbox from "@/components/pages/restaurant/MapBox"
-import RestaurantInfo from "@/components/pages/restaurant/RestaurantInfo";
-import ListMenu from "@/components/pages/restaurant/ListMenu";
-import RestaurantDescription from "@/components/pages/restaurant/RestaurantDescription";
-import ListMenuFiles from "@/components/pages/restaurant/ListMenuFiles";
+import RestaurantBanner from "@/components/restaurant/RestaurantBanner"
+import Mapbox from "@/components/restaurant/MapBox"
+import RestaurantInfo from "@/components/restaurant/RestaurantInfo";
+import ListMenu from "@/components/restaurant/ListMenu";
+import RestaurantDescription from "@/components/restaurant/RestaurantDescription";
+import ListMenuFiles from "@/components/restaurant/ListMenuFiles";
 
 export async function generateMetadata(
   {
@@ -54,8 +54,7 @@ const getRestaurantDetails = async (slug: string) => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      cache: 'no-store'
+      }
     })
 
   if (!response.ok) {

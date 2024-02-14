@@ -27,19 +27,26 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+        blueLighter: {
+          DEFAULT: "var(--blue-lighter)",
         },
-        secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
+        blue: {
+          DEFAULT: "var(--blue)",
         },
-        base: {
-          DEFAULT: "var(--base)",
+        blueDark: {
+          DEFAULT: "var(--blue-dark)",
         },
-        baseBis: {
-          DEFAULT: "var(--base-bis)",
+        blueDarker: {
+          DEFAULT: "var(--blue-darker)",
+        },
+        gray: {
+          DEFAULT: "var(--gray)",
+        },
+        yellow: {
+          DEFAULT: "var(--yellow)",
+        },
+        error: {
+          DEFAULT: "var(--error)",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",

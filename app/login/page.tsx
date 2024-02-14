@@ -1,32 +1,15 @@
-import RedirectLoginButton from '@/components/RedirectLoginRegisterButton'
-// import LoginGoogleButton from "@/components/LoginGoogleButton"
-import LoginForm from '@/components/pages/login/LoginForm'
-// import Link from "next/link"
+import RedirectLoginRegisterButton from "@/components/auth/RedirectLoginRegisterButton";
+import LoginForm from "@/components/auth/LoginForm";
 
-export default function Login() {
+export default function LoginPage() {
   return (
-    <div className="flex h-[calc(100vh-77px)] flex-1 flex-col justify-center bg-base px-6 py-12 lg:px-8">
-      <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-custom md:max-w-lg">
-        <h2 className="mt-6 text-center text-2xl font-medium leading-9 tracking-tight">
-          Connectez vous
-        </h2>
-
-        <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-sm">
-          {/* <p className=' text-center mx-4 mb-4'>avec</p> */}
-
-          {/* <LoginGoogleButton /> */}
-          {/* <Link className="text-white" href={`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/connect/google`}>
-          Signi in with google
-        </Link> */}
-
-          {/* <p className='text-white text-center mx-4 mb-4'>or</p> */}
-          <LoginForm />
-
-          <p className="mt-6 text-center text-sm text-gray-400">
-            Pas encore inscrit ?{' '}
-            <RedirectLoginButton path="register" />
-          </p>
-        </div>
+    <div className="flex min-h-screen items-center justify-center bg-blueDark p-4">
+      <div className="mx-auto w-full max-w-lg rounded-2xl bg-white p-8">
+        <LoginForm />
+        <p className="mt-6 text-center text-sm text-gray">
+          Not registered yet ?{' '}
+          <RedirectLoginRegisterButton path="register" />
+        </p>
       </div>
     </div>
   )

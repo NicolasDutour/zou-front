@@ -9,6 +9,8 @@ import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 import Footer from '@/components/Footer'
 import { ProductFormContextProvider, RestaurantFormContextProvider } from '@/context/store'
+import AuthButton from "@/components/auth/AuthButton"
+import { cookies } from "next/headers"
 
 const roboto = Roboto({
   weight: ['400', '500'],
@@ -20,7 +22,7 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   metadataBase: new URL(`${process.env.NEXT_PUBLIC_FRONT_URL}`),
   title: 'Zou',
-  description: "Votre page web professionnel prêt à être utilisé, vous n'avez qu'à y ajouter vos données",
+  description: "Votre site web prêt à l'emploi. Rien à créer, tout est fait. Juste à sasir vos données. Simple, rapide et efficace.",
   // verification: {
   //   google: `google-site-verification=${process.env.GOOGLE_SITE_VERIFICATION}`
   // }
@@ -31,14 +33,18 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')?.value
+
   return (
     <html lang="fr" className='scroll-smooth'>
       <body className={cn(
-        "bg-white overflow-x-hidden",
+        "relative bg-white overflow-x-hidden",
         roboto.className
       )}>
         <ProductFormContextProvider>
           <RestaurantFormContextProvider>
+            <AuthButton token={token} />
             <main>
               {children}
             </main>
