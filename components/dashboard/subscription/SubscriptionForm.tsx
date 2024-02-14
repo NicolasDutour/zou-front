@@ -48,7 +48,7 @@ export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanT
       {
         plans.map((plan: PlanType) => {
           return (
-            <Card className="flex w-full flex-col justify-between border-2 border-blueDark p-2 md:w-1/2">
+            <Card key={plan.id} className="flex w-full flex-col justify-between border-2 border-blueDark p-2 md:w-1/2">
               <CardHeader className="space-y-0 p-0">
                 <CardTitle className="mb-2 text-center font-medium">
                   <p className="mb-2 text-4xl text-blueDark"> {plan.name} </p>
