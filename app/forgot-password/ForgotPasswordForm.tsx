@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/definitions/authType';
+import { FormSchemaForgotPassword, TypeFormSchemaForgotPassword } from '@/lib/definitions';
 import LoaderButton from '@/components/LoaderButton';
 
 export default function ForgotPasswordForm() {

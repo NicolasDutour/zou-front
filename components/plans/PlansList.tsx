@@ -1,6 +1,6 @@
 import { PlanCard } from "./PlanCard"
 
-const plans = [
+export const plans = [
   {
     id: 1,
     name: "The One",

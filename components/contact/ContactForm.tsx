@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { useToast } from "@/components/ui/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { TypeFormSchemaContact, FormSchemaContact } from '@/lib/definitions/contactType';
+import { TypeFormSchemaContact, FormSchemaContact } from '@/lib/definitions';
 import LoaderButton from '@/components/LoaderButton';
 
 export default function LoginForm() {

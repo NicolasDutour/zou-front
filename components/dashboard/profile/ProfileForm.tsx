@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { FormSchemaProfile, TypeFormSchemaProfile } from "@/lib/definitions";
-import { UserType } from "@/lib/definitions/userType";
+import { FormSchemaProfile, TypeFormSchemaProfile , UserType } from "@/lib/definitions";
+
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
@@ -47,7 +47,7 @@ export function ProfileForm({ user }: { user: UserType }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
-      <div className="w-full bg-white rounded-2xl lg:w-1/2 p-6">
+      <div className="w-full rounded-2xl bg-white p-6 lg:w-1/2">
         <label
           className="block text-sm font-medium leading-6 text-blueDarker"
           htmlFor="email"
@@ -65,21 +65,21 @@ export function ProfileForm({ user }: { user: UserType }) {
           <p className="mt-2 text-sm text-error">{errors.email?.message}</p>
         </div>
       </div>
-      <div className="flex gap-4 w-full md:w-1/2">
+      <div className="flex w-full gap-4 md:w-1/2">
         <Link
           href="/dashboard/profile"
           passHref
           legacyBehavior
         >
-          <Button className="mt-4 w-full bg-white ring-1 ring-inset ring-gray text-blueDark text-center">
+          <Button className="mt-4 w-full bg-white text-center text-blueDark ring-1 ring-inset ring-gray">
             Annuler
           </Button>
         </Link>
 
-        <Button disabled={!isDirty || !isValid || isSubmitting} className="mt-4 w-full bg-blueDark border border-white text-white text-center">
+        <Button disabled={!isDirty || !isValid || isSubmitting} className="mt-4 w-full border border-white bg-blueDark text-center text-white">
           {isSubmitting ? (
             <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10" stroke="#8c9fb9" strokeWidth="4"></circle>
                 <path fill="#135A9A" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>

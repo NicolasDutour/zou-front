@@ -10,7 +10,7 @@ export default function Breadcrumbs({
 }) {
   return (
     <nav aria-label="Breadcrumb">
-      <ol className='flex flex-wrap text-lg font-medium mb-6'>
+      <ol className='mb-6 flex flex-wrap text-lg font-medium'>
         {breadcrumbs.map((breadcrumb, index) => (
           <li
             key={breadcrumb.href}
@@ -26,7 +26,7 @@ export default function Breadcrumbs({
           </li>
         ))}
       </ol>
-      <Separator className='mb-6 w-full md:w-1/4 bg-gray' />
+      <Separator className='mb-6 w-full bg-gray md:w-1/4' />
     </nav>
   );
 }

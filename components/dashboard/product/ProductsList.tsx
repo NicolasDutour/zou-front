@@ -27,16 +27,16 @@ import { MdOutlineModeEditOutline } from "react-icons/md";
 import { CiSearch } from "react-icons/ci"
 // import Image from "next/image"
 
-import { ProductType } from "@/lib/definitions/productType"
 import { capitalize, formatCurrency, formatIngredients } from "@/lib/utils"
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { removeProductAction } from "@/lib/actions/product-actions";
+import { ProductType } from "@/lib/definitions";
+import { removeProductAction } from "@/lib/actions";
 
 export default function ProductsList({ products }: { products: ProductType[] }) {
   const [searchProductName, setSearchProductName] = useState('')
   const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([])
-  const [selectBase, setSelectBase] = useState('toutes')
+  const [selectBase, setSelectBase] = useState('all')
 
   useEffect(() => {
     setFilteredProducts(products)
@@ -48,7 +48,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
 
     const filtered = products.filter(product =>
       product.product_name.toLowerCase().includes(value) &&
-      (selectBase === 'toutes' || product.base === selectBase)
+      (selectBase === 'all' || product.base === selectBase)
     );
     setFilteredProducts(filtered);
   }
@@ -58,7 +58,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
 
     const filtered = products.filter(product =>
       product.product_name.toLowerCase().includes(searchProductName) &&
-      (base === 'toutes' || product.base === base)
+      (base === 'all' || product.base === base)
     );
     setFilteredProducts(filtered);
   }
@@ -69,34 +69,34 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
         products?.length > 0 ? (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="relative">
-              <Label className="text-muted-foreground">Rechercher un produit</Label>
+              <Label className="text-white">Rechercher un produit</Label>
               <input
                 id='ingredients'
                 type="text"
                 value={searchProductName}
                 onChange={handleChangeSearchProductName}
-                className="block w-full rounded-md border-0 bg-white/5 p-2 py-1.5 pl-8 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:text-sm sm:leading-6"
               />
               <div className="absolute left-2 top-8 text-xl text-blueDark">
                 <CiSearch />
               </div>
             </div>
             <div className="md:w-1/2">
-              <Label className="text-muted-foreground">Filtrer base</Label>
+              <Label className="text-white">Filtrer base</Label>
               <Select onValueChange={handleChangeSelectBase}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white">
                   <SelectValue placeholder="Toutes" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem className="cursor-pointer" value="toutes">Toutes</SelectItem>
-                  <SelectItem className="cursor-pointer" value="tomate">Tomate</SelectItem>
-                  <SelectItem className="cursor-pointer" value="crème">Crème</SelectItem>
+                  <SelectItem className="cursor-pointer focus:bg-blueDark focus:text-white" value="all">Toutes</SelectItem>
+                  <SelectItem className="cursor-pointer focus:bg-blueDark focus:text-white" value="tomato">Tomate</SelectItem>
+                  <SelectItem className="cursor-pointer focus:bg-blueDark focus:text-white" value="cream">Crème</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <Link
               href="/dashboard/product/new"
-              className="ml-auto flex h-[36px] w-full items-center justify-center rounded-md bg-blueDarker px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-blueDark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDarker md:w-auto md:self-end"
+              className="ml-auto flex h-[36px] w-full items-center justify-center rounded-md bg-white px-3 py-1.5 text-sm font-medium leading-6 text-blueDark shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDarker md:w-auto md:self-end"
             >
               <p>Ajouter un produit</p>
               <div className="ml-4 text-2xl">
@@ -106,23 +106,23 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
           </div>
         ) : null
       }
-      <div className="mt-4 rounded-2xl bg-muted p-4">
+      <div className="mt-4 rounded-2xl bg-blueDark p-4">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-1/12 border-gray-700 font-medium">Nom</TableHead>
-              <TableHead className="w-1/12 border-gray-700 font-medium">Image</TableHead>
-              <TableHead className="w-1/12 border-gray-700 font-medium">Base</TableHead>
-              <TableHead className="w-5/12 border-gray-700 font-medium">Ingredients</TableHead>
-              <TableHead className="w-1/12 border-gray-700 font-medium">Prix</TableHead>
-              <TableHead className="w-1/12 border-gray-700 font-medium">Statut</TableHead>
-              <TableHead className="w-2/12 border-gray-700 text-center font-medium"></TableHead>
+              <TableHead className="w-1/12 border-white font-medium text-white">Nom</TableHead>
+              <TableHead className="w-1/12 border-white font-medium text-white">Image</TableHead>
+              <TableHead className="w-1/12 border-white font-medium text-white">Base</TableHead>
+              <TableHead className="w-5/12 border-white font-medium text-white">Ingredients</TableHead>
+              <TableHead className="w-1/12 border-white font-medium text-white">Prix</TableHead>
+              <TableHead className="w-1/12 border-white font-medium text-white">Statut</TableHead>
+              <TableHead className="w-2/12 border-white text-center font-medium text-white"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredProducts?.map((product) => {
               return (
-                <TableRow className="bg-white" key={product.id}>
+                <TableRow className="border-b-blueDark bg-white" key={product.id}>
                   <TableCell className="font-medium">{capitalize(product.product_name.toLowerCase())}</TableCell>
                   <TableCell className="font-medium">
                     {/* <Image
@@ -148,24 +148,24 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
                   <TableCell className="flex items-center justify-around">
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <div className="rounded-lg border border-red-400 p-2 text-xl text-red-500"><IoTrashOutline /></div>
+                        <div className="rounded-lg border border-error p-2 text-xl text-error"><IoTrashOutline /></div>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-blueDark underline underline-offset-4">{product.product_name}</span> ?</AlertDialogTitle>
-                          <AlertDialogDescription>
+                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-error underline underline-offset-4">{product.product_name}</span> ?</AlertDialogTitle>
+                          <AlertDialogDescription className="text-error">
                             Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Annuler</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-blueDark text-white">Supprimer</AlertDialogAction>
+                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-error text-white">Supprimer</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
                     <Link
                       href={{
-                        pathname: "/dashboard/productedit",
+                        pathname: "/dashboard/product/edit",
                         query: { id: product.id }
                       }}
                       className="cursor-pointer rounded-lg border border-blueDarker p-2 text-xl text-blueDarker">

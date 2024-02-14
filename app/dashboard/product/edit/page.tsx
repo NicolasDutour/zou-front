@@ -1,6 +1,5 @@
-import { Separator } from "@/components/ui/separator";
-import Breadcrumbs from '@/components/pages/dashboard/Breadcrumbs';
-import { ProductForm } from "@/components/pages/dashboard/product/ProductForm";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { ProductForm } from "@/components/dashboard/product/ProductForm";
 import { cookies, headers } from "next/headers";
 
 async function getProductData(token: string, productId: string) {
@@ -43,7 +42,6 @@ export default async function UpdateProductPage() {
           ]}
         />
       </div>
-      <Separator />
       {restaurantId ? <ProductForm product={product.data.attributes} productId={product.data.id} restaurantId={restaurantId} environment={environment} /> : null}
     </div>
   )

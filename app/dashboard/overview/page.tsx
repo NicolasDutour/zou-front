@@ -10,7 +10,7 @@ export default function DashboardPage() {
       <Breadcrumbs breadcrumbs={[
         { label: "Overview", href: "/dashboard/overview", active: true },
       ]} />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <Suspense fallback={<SkeletonCardOverview />}>
           <Visits />
         </Suspense>

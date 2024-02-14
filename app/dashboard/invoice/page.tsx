@@ -1,10 +1,8 @@
-import { Separator } from "@/components/ui/separator";
-
-import Breadcrumbs from "@/components/pages/dashboard/Breadcrumbs";
-import { NoInvoice } from "@/components/pages/dashboard/invoice/NoInvoice";
-import InvoicesList from "@/components/pages/dashboard/invoice/InvoicesList";
 import { cookies } from "next/headers";
-import { listInvoices } from "@/lib/actions/stripe-actions";
+import { listInvoices } from "@/lib/actions";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import InvoicesList from "@/components/dashboard/invoice/InvoicesList";
+import { NoInvoice } from "@/components/dashboard/invoice/NoInvoice";
 
 async function getUserData(token: string) {
   if (token) {
@@ -30,7 +28,6 @@ export default async function InvoicePage() {
   const data = await getUserData(token)
   if (data) {
     invoices = await listInvoices(data.stripeUserId)
-    console.log("invoices", invoices.data);
   }
 
   return (
@@ -40,7 +37,6 @@ export default async function InvoicePage() {
           { label: "Factures", href: "/dashboard/invoice" }
         ]}
       />
-      <Separator />
       {
         invoices?.data ? (
           <InvoicesList invoices={invoices?.data} />

@@ -1,6 +1,5 @@
-import { Separator } from "@/components/ui/separator";
-import Breadcrumbs from '@/components/pages/dashboard/Breadcrumbs';
-import { ProductForm } from "@/components/pages/dashboard/product/ProductForm";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { ProductForm } from "@/components/dashboard/product/ProductForm";
 import { cookies } from "next/headers";
 
 async function getUserData(token: string) {
@@ -32,7 +31,7 @@ export default async function CreateProductPage() {
       <div>
         <Breadcrumbs
           breadcrumbs={[
-            { label: "Produits", href: "/dashboard/product" },
+            { label: "Product", href: "/dashboard/product" },
             {
               label: "Création d'un produit",
               href: "/dashboard/product/new",
@@ -41,7 +40,6 @@ export default async function CreateProductPage() {
           ]}
         />
       </div>
-      <Separator />
       {restaurantId ? <ProductForm restaurantId={restaurantId} environment={environment} /> : null}
     </div>
   )

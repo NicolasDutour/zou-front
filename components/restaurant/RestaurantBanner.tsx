@@ -1,8 +1,8 @@
 import Image from "next/image"
 import { FaPhone } from "react-icons/fa6";
 
-import { RestaurantType } from '@/lib/definitions/restaurantType'
-import { FormatsType } from '@/lib/definitions'
+import { RestaurantType , FormatsType } from '@/lib/definitions'
+
 import { addSpaceToPhoneNumber } from '@/lib/utils';
 import { OptionItem } from "./OptionItem";
 

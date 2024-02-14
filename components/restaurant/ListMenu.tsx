@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Product from './Product';
 
 import { capitalize, formatIngredients } from '@/lib/utils';
-import { ProductType } from "@/lib/definitions/productType";
+import { ProductType } from "@/lib/definitions";
 
 const ListMenu = ({ environment, products }: {
   environment: string,

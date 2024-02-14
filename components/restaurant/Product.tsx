@@ -1,4 +1,4 @@
-import { ProductType } from "@/lib/definitions/productType";
+import { ProductType } from "@/lib/definitions";
 import { formatIngredients } from "@/lib/utils";
 
 const Product = ({ product }: { product: ProductType }) => {

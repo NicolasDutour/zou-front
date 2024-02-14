@@ -1,45 +1,55 @@
 "use client"
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image"
 
-import { createProductPhoto, createOrUpdateProductAction } from "@/lib/actions/product-actions";
-import { TypeFormSchemaProduct, FormSchemaProduct, ProductType } from "@/lib/definitions/productType";
+import { createProductPhoto, createOrUpdateProductAction } from "@/lib/actions";
+import { TypeFormSchemaProduct, FormSchemaProduct, ProductType } from "@/lib/definitions";
 
 import Link from "next/link";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 
 export function ProductForm({ product, productId, restaurantId, environment = "" }: { product?: ProductType, productId?: number, restaurantId?: string, environment?: string }) {
   const pathname = usePathname()
+  const router = useRouter()
+  const { toast } = useToast()
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors }
-  } = useForm<TypeFormSchemaProduct>({
+  const form = useForm<TypeFormSchemaProduct>({
+    defaultValues: {
+      base: "tomato",
+    },
     resolver: zodResolver(FormSchemaProduct),
-  });
+    mode: "onTouched"
+  })
+
+  const { register, handleSubmit, reset, setValue, formState } = form
+  const { errors, isDirty, isSubmitting, isSubmitSuccessful } = formState
 
   useEffect(() => {
     if (pathname.includes("edit") && product) {
-      const { product_name, ingredients, price, vegetarian, dessert } = product
-
+      const { product_name, ingredients, price, vegetarian, dessert, base } = product
       setValue('product_name', product_name)
       setValue('ingredients', ingredients)
       setValue('price', price)
-      // setValue('base', base)
+      setValue('base', base)
       setValue('vegetarian', vegetarian)
       setValue('dessert', dessert)
     }
-  }, [setValue, pathname, product])
 
-  async function onHandleCreateOrUpdateProduct(payload: z.infer<typeof FormSchemaProduct>) {
+    if (isSubmitSuccessful) {
+      reset()
+    }
+  }, [setValue, pathname, product, isSubmitSuccessful, reset])
+
+  async function handleFormSubmit(formData: TypeFormSchemaProduct) {
     const newData = {
-      ...payload,
+      ...formData,
       restaurant: {
         connect: [restaurantId]
       }
@@ -47,162 +57,167 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
     const { photo, ...dataWithoutImage } = newData
 
-    const data = await createOrUpdateProductAction(dataWithoutImage, pathname, productId)
+    const response = await createOrUpdateProductAction(dataWithoutImage, pathname, productId)
 
-    if (data?.data?.id && payload?.photo?.length > 0) {
+    if (response?.data?.id && formData?.photo?.length > 0) {
       const formData = new FormData()
       formData.append("ref", 'api::product.product')
-      formData.append("refId", data?.data?.id.toString())
+      formData.append("refId", response?.data?.id.toString())
       formData.append("field", 'photo')
-      formData.append("files", payload.photo[0])
+      formData.append("files", photo[0])
       createProductPhoto(formData)
+    }
+
+    if (response) {
+      router.push('/dashboard/product')
+      toast({
+        title: "Félicitation !",
+        description: "Produit créé ou mis à jour avec succès.",
+        className: "border-blue text-blue",
+      })
     }
   }
 
   return (
-    <form onSubmit={handleSubmit(onHandleCreateOrUpdateProduct)}>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className='space-y-4 rounded-2xl bg-muted p-4'>
-          <div className='space-y-2'>
-            <label htmlFor="product_name" className="block text-sm font-medium leading-6 text-gray-600">
-              Nom du produit
-            </label>
-            <div className="mt-2">
-              <input
-                {...register("product_name")}
-                id="product_name"
-                type="text"
-                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:leading-6"
-              />
-              <p className="mt-2 text-sm text-red-500">{errors.product_name?.message}</p>
-            </div>
-          </div>
-          <div className='space-y-2'>
-            <label htmlFor="ingredients" className="block text-sm font-medium leading-6 text-gray-600">
-              Ingredients (Séparés par une virgule. ex: tomate, fromage, ...)
-            </label>
-            <div className="mt-2">
-              <input
-                {...register("ingredients")}
-                id="ingredients"
-                type="text"
-                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:leading-6"
-              />
-              <p className="mt-2 text-sm text-red-500">{errors.ingredients?.message}</p>
-            </div>
-          </div>
-          <div className='space-y-2'>
-            <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-600">
-              Prix
-            </label>
-            <div className="mt-2">
-              <input
-                {...register('price', {
-                  setValueAs: (value) => Number(value),
-                })}
-                id="price"
-                type="number"
-                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:leading-6"
-              />
-              <p className="mt-2 text-sm text-red-500">{errors.price?.message}</p>
-            </div>
-          </div>
+        <div className='w-full space-y-2 rounded-2xl bg-white p-6'>
+          <label htmlFor="product_name" className="block text-sm font-medium leading-6 text-blueDarker">
+            Nom du produit
+          </label>
+          <input
+            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+            {...register("product_name")}
+            id="product_name"
+            type="text"
+          />
+          <p className="mt-2 text-sm text-error">{errors.product_name?.message}</p>
+
+          <label htmlFor="ingredients" className="block text-sm font-medium leading-6 text-blueDarker">
+            Ingredients (Séparés par une virgule. ex: tomate, fromage, ...)
+          </label>
+          <input
+            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+            {...register("ingredients")}
+            id="ingredients"
+            type="text"
+          />
+          <p className="mt-2 text-sm text-error">{errors.ingredients?.message}</p>
+
+          <label htmlFor="price" className="block text-sm font-medium leading-6 text-blueDarker">
+            Prix
+          </label>
+          <input
+            {...register('price', {
+              setValueAs: (value) => Number(value),
+            })}
+            id="price"
+            type="number"
+            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+          />
+          <p className="mt-2 text-sm text-error">{errors.price?.message}</p>
         </div>
-        <div className='space-y-4 rounded-2xl bg-muted p-4'>
-          <div className='space-y-2'>
-            <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-600">
-              Photo du produit
-            </label>
-            <div className="mt-2">
-              <input
-                {...register("photo")}
-                id="photo"
-                type="file"
-                className="block w-full rounded-md border-0 bg-white p-2 py-1.5 text-gray-600 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blueDark sm:leading-6"
-              />
-              <p className="mt-2 text-sm text-red-500">
-                {errors.photo && typeof errors.photo.message === 'string'
-                  ? errors.photo.message
-                  : ''}
-              </p>
-              <div className="relative mt-6 h-52 rounded-md border">
-                <Image
-                  src={product?.photo ? environment === "production" ? product?.photo?.data?.attributes?.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${product?.photo?.data?.attributes?.url}` : "/no_image.png"}
-                  alt={product?.photo?.data?.attributes?.name || "no_image"}
-                  style={{
-                    objectFit: product?.photo ? "cover" : "contain",
-                  }}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  quality={80}
-                  aspect-auto="true"
-                  className="rounded-lg"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className='space-y-4 rounded-2xl bg-muted p-4'>
-          <div className='grid grid-cols-1 gap-2 md:grid-cols-2'>
-            <div className="flex items-center rounded-lg border p-4">
-              <div className="mt-2">
-                <input
-                  {...register("vegetarian")}
-                  id="vegetarian"
-                  type="checkbox"
-                  className="size-4"
-                ></input>
-              </div>
-              <label htmlFor="vegetarian" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
-                Pizza végétarienne
-              </label>
-            </div>
-            <div className="flex items-center rounded-lg border p-4">
-              <div className="mt-2">
-                <input
-                  {...register("dessert")}
-                  id="dessert"
-                  type="checkbox"
-                  className="size-4"
-                ></input>
-              </div>
-              <label htmlFor="dessert" className="ml-2 block text-sm font-medium leading-6 text-gray-600">
-                Pizza dessert
-              </label>
-            </div>
-          </div>
-        </div>
-        <div>base</div>
-        {/* <div className="flex justify-center items-center">
-                  <div className="w-full">
-                    <label htmlFor="base" className="block text-sm font-medium leading-6 text-gray-900">
-                      Base
-                    </label>
-                    <Select {...register('base')}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Choisissez une base" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem className="cursor-pointer" value="tomate">Tomate</SelectItem>
-                        <SelectItem className="cursor-pointer" value="crème">Cream</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div> */}
-        <div className="flex w-full gap-2">
-          <Link
-            href="/dashboard/product"
-            className="flex w-full justify-center rounded-md bg-muted px-3 py-1.5 text-sm font-medium leading-6 text-gray-600 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDarker"
+
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
+          <label
+            className="block text-sm font-medium leading-6 text-blueDarker"
+            htmlFor="photo"
           >
+            Photo principale de votre restaurant
+          </label>
+          <div>
+            <Input
+              {...register("photo")}
+              id="photo"
+              type="file"
+              className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+            />
+            <p className="mt-2 text-sm text-red-500">
+              {errors.photo && typeof errors.photo.message === 'string'
+                ? errors.photo.message
+                : ''}
+            </p>
+            <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark  p-8'>
+              <Image
+                src={product?.photo ? environment === "production" ? product?.photo?.data?.attributes?.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${product?.photo?.data?.attributes?.url}` : "/no_image.png"}
+                alt={product?.photo?.data?.attributes?.name || "no_image"}
+                style={{
+                  objectFit: product?.photo ? "cover" : "contain",
+                }}
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                quality={80}
+                aspect-auto="true"
+                className="rounded-lg"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
+          <p className="block font-medium leading-6 text-blueDarker">
+            Type de pizza
+          </p>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("vegetarian")}
+                id="vegetarian"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="vegetarian" className="ml-4">Vegetarian</Label>
+            </div>
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("dessert")}
+                id="dessert"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="dessert" className="ml-4">Dessert</Label>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
+          <p className="block font-medium leading-6 text-blueDarker">
+            La base
+          </p>
+          <div className="flex items-center">
+            <input className="peer/tomato size-5 cursor-pointer bg-blueDark" type="radio" value="tomato" id="tomato" {...register('base')} />
+            <label htmlFor="tomato" className="ml-4 text-sm peer-checked/tomato:text-blueDark">Tomato</label>
+          </div>
+          <div className="flex items-center">
+            <input className="peer/cream size-5 cursor-pointer bg-blueDark" type="radio" value="cream" id="cream" {...register('base')} />
+            <label htmlFor="cream" className="ml-4 text-sm peer-checked/cream:text-blueDark">Cream</label>
+          </div>
+        </div>
+
+      </div>
+      <div className="flex w-full gap-4 md:w-1/2">
+        <Link
+          href="/dashboard/restaurant"
+          passHref
+          legacyBehavior
+        >
+          <Button className="mt-4 w-full bg-white text-center text-blueDark ring-1 ring-inset ring-gray">
             Annuler
-          </Link>
-          <button
-            className="flex w-full justify-center rounded-md bg-blueDarker px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-blueDark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDarker"
-          >
-            Valider
-          </button>
-        </div>
+          </Button>
+        </Link>
+
+        <Button type="submit" disabled={!isDirty || isSubmitting} className="mt-4 w-full border border-white bg-blueDark text-center text-white">
+          {isSubmitting ? (
+            <>
+              <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="#8c9fb9" strokeWidth="4"></circle>
+                <path fill="#135A9A" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <p>Loading...</p>
+            </>
+          ) : pathname?.includes("edit") ? "Mettre à jour" : "Créer"}
+        </Button>
       </div>
     </form >
   )

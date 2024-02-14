@@ -1,6 +1,6 @@
 export default function Loader() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blueDark p-4 text-6xl text-white">
+    <div className="flex min-h-screen items-center justify-center bg-blueDark p-4 text-6xl text-white">
       <div className='mx-auto w-28 max-w-lg'>
         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
           viewBox="0 0 100 100" enableBackground="new 0 0 100 100" xmlSpace="preserve">

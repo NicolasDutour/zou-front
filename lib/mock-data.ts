@@ -1,6 +1,5 @@
-export async function fetchVisits(timeFetching: number) {
+export async function fetchVisits() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, timeFetching));
     return [
       {
         name: "Jan",
@@ -57,9 +56,8 @@ export async function fetchVisits(timeFetching: number) {
   }
 }
 
-export async function fetchClients(timeFetching: number) {
+export async function fetchClients() {
   try {
-    await new Promise((resolve) => setTimeout(resolve, timeFetching));
     return [
       { name: "John", age: 25 },
       { name: "Jane", age: 30 },

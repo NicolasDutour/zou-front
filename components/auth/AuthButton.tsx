@@ -3,8 +3,7 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { IoHomeOutline } from "react-icons/io5";
-import { IoHome } from "react-icons/io5";
+
 
 export default function AuthButton({ token }: { token: string | undefined }) {
   const path = usePathname()
@@ -42,7 +41,7 @@ export default function AuthButton({ token }: { token: string | undefined }) {
   }
 
   return (
-    <div className="absolute top-8 right-4 space-x-4 flex">
+    <div className="absolute right-4 top-8 flex space-x-4">
       {!path.startsWith("/dashboard") ? token ? isLoggedIn() : isLoggedOut() : null}
       {!path.startsWith("/dashboard") && (path === "/login" || path === "/register") ? (
         <Link

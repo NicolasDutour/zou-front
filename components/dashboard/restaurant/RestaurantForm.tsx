@@ -5,21 +5,17 @@ import Image from "next/image"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
-import { UserType } from "@/lib/definitions/userType";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
-import { HiAtSymbol } from "react-icons/hi2";
-import { HiOutlinePhone } from "react-icons/hi2";
+import { HiAtSymbol, HiOutlinePhone } from "react-icons/hi2";
+
 import { IoHomeOutline } from "react-icons/io5";
 import { createBannerPhoto, createOrUpdateRestaurantAction } from "@/lib/actions";
-import { PartialFormSchemaRestaurant, RestaurantType, SuggestionAddress, TypePartialFormSchemaRestaurant } from "@/lib/definitions";
+import { PartialFormSchemaRestaurant, RestaurantType, SuggestionAddress, TypePartialFormSchemaRestaurant, UserType } from "@/lib/definitions";
 import { CiUser } from "react-icons/ci";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { createSlug } from "@/lib/utils";
-import path from "path";
-import { revalidatePath } from "next/cache";
 import { Input } from "@/components/ui/input";
 
 export function RestaurantForm({ user, environment, restaurant }: { user: UserType, environment?: string, restaurant?: RestaurantType }) {
@@ -100,8 +96,6 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
   }
 
   const handleFormSubmit = async (formData: TypePartialFormSchemaRestaurant) => {
-    console.log("formData", formData);
-
     const slug = createSlug(formData?.restaurant_name)
     const newData = {
       ...formData,
@@ -116,9 +110,6 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
     const { banner_photo, ...dataWithoutImage } = newData
 
     const response = await createOrUpdateRestaurantAction(dataWithoutImage, pathname, restaurant?.id)
-
-    console.log("response", response);
-
 
     if (response.data.id && formData?.banner_photo?.length > 0) {
       const formData = new FormData()
@@ -142,7 +133,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <div className="w-full space-y-2 bg-white rounded-2xl p-6">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <label
             className="block text-sm font-medium leading-6 text-blueDarker"
             htmlFor="restaurant_name"
@@ -150,7 +141,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             Nom du restaurant
           </label>
           <div className="relative">
-            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <CiUser /> </div>
+            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray'> <CiUser /> </div>
             <input
               className="block w-full rounded-md p-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
               {...register("restaurant_name")}
@@ -167,7 +158,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             Adresse
           </label>
           <div className="relative">
-            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <IoHomeOutline /> </div>
+            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray'> <IoHomeOutline /> </div>
             <input
               className="block w-full rounded-md p-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
               {...register("address")}
@@ -209,7 +200,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             Email
           </label>
           <div className="relative">
-            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <HiAtSymbol /> </div>
+            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray'> <HiAtSymbol /> </div>
             <input
               className="block w-full rounded-md p-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
               {...register("email")}
@@ -226,7 +217,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             Phone
           </label>
           <div className="relative">
-            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <HiOutlinePhone /> </div>
+            <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray'> <HiOutlinePhone /> </div>
             <input
               className="block w-full rounded-md p-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
               {...register("phone")}
@@ -237,7 +228,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
           </div>
         </div>
 
-        <div className="w-full space-y-2 bg-white rounded-2xl p-6">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <label
             className="block text-sm font-medium leading-6 text-blueDarker"
             htmlFor="banner_photo"
@@ -256,7 +247,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
                 ? errors.banner_photo.message
                 : ''}
             </p>
-            <div className='relative h-56 w-full space-y-4 rounded-2xl p-8 bg-blueDark  overflow-hidden'>
+            <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark  p-8'>
               <Image
                 src={restaurant?.banner_photo ? environment === "production" ? restaurant?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` : "/no_image.png"}
                 alt={restaurant?.banner_photo?.name || "no_image"}
@@ -274,7 +265,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
           </div>
         </div>
 
-        <div className="w-full space-y-2 bg-white rounded-2xl p-6">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <label
             className="block text-sm font-medium leading-6 text-blueDarker"
             htmlFor="short_description"
@@ -292,51 +283,51 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
           </div>
         </div>
 
-        <div className="w-full space-y-2 bg-white rounded-2xl p-6">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <p className="block text-sm font-medium leading-6 text-blueDarker">
             Services proposés
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex items-center border border-gray p-4 rounded-md">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("drive")}
                 id="drive"
                 type="checkbox"
-                className="size-4 cursor-pointer peer h-5 w-5 shrink-0 rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
               ></input>
               <Label htmlFor="drive" className="ml-4">Drive</Label>
             </div>
-            <div className="flex items-center border border-gray p-4 rounded-md">
+            <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("take_away")}
                 id="take_away"
                 type="checkbox"
-                className="size-4 cursor-pointer peer h-5 w-5 shrink-0 rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
               ></input>
               <Label htmlFor="take_away" className="ml-4">Take away</Label>
             </div>
-            <div className="flex items-center border border-gray p-4 rounded-md">
+            <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("delivery")}
                 id="delivery"
                 type="checkbox"
-                className="size-4 cursor-pointer peer h-5 w-5 shrink-0 rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
               ></input>
               <Label htmlFor="delivery" className="ml-4">Delivery</Label>
             </div>
-            <div className="flex items-center border border-gray p-4 rounded-md">
+            <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("eat_in")}
                 id="eat_in"
                 type="checkbox"
-                className="size-4 cursor-pointer peer h-5 w-5 shrink-0 rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
               ></input>
               <Label htmlFor="eat_in" className="ml-4">Eat in</Label>
             </div>
           </div>
         </div>
 
-        <div className="w-full space-y-2 bg-white rounded-2xl p-6 md:col-span-2">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6 md:col-span-2">
           <label
             className="block text-sm font-medium leading-6 text-blueDarker"
             htmlFor="description"
@@ -355,21 +346,21 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
         </div>
       </div>
 
-      <div className="flex gap-4 w-full md:w-1/2">
+      <div className="flex w-full gap-4 md:w-1/2">
         <Link
           href="/dashboard/restaurant"
           passHref
           legacyBehavior
         >
-          <Button className="mt-4 w-full bg-white ring-1 ring-inset ring-gray text-blueDark text-center">
+          <Button className="mt-4 w-full bg-white text-center text-blueDark ring-1 ring-inset ring-gray">
             Annuler
           </Button>
         </Link>
 
-        <Button type="submit" disabled={!isDirty || isSubmitting} className="mt-4 w-full bg-blueDark border border-white text-white text-center">
+        <Button type="submit" disabled={!isDirty || isSubmitting} className="mt-4 w-full border border-white bg-blueDark text-center text-white">
           {isSubmitting ? (
             <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10" stroke="#8c9fb9" strokeWidth="4"></circle>
                 <path fill="#135A9A" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>

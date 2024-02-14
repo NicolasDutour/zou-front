@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "check-typing": "npx tsc"
+    "type-checking": "npx tsc"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",

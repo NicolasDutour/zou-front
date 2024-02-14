@@ -1,8 +1,8 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs"
-import ProductsList from '@/components/pages/dashboard/product/ProductsList';
-import ProductsVisual from "@/components/pages/dashboard/product/ProductsVisual"
 
-import { ProductType } from "@/lib/definitions/productType";
+import { ProductType } from "@/lib/definitions";
+import ProductsList from "./ProductsList";
+import ProductsVisual from "./ProductsVisual";
 
 export const ProductTabs = ({ products }: { products: ProductType[] }) => {
   // const environment = process.env.NODE_ENV

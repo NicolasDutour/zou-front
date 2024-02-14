@@ -1,8 +1,9 @@
 import { cookies } from "next/headers";
 
 import { Separator } from "@/components/ui/separator";
-import Breadcrumbs from '@/components/pages/dashboard/Breadcrumbs';
-import { SubscriptionForm } from "@/components/pages/dashboard/subscription/SubscriptionForm";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { SubscriptionForm } from "@/components/dashboard/subscription/SubscriptionForm";
+import { plans } from "@/components/plans/PlansList";
 
 async function getUserData(token: string) {
   if (token) {
@@ -21,30 +22,10 @@ async function getUserData(token: string) {
   }
 }
 
-async function getDataPlans() {
-  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${STRAPI_URL}/api/plans?sort=amount:asc`;
-
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-  if (!response.ok) {
-    console.error('Failed to fetch data')
-  }
-  return response.json()
-}
-
 export default async function CreateSubscriptionPage() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ""
   const user = await getUserData(token)
-  const plans = await getDataPlans()
-
-  // console.log("user", user);
-  // console.log("stripe_subscriptions", user?.stripe_products[0]?.stripe_subscriptions);
 
   return (
     <div className="space-y-6">
@@ -62,7 +43,7 @@ export default async function CreateSubscriptionPage() {
         />
       </div>
       <Separator />
-      {user && plans ? <SubscriptionForm user={user} plans={plans.data} /> : null}
+      {user && plans ? <SubscriptionForm user={user} plans={plans} /> : null}
     </div>
   )
 }

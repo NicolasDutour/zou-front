@@ -1,6 +1,6 @@
 "use client"
 
-import { ProductsVisualChoicesItem } from "@/components/pages/dashboard/product/ProductsVisualChoicesItem";
+import { ProductsVisualChoicesItem } from "./ProductsVisualChoicesItem"
 
 const productsVisualChoices = [
   {

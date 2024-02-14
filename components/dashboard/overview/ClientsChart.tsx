@@ -2,7 +2,7 @@
 
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
 
-export default function ClientsChart({ clients }) {
+export default function ClientsChart({ clients }: { clients: any }) {
   return (
     <ResponsiveContainer width="35%" height={350}>
       <BarChart data={clients}>

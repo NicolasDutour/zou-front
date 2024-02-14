@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Image from "next/image"
+import { ProductsVisualChoicesList } from "./ProductsVisualChoicesList";
 
-import { ProductsVisualChoicesList } from "@/components/pages/dashboard/product/ProductsVisualChoicesList";
 
 export default function ProductsVisual() {
   const [choice, setChoice] = useState("list_products");

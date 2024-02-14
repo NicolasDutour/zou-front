@@ -1,8 +1,8 @@
-import Breadcrumbs from "@/components/pages/dashboard/Breadcrumbs";
-import { NoSubscription } from "@/components/pages/dashboard/subscription/NoSubscription";
-import { StripeSubscriptionsList } from "@/components/pages/dashboard/subscription/StripeSubscriptionsList";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { NoSubscription } from "@/components/dashboard/subscription/NoSubscription";
+import { StripeSubscriptionsList } from "@/components/dashboard/subscription/StripeSubscriptionsList";
 import { Separator } from "@/components/ui/separator";
-import { listSubscriptions, retrieveSession } from "@/lib/actions/stripe-actions";
+import { listSubscriptions, retrieveSession } from "@/lib/actions";
 import { cookies, headers } from "next/headers";
 
 async function getUserData(token: string) {
@@ -33,9 +33,7 @@ export default async function SubscriptionsPage() {
 
   if (data.stripeUserId && sessionId) {
     const session = await retrieveSession(sessionId);
-    console.log("session", session);
     if (session.payment_status === 'paid') {
-      console.log("session paid !!!");
       stripeSubscriptions = await listSubscriptions(data.stripeUserId)
     }
   }

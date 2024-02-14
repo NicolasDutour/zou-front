@@ -9,10 +9,10 @@ export default function DashBoardSideBar() {
   const username = cookieStore.get('username')?.value
 
   return (
-    <div className="md:fixed h-full bg-blueDark w-full flex-none md:w-64 p-6">
+    <div className="size-full flex-none bg-blueDark p-6 md:fixed md:w-64">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-2xl text-white hover:text-gray transition ease-out duration-700">Bonjour {token && username ? username : ''} </Link>
-        <div className="text-3xl text-white hover:text-gray transition ease-out duration-700 cursor-pointer md:hidden">
+        <Link href="/" className="text-2xl text-white transition duration-700 ease-out hover:text-gray">Bonjour {token && username ? username : ''} </Link>
+        <div className="cursor-pointer text-3xl text-white transition duration-700 ease-out hover:text-gray md:hidden">
           <RxHamburgerMenu />
         </div>
       </div>
