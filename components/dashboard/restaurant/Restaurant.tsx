@@ -21,8 +21,7 @@ async function getRestaurantData(token: string) {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
-        },
-        cache: 'no-store'
+        }
       })
     if (!response.ok) {
       console.log("error");
