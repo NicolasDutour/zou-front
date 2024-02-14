@@ -1,7 +1,7 @@
 import Breadcrumbs from '@/components/dashboard/Breadcrumbs'
 import { Suspense } from 'react'
-import { SkeletonCardProfile } from '@/components/SkeletonCardProfile'
 import Restaurant from '@/components/dashboard/restaurant/Restaurant'
+import { SkeletonCardRestaurant } from '@/components/dashboard/restaurant/SkeletonCardRestaurant'
 
 export default async function RestaurantPage() {
   return (
@@ -10,7 +10,7 @@ export default async function RestaurantPage() {
         { label: "Restaurant", href: "/dashboard/restaurant", active: true },
       ]} />
 
-      <Suspense fallback={<SkeletonCardProfile />}>
+      <Suspense fallback={<SkeletonCardRestaurant />}>
         <Restaurant />
       </Suspense>
     </div>

@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { UserType } from '@/lib/definitions/userType';
 import { createCustomer, createPrice, createProduct, createSessionCheckout } from "@/lib/actions/stripe-actions";
-import { profileAction } from "@/lib/actions/profile-actions";
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn, formatCurrency } from "@/lib/utils";
-import { PlanType } from "@/lib/definitions/planType";
+import { PlanType } from "@/lib/definitions";
+import { profileAction } from "@/lib/actions";
 
 export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanType[] }) {
   const [subscription, setSubscription] = useState(null as PlanType | null)

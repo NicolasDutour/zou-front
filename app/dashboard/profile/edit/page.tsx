@@ -1,6 +1,4 @@
 import { cookies } from 'next/headers'
-
-import { Separator } from "@/components/ui/separator";
 import Breadcrumbs from '@/components/dashboard/Breadcrumbs';
 import { ProfileForm } from '@/components/dashboard/profile/ProfileForm';
 
@@ -28,18 +26,16 @@ export default async function UpdateProfilePage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Breadcrumbs
-          breadcrumbs={[
-            { label: "Profil", href: "/dashboard/profile" },
-            {
-              label: "Mise à jour profil",
-              href: "/dashboard/profile/edit",
-              active: true,
-            },
-          ]}
-        />
-      </div>
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Profil", href: "/dashboard/profile" },
+          {
+            label: "Mise à jour profil",
+            href: "/dashboard/profile/edit",
+            active: true,
+          },
+        ]}
+      />
       {data ? <ProfileForm user={data} /> : null}
     </div>
   )

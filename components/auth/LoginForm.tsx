@@ -54,7 +54,7 @@ export default function LoginForm() {
         description: "Vous êtes bien connecté.",
         className: "border-blue text-blue",
       })
-      router.push('/dashboard/profile')
+      router.push('/dashboard/overview')
     }
   }
 

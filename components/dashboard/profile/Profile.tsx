@@ -19,7 +19,7 @@ async function getData(token: string) {
   }
 }
 
-export default async function User() {
+export default async function Profile() {
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value
   const data = await getData(token || '')

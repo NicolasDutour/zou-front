@@ -1,6 +1,6 @@
-import { SkeletonCardProfile } from "@/components/SkeletonCardProfile";
+import { SkeletonCardProfile } from "@/components/dashboard/profile/SkeletonCardProfile";
 import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
-import User from "@/components/dashboard/profile/User";
+import Profile from "@/components/dashboard/profile/Profile";
 import { Suspense } from "react";
 
 export default async function ProfilePage() {
@@ -11,7 +11,7 @@ export default async function ProfilePage() {
       ]} />
 
       <Suspense fallback={<SkeletonCardProfile />}>
-        <User />
+        <Profile />
       </Suspense>
     </div>
   )

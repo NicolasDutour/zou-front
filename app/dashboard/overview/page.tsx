@@ -1,7 +1,7 @@
-import { SkeletonCardOverview } from "@/components/dashboard/profile/SkeletonCardOverview";
+import { SkeletonCardOverview } from "@/components/dashboard/overview/SkeletonCardOverview";
 import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
-import Clients from "@/components/dashboard/Clients";
-import Visits from "@/components/dashboard/Visits";
+import Clients from "@/components/dashboard/overview/Clients";
+import Visits from "@/components/dashboard/overview/Visits";
 import { Suspense } from "react";
 
 export default function DashboardPage() {

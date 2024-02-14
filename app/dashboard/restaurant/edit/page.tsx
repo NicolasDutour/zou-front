@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
-
-import { Separator } from "@/components/ui/separator";
-import Breadcrumbs from '@/components/pages/dashboard/Breadcrumbs';
-import { RestaurantForm } from "@/components/pages/dashboard/restaurant/RestaurantForm";
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { RestaurantForm } from "@/components/dashboard/restaurant/RestaurantForm";
 
 async function getData(token: string) {
   if (token) {
@@ -30,19 +28,16 @@ export default async function UpdateRestaurantPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Breadcrumbs
-          breadcrumbs={[
-            { label: "Restaurant", href: "/dashboard/restaurant" },
-            {
-              label: "Mise à jour de votre restaurant",
-              href: "/dashboard/restaurantedit",
-              active: true,
-            },
-          ]}
-        />
-      </div>
-      <Separator />
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Restaurant", href: "/dashboard/restaurant" },
+          {
+            label: "Mise à jour de votre restaurant",
+            href: "/dashboard/restaurantedit",
+            active: true,
+          },
+        ]}
+      />
       {user && restaurant ? <RestaurantForm user={user} environment={environment} restaurant={restaurant} /> : null}
     </div>
   )

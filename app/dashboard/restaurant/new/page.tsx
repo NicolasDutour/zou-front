@@ -1,8 +1,6 @@
+import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
+import { RestaurantForm } from "@/components/dashboard/restaurant/RestaurantForm";
 import { cookies } from "next/headers";
-
-import { Separator } from "@/components/ui/separator";
-import Breadcrumbs from '@/components/pages/dashboard/Breadcrumbs';
-import { RestaurantForm } from "@/components/pages/dashboard/restaurant/RestaurantForm";
 
 async function getUserData(token: string) {
   if (token) {
@@ -28,19 +26,16 @@ export default async function CreateRestaurantPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Breadcrumbs
-          breadcrumbs={[
-            { label: "Restaurant", href: "/dashboard/restaurant" },
-            {
-              label: "Création de votre restaurant",
-              href: "/dashboard/restaurant/new",
-              active: true,
-            },
-          ]}
-        />
-      </div>
-      <Separator />
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Restaurant", href: "/dashboard/restaurant" },
+          {
+            label: "Création de votre restaurant",
+            href: "/dashboard/restaurant/new",
+            active: true,
+          },
+        ]}
+      />
       {user ? <RestaurantForm user={user} /> : null}
     </div>
   )
