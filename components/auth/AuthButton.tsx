@@ -45,7 +45,7 @@ export default function AuthButton({ token }: { token: string | undefined }) {
   }
 
   return (
-    <div className="absolute right-4 top-4 flex space-x-4 z-10">
+    <div className="absolute right-4 top-4 z-10 flex space-x-4">
       {!path.startsWith("/dashboard") ? token ? isLoggedIn() : isLoggedOut() : null}
       {!path.startsWith("/dashboard") && (path === "/login" || path === "/register") ? (
         <Link

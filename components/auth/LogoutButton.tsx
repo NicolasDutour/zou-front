@@ -14,7 +14,7 @@ export default function LogoutButton() {
   }
 
   return (
-    <Button onClick={handleLogout} className="rounded-full flex items-center justify-center h-10 w-10 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700">
+    <Button onClick={handleLogout} className="flex size-10 items-center justify-center rounded-full bg-white text-base text-blueDark transition-colors duration-700 ease-out hover:bg-gray hover:text-white">
       <span className="text-2xl"> <AiOutlineLogout /> </span>
     </Button>
   )
