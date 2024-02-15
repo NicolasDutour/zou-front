@@ -41,10 +41,11 @@ This website is host on: [Hostinger](https://www.hostinger.fr/)
 ```
 
 ### Idées amélioration du site
-- servives en plus des 4 que j'ai déjà " à emporter", "drive"....
-  accessible PMR
-  Terrasse
-  climatisation
+- rajouter les allergènes
+- rayon de livraison ou liste villes
+- les liens facebook, intagram
+- galerie d'images
+- liste boissons
 
 - galerie d'images: next lib for that
 
