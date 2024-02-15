@@ -1,10 +1,10 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 
-import { ProductType } from "@/lib/definitions";
+import { ProductTypeFiltered } from "@/lib/definitions";
 import ProductsList from "./ProductsList";
 import ProductsVisual from "./ProductsVisual";
 
-export const ProductTabs = ({ products }: { products: ProductType[] }) => {
+export const ProductTabs = ({ products }: { products: ProductTypeFiltered[] }) => {
   // const environment = process.env.NODE_ENV
 
   return (
