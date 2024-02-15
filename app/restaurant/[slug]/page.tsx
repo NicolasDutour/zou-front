@@ -77,38 +77,31 @@ export default async function Restaurant({
 
   const { attributes } = restaurantDetails?.data[0] || {};
 
-  const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
+  // const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
   const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data;
-  const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data && attributes?.products?.data.length > 0;
+  // const hasBothMenus = attributes?.choice_menu === "both" && attributes?.menu_photo?.data && attributes?.products?.data.length > 0;
 
-  const renderListMenuFiles = () => hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />;
-  const renderListMenu = () => hasListMenu && <ListMenu environment={environment} products={attributes?.products?.data} />;
-  const renderBothMenus = () => hasBothMenus && (
-    <>
-      <ListMenuFiles files={attributes?.menu_photo?.data} />
-      <ListMenu environment={environment} products={attributes?.products?.data} />
-    </>
-  );
-
-  const renderRestaurantBanner = () => attributes && <RestaurantBanner restaurant={attributes} />;
-  const renderRestaurantDescription = () => attributes?.description && <RestaurantDescription description={attributes.description} />;
-  const renderRestaurantInfo = () => attributes && <RestaurantInfo restaurant={attributes} />;
-  const renderMapbox = () => attributes && <Mapbox restaurant={attributes} />;
-
+  // const renderListMenuFiles = () => hasFilesMenu && <ListMenuFiles files={attributes?.menu_photo?.data} />;
+  // const renderBothMenus = () => hasBothMenus && (
+  //   <>
+  //     <ListMenuFiles files={attributes?.menu_photo?.data} />
+  //     <ListMenu environment={environment} products={attributes?.products?.data} />
+  //   </>
+  // );
 
   return (
     <div>
-      {renderRestaurantBanner()}
-      {renderRestaurantDescription()}
+      {attributes && <RestaurantBanner restaurant={attributes} />}
+      {attributes?.description && <RestaurantDescription description={attributes.description} />}
 
-      {renderListMenuFiles()}
-      {renderListMenu()}
-      {renderBothMenus()}
+      {/* {renderListMenuFiles()} */}
+      {hasListMenu && <ListMenu environment={environment} products={attributes?.products?.data} />}
+      {/* {renderBothMenus()} */}
 
-      <div className="grid grid-cols-1 bg-gray-800 md:grid-cols-2">
-        {renderRestaurantInfo()}
+      <div className="grid grid-cols-1 bg-blueDark md:grid-cols-2">
+        {attributes && <RestaurantInfo restaurant={attributes} />}
         <div>
-          {renderMapbox()}
+          {attributes && <Mapbox restaurant={attributes} />}
         </div>
       </div>
     </div>

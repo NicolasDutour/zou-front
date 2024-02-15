@@ -13,23 +13,23 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Product from './Product';
 
 import { capitalize, formatIngredients } from '@/lib/utils';
-import { ProductType } from "@/lib/definitions";
+import { ProductTypeFromBack } from "@/lib/definitions";
 
 const ListMenu = ({ environment, products }: {
   environment: string,
-  products: ProductType[]
+  products: ProductTypeFromBack[]
 }) => {
-  const [criteria, setCriteria] = useState("tomate")
-  const criterias = ["tomate", "crème", "végétarien", "dessert"]
+  const [criteria, setCriteria] = useState("tomato")
+  const criterias = ["tomato", "cream", "vegetarian", "dessert"]
 
   const productsFilterByBase = () => {
     if (products?.length > 0) {
-      if (criteria === 'tomate' || criteria === 'crème') {
-        return products?.filter(product => product?.base === criteria)
-      } else if (criteria === 'végétarien') {
-        return products?.filter(product => product?.vegetarian)
+      if (criteria === 'tomato' || criteria === 'cream') {
+        return products?.filter(product => product?.attributes?.base === criteria)
+      } else if (criteria === 'vegetarian') {
+        return products?.filter(product => product?.attributes?.vegetarian)
       } else if (criteria === 'dessert') {
-        return products?.filter(product => product?.dessert)
+        return products?.filter(product => product?.attributes?.dessert)
       }
       return products
     }
@@ -42,15 +42,15 @@ const ListMenu = ({ environment, products }: {
   return (
     <section className="bg-slate-100 px-6 py-8">
       <div className="mx-auto max-w-5xl">
-        <Tabs defaultValue="tomate" className="w-full">
-          <TabsList className={`md:grid-cols-${criterias.length} mb-6 grid w-full grid-cols-1 gap-1 bg-gray-800`}>
+        <Tabs defaultValue="tomato" className="w-full">
+          <TabsList className={`md:grid-cols-${criterias?.length} mb-6 grid w-full grid-cols-1 gap-1 bg-gray-800`}>
             {criterias.map((criteria, index) => <TabsTrigger className="text-lg hover:bg-white hover:text-gray-800" key={index} onClick={() => setCriteria(criteria)} value={criteria}> {capitalize(criteria)} </TabsTrigger>)}
           </TabsList>
           <TabsContent value={criteria}>
             <div className="grid grid-cols-1 gap-4">
               {
                 productsFilterByBase()?.map(product => {
-                  const { id, product_name, ingredients, price, photo } = product
+                  const { id, attributes: { product_name, ingredients, price, photo } } = product
                   let picture;
                   if (photo?.data?.attributes?.formats) {
                     if (photo?.data?.attributes?.formats?.small) {
