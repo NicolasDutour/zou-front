@@ -12,12 +12,14 @@ export const capitalize = (word: string) => {
 }
 
 // Remove extra spaces, add coma after each ingredient and capitalize only the first ingredient
-export const formatIngredients = (ingredients: string): string => {
-  let ingredientsFormatted = ingredients.split(',').map(mot => mot.trim());
-  if (ingredientsFormatted.length > 0) {
-    ingredientsFormatted[0] = ingredientsFormatted[0][0].toUpperCase() + ingredientsFormatted[0].slice(1);
+export const formatIngredients = (ingredients: string) => {
+  if (ingredients) {
+    let ingredientsFormatted = ingredients?.split(',').map(mot => mot.trim());
+    if (ingredientsFormatted.length > 0) {
+      ingredientsFormatted[0] = ingredientsFormatted[0][0].toUpperCase() + ingredientsFormatted[0].slice(1);
+    }
+    return ingredientsFormatted.join(', ');
   }
-  return ingredientsFormatted.join(', ');
 }
 
 function removeAccents(input: string) {

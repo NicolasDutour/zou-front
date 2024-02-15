@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image"
 
 import { createProductPhoto, createOrUpdateProductAction } from "@/lib/actions";
-import { TypeFormSchemaProduct, FormSchemaProduct, ProductType } from "@/lib/definitions";
+import { TypeFormSchemaProduct, FormSchemaProduct, ProductTypeFiltered } from "@/lib/definitions";
 
 import Link from "next/link";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 
-export function ProductForm({ product, productId, restaurantId, environment = "" }: { product?: ProductType, productId?: number, restaurantId?: string, environment?: string }) {
+export function ProductForm({ product, productId, restaurantId, environment = "" }: { product?: ProductTypeFiltered, productId?: number, restaurantId?: string, environment?: string }) {
   const pathname = usePathname()
   const router = useRouter()
   const { toast } = useToast()
@@ -139,10 +139,13 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             </p>
             <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark  p-8'>
               <Image
-                src={product?.photo ? environment === "production" ? product?.photo?.data?.attributes?.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${product?.photo?.data?.attributes?.url}` : "/no_image.png"}
+                src={product?.photo?.data ?
+                  environment === "production" ? product?.photo?.data?.attributes?.url :
+                    `${process.env.NEXT_PUBLIC_STRAPI_URL}${product?.photo?.data?.attributes?.url}` :
+                  "/no_image.png"}
                 alt={product?.photo?.data?.attributes?.name || "no_image"}
                 style={{
-                  objectFit: product?.photo ? "cover" : "contain",
+                  objectFit: product?.photo?.data ? "cover" : "contain",
                 }}
                 fill
                 priority

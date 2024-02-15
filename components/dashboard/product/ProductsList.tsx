@@ -30,12 +30,12 @@ import { CiSearch } from "react-icons/ci"
 import { capitalize, formatCurrency, formatIngredients } from "@/lib/utils"
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ProductType } from "@/lib/definitions";
+import { ProductTypeFiltered } from "@/lib/definitions";
 import { removeProductAction } from "@/lib/actions";
 
-export default function ProductsList({ products }: { products: ProductType[] }) {
+export default function ProductsList({ products }: { products: ProductTypeFiltered[] }) {
   const [searchProductName, setSearchProductName] = useState('')
-  const [filteredProducts, setFilteredProducts] = useState<ProductType[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<ProductTypeFiltered[]>([])
   const [selectBase, setSelectBase] = useState('all')
 
   useEffect(() => {
@@ -47,8 +47,8 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
     setSearchProductName(value)
 
     const filtered = products.filter(product =>
-      product.product_name.toLowerCase().includes(value) &&
-      (selectBase === 'all' || product.base === selectBase)
+      product?.product_name.toLowerCase().includes(value) &&
+      (selectBase === 'all' || product?.base === selectBase)
     );
     setFilteredProducts(filtered);
   }
@@ -57,8 +57,8 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
     setSelectBase(base)
 
     const filtered = products.filter(product =>
-      product.product_name.toLowerCase().includes(searchProductName) &&
-      (base === 'all' || product.base === base)
+      product?.product_name.toLowerCase().includes(searchProductName) &&
+      (base === 'all' || product?.base === base)
     );
     setFilteredProducts(filtered);
   }
@@ -123,7 +123,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
             {filteredProducts?.map((product) => {
               return (
                 <TableRow className="border-b-blueDark bg-white" key={product.id}>
-                  <TableCell className="font-medium">{capitalize(product.product_name.toLowerCase())}</TableCell>
+                  <TableCell className="font-medium">{capitalize(product?.product_name.toLowerCase())}</TableCell>
                   <TableCell className="font-medium">
                     {/* <Image
                       src={product ? environment === "production" ? photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${photo.url}` : "/no_image.png"}
@@ -139,11 +139,11 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
                       className="rounded-lg"
                     /> */}
                   </TableCell>
-                  <TableCell>{capitalize(product.base.toLowerCase())}</TableCell>
-                  <TableCell>{formatIngredients(product.ingredients)}</TableCell>
-                  <TableCell>{formatCurrency(product.price)}</TableCell>
+                  <TableCell>{capitalize(product?.base.toLowerCase())}</TableCell>
+                  <TableCell>{formatIngredients(product?.ingredients)}</TableCell>
+                  <TableCell>{formatCurrency(product?.price)}</TableCell>
                   <TableCell>
-                    <p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{product.publishedAt ? 'Publié' : ''}</p>
+                    <p className="rounded-full bg-green-500 px-2 py-1 text-center font-medium text-white">{product?.publishedAt ? 'Publié' : ''}</p>
                   </TableCell>
                   <TableCell className="flex items-center justify-around">
                     <AlertDialog>
@@ -152,7 +152,7 @@ export default function ProductsList({ products }: { products: ProductType[] }) 
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-error underline underline-offset-4">{product.product_name}</span> ?</AlertDialogTitle>
+                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-error underline underline-offset-4">{product?.product_name}</span> ?</AlertDialogTitle>
                           <AlertDialogDescription className="text-error">
                             Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
                           </AlertDialogDescription>

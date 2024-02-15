@@ -37,7 +37,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
 
   useEffect(() => {
     if (pathname.includes("edit") && restaurant) {
-      const { restaurant_name, description, short_description, email, address, phone, drive, take_away, delivery, eat_in } = restaurant
+      const { restaurant_name, description, short_description, email, address, phone, drive, take_away, delivery, eat_in, pmr, terrace, air_conditioner } = restaurant
       setValue('restaurant_name', restaurant_name)
       setValue('description', description)
       setValue('short_description', short_description)
@@ -48,6 +48,9 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
       setValue('take_away', take_away)
       setValue('delivery', delivery)
       setValue('eat_in', eat_in)
+      setValue('pmr', pmr)
+      setValue('terrace', terrace)
+      setValue('air_conditioner', air_conditioner)
     }
     if (isSubmitSuccessful) {
       reset()
@@ -249,7 +252,11 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             </p>
             <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark  p-8'>
               <Image
-                src={restaurant?.banner_photo ? environment === "production" ? restaurant?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` : "/no_image.png"}
+                src={restaurant?.banner_photo ?
+                  environment === "production" ?
+                    restaurant?.banner_photo.url :
+                    `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` :
+                  "/no_image.png"}
                 alt={restaurant?.banner_photo?.name || "no_image"}
                 style={{
                   objectFit: restaurant?.banner_photo ? "cover" : "contain",
@@ -287,7 +294,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
           <p className="block text-sm font-medium leading-6 text-blueDarker">
             Services proposés
           </p>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("drive")}
@@ -324,10 +331,37 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               ></input>
               <Label htmlFor="eat_in" className="ml-4">Eat in</Label>
             </div>
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("pmr")}
+                id="pmr"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="pmr" className="ml-4">Accessible PMR</Label>
+            </div>
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("terrace")}
+                id="terrace"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="terrace" className="ml-4">Terrace</Label>
+            </div>
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("air_conditioner")}
+                id="air_conditioner"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="air_conditioner" className="ml-4">Air conditioner</Label>
+            </div>
           </div>
         </div>
 
-        <div className="w-full space-y-2 rounded-2xl bg-white p-6 md:col-span-2">
+        <div className="w-full space-y-2 rounded-2xl bg-white p-6 lg:col-span-2">
           <label
             className="block text-sm font-medium leading-6 text-blueDarker"
             htmlFor="description"

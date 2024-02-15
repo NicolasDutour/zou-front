@@ -1,8 +1,8 @@
-import { ProductType } from "@/lib/definitions";
+import { ProductTypeFromBack } from "@/lib/definitions";
 import { formatIngredients } from "@/lib/utils";
 
-const Product = ({ product }: { product: ProductType }) => {
-  const { product_name, ingredients, price } = product
+const Product = ({ product }: { product: ProductTypeFromBack }) => {
+  const { attributes: { product_name, ingredients, price } } = product
 
   return (
     <div className="items-center rounded-lg border border-gray-200 bg-white p-4 transition-all hover:border hover:border-slate-400 md:flex">
