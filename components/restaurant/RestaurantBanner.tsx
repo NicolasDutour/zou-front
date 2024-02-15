@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { FaPhone } from "react-icons/fa6";
 
-import { RestaurantType , FormatsType } from '@/lib/definitions'
+import { RestaurantType, FormatsType } from '@/lib/definitions'
 
 import { addSpaceToPhoneNumber } from '@/lib/utils';
 import { OptionItem } from "./OptionItem";
@@ -17,7 +17,10 @@ export default function RestaurantBanner({ restaurant }: { restaurant: Restauran
     { key: "drive", value: "drive" },
     { key: "take_away", value: "à emporter" },
     { key: "delivery", value: "livraison" },
-    { key: "eat_in", value: "sur place" }
+    { key: "eat_in", value: "sur place" },
+    { key: "pmr", value: "Accessible PMR" },
+    { key: "terrace", value: "Terrace" },
+    { key: "air_conditioner", value: "Air conditioner" }
   ]
   const findFirstFormat = (): { url: string; name: string } => {
     for (const size of sizeOrder) {

@@ -218,7 +218,10 @@ export const FormSchemaRestaurant = z.object({
   drive: z.boolean(),
   take_away: z.boolean(),
   delivery: z.boolean(),
-  eat_in: z.boolean()
+  eat_in: z.boolean(),
+  pmr: z.boolean(),
+  terrace: z.boolean(),
+  air_conditioner: z.boolean(),
 })
 export const PartialFormSchemaRestaurant = FormSchemaRestaurant.partial({
   banner_photo: true
@@ -241,6 +244,9 @@ export type RestaurantType = {
   take_away: boolean
   delivery: boolean
   eat_in: boolean
+  pmr: boolean
+  terrace: boolean
+  air_conditioner: boolean
   choice_menu: string
   // products: ProductType[]
   // menu_photo: MenuAdminType[]
@@ -280,7 +286,48 @@ export const FormSchemaProduct = z.object({
 })
 export type TypeFormSchemaProduct = z.infer<typeof FormSchemaProduct>
 
-export type ProductType = {
+export type ProductTypeFromBack = {
+  id: string
+  attributes: {
+    base: string
+    product_name: string
+    ingredients: string
+    price: number
+    vegetarian: boolean
+    dessert: boolean
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
+    photo: {
+      data: {
+        attributes: {
+          name: string
+          url: string
+          formats: {
+            thumbnail: {
+              name: string
+              url: string
+            },
+            small: {
+              name: string
+              url: string
+            },
+            medium: {
+              name: string
+              url: string
+            },
+            large: {
+              name: string
+              url: string
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+export type ProductTypeFiltered = {
   id: string
   base: string
   product_name: string

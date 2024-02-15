@@ -3,12 +3,14 @@ import { cookies } from "next/headers"
 import { NoRestaurant } from "./NoRestaurant";
 import { IoLocationOutline } from 'react-icons/io5'
 import { AiOutlinePhone } from 'react-icons/ai'
-import { MdAlternateEmail, MdOutlineDeliveryDining, MdOutlineTableRestaurant } from 'react-icons/md'
+import { MdAlternateEmail, MdOutlineDeliveryDining, MdOutlineTableRestaurant, MdSevereCold } from 'react-icons/md'
+import { FaWheelchairMove } from "react-icons/fa6";
 import { IoIosLink } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
 import { FaHandRock } from "react-icons/fa";
 import { TbPaperBag } from "react-icons/tb";
+import { GoSun } from "react-icons/go";
 
 async function getRestaurantData(token: string) {
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -34,7 +36,10 @@ const options = [
   { key: "drive", value: "drive", icon: <FaHandRock /> },
   { key: "take_away", value: "à emporter", icon: <TbPaperBag /> },
   { key: "delivery", value: "livraison", icon: <MdOutlineDeliveryDining /> },
-  { key: "eat_in", value: "sur place", icon: <MdOutlineTableRestaurant /> }
+  { key: "eat_in", value: "sur place", icon: <MdOutlineTableRestaurant /> },
+  { key: "pmr", value: "Accessible PMR", icon: <FaWheelchairMove /> },
+  { key: "terrace", value: "Terrace", icon: <GoSun /> },
+  { key: "air_conditioner", value: "Air conditioner", icon: <MdSevereCold /> },
 ]
 
 export default async function Restaurant() {
