@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import LogoutButton from './LogoutButton'
 
 
 export default function AuthButton({ token }: { token: string | undefined }) {
@@ -10,12 +11,15 @@ export default function AuthButton({ token }: { token: string | undefined }) {
 
   const isLoggedIn = () => {
     return (
-      <Link
-        href="/dashboard/overview"
-        className={cn("rounded-full p-4 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700", path.startsWith("/dashboard") && "bg-gray text-white")}
-      >
-        Dashboard
-      </Link>
+      <div className='flex items-center space-x-4'>
+        <Link
+          href="/dashboard/overview"
+          className={cn("rounded-full p-4 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700", path.startsWith("/dashboard") && "bg-gray text-white")}
+        >
+          Dashboard
+        </Link>
+        <LogoutButton />
+      </div>
     )
   }
 
@@ -41,7 +45,7 @@ export default function AuthButton({ token }: { token: string | undefined }) {
   }
 
   return (
-    <div className="absolute right-4 top-8 flex space-x-4">
+    <div className="absolute right-4 top-4 flex space-x-4 z-10">
       {!path.startsWith("/dashboard") ? token ? isLoggedIn() : isLoggedOut() : null}
       {!path.startsWith("/dashboard") && (path === "/login" || path === "/register") ? (
         <Link
