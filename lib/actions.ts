@@ -244,7 +244,7 @@ export async function createCookie(name: string, data: string) {
   const oneDay = 24 * 60 * 60 * 1000
   // const oneMinute = 60 * 1000;
   // const twoHours = 2 * 60 * 60 * 1000
-  cookies().set(name, data, { httpOnly: true, expires: Date.now() + oneDay })
+  cookies().set(name, data, { httpOnly: true, maxAge: oneDay, expires: Date.now() + oneDay })
 }
 
 export async function removeCookie(name: string) {
