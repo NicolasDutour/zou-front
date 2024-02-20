@@ -1,4 +1,4 @@
-import { UserType } from "@/lib/definitions"
+import { UserType } from "@/lib/validations"
 import { capitalize } from "@/lib/utils"
 import { BurgerMenu } from "./BurgerMenu"
 

@@ -1,18 +1,17 @@
 'use client';
 
-import { IoKeyOutline } from "react-icons/io5";
-import { HiAtSymbol } from "react-icons/hi2";
-import { lusitana } from '@/lib/fonts';
 import { useForm } from "react-hook-form";
-import { FormSchemaLogin, TypeFormSchemaLogin } from "@/lib/definitions";
+import { FormSchemaLogin, TypeFormSchemaLogin } from "@/lib/validations";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
+import { Eye, EyeOff } from "lucide-react";
 import { loginAction } from "@/lib/actions";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export default function LoginForm() {
   const { toast } = useToast()
@@ -52,7 +51,7 @@ export default function LoginForm() {
       toast({
         title: "Félicitation !",
         description: "Vous êtes bien connecté.",
-        className: "border-blue text-blue",
+        className: "border-primary text-primary",
       })
       router.push('/dashboard/overview')
     }
@@ -61,48 +60,32 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="flex-1">
-        <h1 className={`${lusitana.className} mb-3 text-center text-2xl`}>
-          Login
-        </h1>
-        <div className="w-full">
+        <h1 className="mb-3 text-center text-2xl">Login</h1>
+        <div className="w-full space-y-2">
           <div>
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="identifier"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <HiAtSymbol /> </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
-                {...register("identifier")}
-                id="identifier"
-                type="email"
-              />
-              <p className="mt-2 text-sm text-error">{errors.identifier?.message}</p>
-            </div>
+            <Label htmlFor="identifier">Email</Label>
+            <Input
+              className={cn({ "border-destructive": errors.identifier })}
+              {...register("identifier")}
+              id="identifier"
+              type="email"
+            />
+            <p className="mt-2 text-sm text-destructive">{errors.identifier?.message}</p>
           </div>
           <div className="mt-4">
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="password"
-            >
-              Password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <IoKeyOutline /> </div>
-              <div className='absolute right-2 top-2 cursor-pointer text-xl text-gray-400' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />} </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+              <div className='absolute right-2 top-3 cursor-pointer text-gray-400' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <Eye size={20} /> : <EyeOff size={20} />} </div>
+              <Input
+                className={cn({ "border-destructive": errors.password })}
                 {...register("password")}
                 id="password"
                 type={showPassword ? "text" : "password"}
               />
-              <p className="mt-2 text-sm text-error">{errors.password?.message}</p>
+              <p className="mt-2 text-sm text-destructive">{errors.password?.message}</p>
             </div>
           </div>
-          <Button disabled={!isDirty || !isValid || isSubmitting} className="mt-4 w-full bg-blueDark text-center text-white">
+          <Button disabled={!isDirty || !isValid || isSubmitting} className={cn(buttonVariants(), "w-full")}>
             {isSubmitting ? (
               <>
                 <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

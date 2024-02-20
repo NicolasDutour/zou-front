@@ -6,8 +6,10 @@ export const plans = [
     name: "The One",
     price: 19.99,
     features: [
-      "Dashboard access",
-      "Email support"
+      "1er mois offert sans saisir vos données bancaires",
+      "Aucun frais cachés",
+      "Accès à votre tableau de bord",
+      "Support technique par email",
     ]
   },
 ]

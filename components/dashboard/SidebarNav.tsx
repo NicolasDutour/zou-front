@@ -1,4 +1,4 @@
-import { SidebarNavItemType } from "@/lib/definitions"
+import { SidebarNavItemType } from "@/lib/validations"
 import { SidebarNavItem } from "./SidebarNavItem"
 import { LogoutButton } from "@/components/home/LogoutButton"
 

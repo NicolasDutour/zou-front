@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { FormSchemaProfile, TypeFormSchemaProfile , UserType } from "@/lib/definitions";
+import { FormSchemaProfile, TypeFormSchemaProfile, UserType } from "@/lib/validations";
 
 import { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
-import { HiAtSymbol } from "react-icons/hi2";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { profileAction } from "@/lib/actions";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export function ProfileForm({ user }: { user: UserType }) {
   const router = useRouter()
@@ -40,7 +42,7 @@ export function ProfileForm({ user }: { user: UserType }) {
       toast({
         title: "Félicitation !",
         description: "Profil mis à jour.",
-        className: "border-blue text-blue",
+        className: "border-white text-blueDark",
       })
     }
   }
@@ -48,35 +50,21 @@ export function ProfileForm({ user }: { user: UserType }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="w-full rounded-2xl bg-white p-6 lg:w-1/2">
-        <label
-          className="block text-sm font-medium leading-6 text-blueDarker"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <div className="relative">
-          <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <HiAtSymbol /> </div>
-          <input
-            className="block w-full rounded-md p-1.5 pl-8 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
-            {...register("email")}
-            id="email"
-            type="email"
-          />
-          <p className="mt-2 text-sm text-error">{errors.email?.message}</p>
-        </div>
+        <Label htmlFor="email">Email</Label>
+        <Input
+          className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.email })}
+          {...register("email")}
+          id="email"
+          type="email"
+        />
+        <p className="mt-2 text-sm text-destructive">{errors.email?.message}</p>
       </div>
       <div className="flex w-full gap-4 md:w-1/2">
-        <Link
-          href="/dashboard/profile"
-          passHref
-          legacyBehavior
-        >
-          <Button className="mt-4 w-full bg-white text-center text-blueDark ring-1 ring-inset ring-gray">
-            Annuler
-          </Button>
-        </Link>
+        <Button asChild className="mt-4 w-full bg-white text-blueDark hover:bg-muted">
+          <Link href="/dashboard/profile">Annuler</Link>
+        </Button>
 
-        <Button disabled={!isDirty || !isValid || isSubmitting} className="mt-4 w-full border border-white bg-blueDark text-center text-white">
+        <Button disabled={!isDirty || !isValid || isSubmitting} className={cn(buttonVariants(), "mt-4 w-full border border-white bg-blueDark hover:bg-blueDarker")}>
           {isSubmitting ? (
             <>
               <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

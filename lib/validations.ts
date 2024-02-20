@@ -121,7 +121,6 @@ export type SidebarNavItemType = {
 }
 
 export type FaqType = {
-  id: number
   title: string
   description: string
 }
@@ -278,8 +277,9 @@ export const FormSchemaProduct = z.object({
     .min(1, {
       message: "Vous devez ajouter au moins 1 ingredient",
     }),
-  base: z.string(),
   price: z.number(),
+  tomato_base: z.boolean(),
+  cream_base: z.boolean(),
   vegetarian: z.boolean(),
   dessert: z.boolean(),
   photo: z.any()
@@ -335,6 +335,8 @@ export type ProductTypeFiltered = {
   price: number
   vegetarian: boolean
   dessert: boolean
+  tomato_base: boolean
+  cream_base: boolean
   createdAt: string
   updatedAt: string
   publishedAt: string

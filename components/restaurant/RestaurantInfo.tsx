@@ -4,7 +4,7 @@ import { AiOutlinePhone } from 'react-icons/ai'
 import { MdAlternateEmail } from 'react-icons/md'
 
 import { addSpaceToPhoneNumber } from '@/lib/utils'
-import { RestaurantType } from '@/lib/definitions'
+import { RestaurantType } from '@/lib/validations'
 
 
 export default function RestaurantInfo({ restaurant }: { restaurant: RestaurantType }) {

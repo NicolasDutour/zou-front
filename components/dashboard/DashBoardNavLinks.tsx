@@ -2,7 +2,7 @@
 
 import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"
-import { IoRestaurantOutline , IoLogOutOutline } from "react-icons/io5"
+import { IoRestaurantOutline, IoLogOutOutline } from "react-icons/io5"
 import { MdOutlineEmojiFoodBeverage } from "react-icons/md"
 import { RxDashboard } from "react-icons/rx";
 
@@ -36,7 +36,7 @@ export default function DashBoardNavLinks() {
         })
       }
       <Separator />
-      <Button onClick={handleLogout} className="flex w-full cursor-pointer items-center rounded-xl bg-blueDarker p-4 text-white">
+      <Button onClick={handleLogout} className="flex w-full cursor-pointer items-center rounded-xl bg-blueDarker p-4 text-white hover:bg-blueDark border border-blueDarker hover:border-white">
         <span className="mr-4 text-2xl"> <IoLogOutOutline /> </span> Logout
       </Button>
     </ul>

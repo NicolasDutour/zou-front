@@ -30,7 +30,7 @@ import { CiSearch } from "react-icons/ci"
 import { capitalize, formatCurrency, formatIngredients } from "@/lib/utils"
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ProductTypeFiltered } from "@/lib/definitions";
+import { ProductTypeFiltered } from "@/lib/validations";
 import { removeProductAction } from "@/lib/actions";
 
 export default function ProductsList({ products }: { products: ProductTypeFiltered[] }) {
@@ -139,7 +139,7 @@ export default function ProductsList({ products }: { products: ProductTypeFilter
                       className="rounded-lg"
                     /> */}
                   </TableCell>
-                  <TableCell>{capitalize(product?.base.toLowerCase())}</TableCell>
+                  <TableCell> "base" </TableCell>
                   <TableCell>{formatIngredients(product?.ingredients)}</TableCell>
                   <TableCell>{formatCurrency(product?.price)}</TableCell>
                   <TableCell>

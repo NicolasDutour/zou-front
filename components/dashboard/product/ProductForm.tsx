@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image"
 
 import { createProductPhoto, createOrUpdateProductAction } from "@/lib/actions";
-import { TypeFormSchemaProduct, FormSchemaProduct, ProductTypeFiltered } from "@/lib/definitions";
+import { TypeFormSchemaProduct, FormSchemaProduct, ProductTypeFiltered } from "@/lib/validations";
 
 import Link from "next/link";
 import { useEffect } from "react";
@@ -21,9 +21,6 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
   const { toast } = useToast()
 
   const form = useForm<TypeFormSchemaProduct>({
-    defaultValues: {
-      base: "tomato",
-    },
     resolver: zodResolver(FormSchemaProduct),
     mode: "onTouched"
   })
@@ -33,11 +30,12 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   useEffect(() => {
     if (pathname.includes("edit") && product) {
-      const { product_name, ingredients, price, vegetarian, dessert, base } = product
+      const { product_name, ingredients, price, vegetarian, dessert, tomato_base, cream_base } = product
       setValue('product_name', product_name)
       setValue('ingredients', ingredients)
       setValue('price', price)
-      setValue('base', base)
+      setValue('tomato_base', tomato_base)
+      setValue('cream_base', cream_base)
       setValue('vegetarian', vegetarian)
       setValue('dessert', dessert)
     }
@@ -80,7 +78,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className='w-full space-y-2 rounded-2xl bg-white p-6'>
           <label htmlFor="product_name" className="block text-sm font-medium leading-6 text-blueDarker">
             Nom du produit
@@ -160,9 +158,27 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <p className="block font-medium leading-6 text-blueDarker">
-            Type de pizza
+            Les critères
           </p>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("tomato_base")}
+                id="tomato_base"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="tomato_base" className="ml-4">Tomato base</Label>
+            </div>
+            <div className="flex items-center rounded-md border border-gray p-4">
+              <input
+                {...register("cream_base")}
+                id="cream_base"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="cream_base" className="ml-4">Cream base</Label>
+            </div>
             <div className="flex items-center rounded-md border border-gray p-4">
               <input
                 {...register("vegetarian")}
@@ -183,21 +199,6 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             </div>
           </div>
         </div>
-
-        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
-          <p className="block font-medium leading-6 text-blueDarker">
-            La base
-          </p>
-          <div className="flex items-center">
-            <input className="peer/tomato size-5 cursor-pointer bg-blueDark" type="radio" value="tomato" id="tomato" {...register('base')} />
-            <label htmlFor="tomato" className="ml-4 text-sm peer-checked/tomato:text-blueDark">Tomato</label>
-          </div>
-          <div className="flex items-center">
-            <input className="peer/cream size-5 cursor-pointer bg-blueDark" type="radio" value="cream" id="cream" {...register('base')} />
-            <label htmlFor="cream" className="ml-4 text-sm peer-checked/cream:text-blueDark">Cream</label>
-          </div>
-        </div>
-
       </div>
       <div className="flex w-full gap-4 md:w-1/2">
         <Link

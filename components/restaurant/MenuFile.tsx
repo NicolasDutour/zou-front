@@ -1,7 +1,7 @@
 "use client"
 import Link from 'next/link'
 
-import { FileType } from "@/lib/definitions"
+import { FileType } from "@/lib/validations"
 
 export default function MenuFile({ file }: { file: FileType }) {
   const environment = process.env.NODE_ENV

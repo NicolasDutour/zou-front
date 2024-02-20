@@ -1,6 +1,9 @@
 import { Card, CardFooter, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { PlanType } from "@/lib/definitions";
+import { PlanType } from "@/lib/validations";
 import { formatCurrency } from "@/lib/utils";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { MoveRight } from "lucide-react";
 
 export const PlanCard = ({ plan }: { plan: PlanType }) => {
   // const monthlyAmount = (amount: number) => {
@@ -24,23 +27,25 @@ export const PlanCard = ({ plan }: { plan: PlanType }) => {
     //   </CardFooter>
     // </Card>
 
-    <Card className="flex w-full flex-col justify-between border-2 border-blueDark p-2 md:w-1/2">
+    <Card className="flex w-full flex-col justify-between border-2 border-primary p-2 md:w-1/2">
       <CardHeader className="space-y-0 p-0">
         <CardTitle className="mb-2 text-center font-medium">
-          <p className="mb-2 text-4xl text-blueDark"> {plan.name} </p>
+          <p className="mb-2 text-4xl text-primary"> {plan.name} </p>
         </CardTitle>
       </CardHeader>
-      <CardContent className="text-blueDarker">
+      <CardContent className="text-primary">
         <ul>
           {
             plan.features.map((feature: string, index: number) => (
-              <li key={index} className="mb-2 text-center text-blueDarker">{feature}</li>
+              <li key={index} className="mb-2 text-center text-gray-700">{feature}</li>
             ))
           }
         </ul>
       </CardContent>
-      <CardFooter className="mt-4 flex-col justify-center rounded-full border border-white bg-blueDarker p-2">
-        <p className="text-lg tracking-wider text-white"> {formatCurrency(plan.price)} / mois</p>
+      <CardFooter>
+        <Button className="w-full cursor-pointer group" asChild>
+          <Link href="/register" className="text-xl font-light"> {formatCurrency(plan.price)} / mois <span className="hidden group-hover:block ml-6"><MoveRight /></span> </Link>
+        </Button>
       </CardFooter>
     </Card>
   )
