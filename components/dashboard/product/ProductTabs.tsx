@@ -1,6 +1,6 @@
 import { Tabs, TabsContent } from "@/components/ui/tabs"
 
-import { ProductTypeFiltered } from "@/lib/definitions";
+import { ProductTypeFiltered } from "@/lib/validations";
 import ProductsList from "./ProductsList";
 import ProductsVisual from "./ProductsVisual";
 

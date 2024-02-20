@@ -5,7 +5,7 @@ import Mapbox from "@/components/restaurant/MapBox"
 import RestaurantInfo from "@/components/restaurant/RestaurantInfo";
 import ListMenu from "@/components/restaurant/ListMenu";
 import RestaurantDescription from "@/components/restaurant/RestaurantDescription";
-import ListMenuFiles from "@/components/restaurant/ListMenuFiles";
+// import ListMenuFiles from "@/components/restaurant/ListMenuFiles";
 
 export async function generateMetadata(
   {
@@ -47,7 +47,7 @@ export async function generateMetadata(
 
 const getRestaurantDetails = async (slug: string) => {
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-  const url = `${STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[opening_hour][populate]=*&populate[banner_photo][populate]=*&populate[menu_photo][populate]=*`;
+  const url = `${STRAPI_URL}/api/restaurants?filters[slug][$eq]=${slug}&populate[products][populate]=*&populate[banner_photo][populate]=*&populate[menu_photo][populate]=*`;
 
   const response = await fetch(url,
     {
@@ -76,6 +76,8 @@ export default async function Restaurant({
   const environment = process.env.NODE_ENV
 
   const { attributes } = restaurantDetails?.data[0] || {};
+  console.log("attributes", attributes.products.data);
+
 
   // const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
   const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data;

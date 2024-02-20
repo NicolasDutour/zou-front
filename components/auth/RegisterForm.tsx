@@ -1,19 +1,17 @@
 'use client';
 
-import { IoKeyOutline } from "react-icons/io5";
-import { HiAtSymbol } from "react-icons/hi2";
-import { lusitana } from '@/lib/fonts';
 import { useForm } from "react-hook-form";
-import { FormSchemaRegister, TypeFormSchemaRegister } from "@/lib/definitions";
+import { FormSchemaRegister, TypeFormSchemaRegister } from "@/lib/validations";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation";
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
-import { CiUser } from "react-icons/ci";
 import { registerAction } from "@/lib/actions";
 import { useToast } from "@/components/ui/use-toast";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Eye, EyeOff } from "lucide-react";
+import { Input } from "../ui/input";
+import { Label } from "../ui/label";
 
 export default function RegisterForm() {
   const { toast } = useToast()
@@ -44,101 +42,73 @@ export default function RegisterForm() {
 
   const onSubmit = async (formData: TypeFormSchemaRegister) => {
     const response = await registerAction(formData)
-
     if (response?.user) {
       toast({
         title: "Félicitation !",
-        description: "Vous êtes bien enregistré et connecté.",
-        className: "border-blue text-blue",
+        description: "Vous êtes bien connecté.",
+        className: "border-primary text-blue",
       })
       router.push('/dashboard/overview')
+      // router.push('/verify-email')
     }
   }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="flex-1">
-        <h1 className={`${lusitana.className} mb-3 text-center text-2xl`}>
+        <h1 className="mb-3 text-center text-2xl">
           Register
         </h1>
-        <div className="w-full">
+        <div className="w-full space-y-2">
           <div>
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="username"
-            >
-              Prénom
-            </label>
-            <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <CiUser /> </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
-                {...register("username")}
-                id="username"
-                type="text"
-              />
-              <p className="mt-2 text-sm text-error">{errors.username?.message}</p>
-            </div>
+            <Label htmlFor="username">Prénom</Label>
+            <Input
+              className={cn({ "border-destructive": errors.username })}
+              {...register("username")}
+              id="username"
+              type="text"
+            />
+            <p className="mt-2 text-sm text-destructive">{errors.username?.message}</p>
           </div>
           <div>
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <HiAtSymbol /> </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
-                {...register("email")}
-                id="email"
-                type="email"
-              />
-              <p className="mt-2 text-sm text-error">{errors.email?.message}</p>
-            </div>
+            <Label htmlFor="email">Email</Label>
+            <Input
+              className={cn({ "border-destructive": errors.email })}
+              {...register("email")}
+              id="email"
+              type="email"
+            />
+            <p className="mt-2 text-sm text-destructive">{errors.email?.message}</p>
           </div>
           <div className="mt-4">
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="password"
-            >
-              Password
-            </label>
+            <Label htmlFor="password">Password</Label>
             <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <IoKeyOutline /> </div>
-              <div className='absolute right-2 top-2 cursor-pointer text-xl text-gray-400' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <FaEye /> : <FaEyeSlash />} </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+              <div className='absolute right-2 top-3 cursor-pointer text-gray-400' onClick={() => setShowPassword(!showPassword)}> {showPassword ? <Eye size={20} /> : <EyeOff size={20} />} </div>
+              <Input
+                className={cn({ "border-destructive": errors.password })}
                 {...register("password")}
                 id="password"
                 type={showPassword ? "text" : "password"}
               />
-              <p className="mt-2 text-sm text-error">{errors.password?.message}</p>
+              <p className="mt-2 text-sm text-destructive">{errors.password?.message}</p>
             </div>
           </div>
 
           <div className="mt-4">
-            <label
-              className="block text-sm font-medium leading-6 text-blueDarker"
-              htmlFor="confirmPassword"
-            >
-              confirmPassword
-            </label>
+            <Label htmlFor="confirmPassword">Confirm password</Label>
             <div className="relative">
-              <div className='absolute left-2 top-2 cursor-pointer text-xl text-gray-400'> <IoKeyOutline /> </div>
-              <div className='absolute right-2 top-2 cursor-pointer text-xl text-gray-400' onClick={() => setShowConfirmPassword(!showConfirmPassword)}> {showConfirmPassword ? <FaEye /> : <FaEyeSlash />} </div>
-              <input
-                className="block w-full rounded-md p-1.5 pl-8 text-black shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+              <div className='absolute right-2 top-3 cursor-pointer text-xl text-gray-400' onClick={() => setShowConfirmPassword(!showConfirmPassword)}> {showConfirmPassword ? <Eye size={20} /> : <EyeOff size={20} />} </div>
+              <Input
+                className={cn({ "border-destructive": errors.username })}
                 {...register("confirmPassword")}
                 id="confirmPassword"
-                type={showConfirmPassword ? "text" : "confirmPassword"}
+                type={showConfirmPassword ? "text" : "password"}
               />
-              <p className="mt-2 text-sm text-error">{errors.confirmPassword?.message}</p>
+              <p className="mt-2 text-sm text-destructive">{errors.confirmPassword?.message}</p>
             </div>
           </div>
 
-          <Button disabled={!isDirty || !isValid || isSubmitting} className="mt-4 w-full bg-blueDark text-center text-white">
+          <Button disabled={!isDirty || !isValid || isSubmitting} className={cn(buttonVariants(), "w-full")}>
             {isSubmitting ? (
               <>
                 <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

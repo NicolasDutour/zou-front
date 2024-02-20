@@ -17,9 +17,7 @@ module.exports = {
     },
     extend: {
       boxShadow: {
-        'custom': '20px 30px 30px -15px rgba(0, 0, 0, 0.3)',
-        'custom-blue-light': '30px 30px 20px -15px rgba(35, 123, 223, 1)',
-        'custom-blue': '30px 30px 20px -15px rgba(27, 98, 179, 1)',
+        'custom': '0px 0px 15px 0px rgba(0, 0, 0, 0.4)',
       },
       colors: {
         border: "hsl(var(--border))",
@@ -27,26 +25,13 @@ module.exports = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        blueLighter: {
-          DEFAULT: "var(--blue-lighter)",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        blue: {
-          DEFAULT: "var(--blue)",
-        },
-        blueDark: {
-          DEFAULT: "var(--blue-dark)",
-        },
-        blueDarker: {
-          DEFAULT: "var(--blue-darker)",
-        },
-        gray: {
-          DEFAULT: "var(--gray)",
-        },
-        yellow: {
-          DEFAULT: "var(--yellow)",
-        },
-        error: {
-          DEFAULT: "var(--error)",
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -68,6 +53,8 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        blueDark: "var(--blue-dark)",
+        blueDarker: "var(--blue-darker)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -76,12 +63,12 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {

@@ -31,6 +31,7 @@ export async function loginAction(formData: any) {
       createCookie("token", data.jwt)
       createCookie("userId", data?.user.id)
       createCookie("username", data?.user.username)
+      createCookie("email", data?.user.email)
       return { user: data.user };
     }
   } catch (error) {
@@ -76,6 +77,7 @@ export async function logoutAction() {
   removeCookie("token")
   removeCookie("userId")
   removeCookie("username")
+  removeCookie("email")
 }
 
 export async function profileAction(formData: any, userId: number) {

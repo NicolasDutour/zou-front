@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { cn, formatCurrency } from "@/lib/utils";
-import { PlanType, UserType } from "@/lib/definitions";
+import { PlanType, UserType } from "@/lib/validations";
 import { createCustomer, createPrice, createProduct, createSessionCheckout, profileAction } from "@/lib/actions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 

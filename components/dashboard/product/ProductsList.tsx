@@ -30,7 +30,7 @@ import { CiSearch } from "react-icons/ci"
 import { capitalize, formatCurrency, formatIngredients } from "@/lib/utils"
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ProductTypeFiltered } from "@/lib/definitions";
+import { ProductTypeFiltered } from "@/lib/validations";
 import { removeProductAction } from "@/lib/actions";
 
 export default function ProductsList({ products }: { products: ProductTypeFiltered[] }) {
@@ -139,7 +139,7 @@ export default function ProductsList({ products }: { products: ProductTypeFilter
                       className="rounded-lg"
                     /> */}
                   </TableCell>
-                  <TableCell>{capitalize(product?.base.toLowerCase())}</TableCell>
+                  <TableCell> "base" </TableCell>
                   <TableCell>{formatIngredients(product?.ingredients)}</TableCell>
                   <TableCell>{formatCurrency(product?.price)}</TableCell>
                   <TableCell>
@@ -148,18 +148,18 @@ export default function ProductsList({ products }: { products: ProductTypeFilter
                   <TableCell className="flex items-center justify-around">
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <div className="rounded-lg border border-error p-2 text-xl text-error"><IoTrashOutline /></div>
+                        <div className="rounded-lg border border-destructive p-2 text-xl text-destructive"><IoTrashOutline /></div>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-error underline underline-offset-4">{product?.product_name}</span> ?</AlertDialogTitle>
-                          <AlertDialogDescription className="text-error">
+                          <AlertDialogTitle>Voulez vous supprimer définitivement <span className="text-destructive underline underline-offset-4">{product?.product_name}</span> ?</AlertDialogTitle>
+                          <AlertDialogDescription className="text-destructive">
                             Cette suppression est permanente. Vous ne pourrez pas revenir en arrière.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Annuler</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-error text-white">Supprimer</AlertDialogAction>
+                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-destructive text-white">Supprimer</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>

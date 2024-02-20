@@ -1,7 +1,7 @@
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { capitalize, cn } from '@/lib/utils';
-import { RestaurantType } from "@/lib/definitions";
+import { RestaurantType } from "@/lib/validations";
 
 export const OptionItem = ({ option, restaurant }: { option: { key: string, value: string }, restaurant: RestaurantType }) => {
   return (

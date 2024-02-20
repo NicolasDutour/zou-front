@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import { buttonVariants } from "@/components/ui/button"
 
 import { cn } from "@/lib/utils"
-import { SidebarNavItemType } from '@/lib/definitions'
+import { SidebarNavItemType } from '@/lib/validations'
 import { useMobileMenuStore } from '@/global-state/store'
 
 export const SidebarNavItem = ({ item, mobile }: { item: SidebarNavItemType, mobile?: boolean }) => {

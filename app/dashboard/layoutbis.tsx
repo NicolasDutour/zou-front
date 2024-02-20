@@ -4,7 +4,7 @@ import { BsStar } from "react-icons/bs"
 import { GoPerson } from "react-icons/go"
 import { IoRestaurantOutline } from "react-icons/io5"
 import { MdOutlineEmojiFoodBeverage } from "react-icons/md"
-import { SidebarNavItemType, UserType } from "@/lib/definitions"
+import { SidebarNavItemType, UserType } from "@/lib/validations"
 import { SidebarTop } from "@/components/dashboard/SidebarTop"
 import { SideBar } from "@/components/dashboard/SideBar"
 

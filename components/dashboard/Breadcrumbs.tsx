@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { Separator } from "@/components/ui/separator"
-import { BreadcrumbType } from '@/lib/definitions';
+import { BreadcrumbType } from '@/lib/validations';
 
 export default function Breadcrumbs({
   breadcrumbs,
@@ -16,7 +16,7 @@ export default function Breadcrumbs({
             key={breadcrumb.href}
             aria-current={breadcrumb.active}
             className={cn(
-              breadcrumb.active ? 'text-white' : 'text-gray',
+              breadcrumb.active ? 'text-white' : 'text-gray-500',
             )}
           >
             <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
@@ -26,7 +26,7 @@ export default function Breadcrumbs({
           </li>
         ))}
       </ol>
-      <Separator className='mb-6 w-full bg-gray md:w-1/4' />
+      <Separator className='mb-6 w-full bg-gray-500 md:w-1/4' />
     </nav>
   );
 }

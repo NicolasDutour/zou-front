@@ -1,6 +1,6 @@
 "use client"
 
-import { FileType } from "@/lib/definitions";
+import { FileType } from "@/lib/validations";
 import MenuFile from "./MenuFile"
 
 const ListMenuFiles = ({ files }: { files: FileType[] }) => {

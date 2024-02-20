@@ -6,14 +6,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image"
 
 import { createProductPhoto, createOrUpdateProductAction } from "@/lib/actions";
-import { TypeFormSchemaProduct, FormSchemaProduct, ProductTypeFiltered } from "@/lib/definitions";
+import { TypeFormSchemaProduct, FormSchemaProduct, ProductTypeFiltered } from "@/lib/validations";
 
 import Link from "next/link";
 import { useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 export function ProductForm({ product, productId, restaurantId, environment = "" }: { product?: ProductTypeFiltered, productId?: number, restaurantId?: string, environment?: string }) {
   const pathname = usePathname()
@@ -21,9 +22,6 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
   const { toast } = useToast()
 
   const form = useForm<TypeFormSchemaProduct>({
-    defaultValues: {
-      base: "tomato",
-    },
     resolver: zodResolver(FormSchemaProduct),
     mode: "onTouched"
   })
@@ -33,11 +31,12 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   useEffect(() => {
     if (pathname.includes("edit") && product) {
-      const { product_name, ingredients, price, vegetarian, dessert, base } = product
+      const { product_name, ingredients, price, vegetarian, dessert, tomato_base, cream_base } = product
       setValue('product_name', product_name)
       setValue('ingredients', ingredients)
       setValue('price', price)
-      setValue('base', base)
+      setValue('tomato_base', tomato_base)
+      setValue('cream_base', cream_base)
       setValue('vegetarian', vegetarian)
       setValue('dessert', dessert)
     }
@@ -80,64 +79,53 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className='w-full space-y-2 rounded-2xl bg-white p-6'>
-          <label htmlFor="product_name" className="block text-sm font-medium leading-6 text-blueDarker">
-            Nom du produit
-          </label>
-          <input
-            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+          <Label htmlFor="product_name">Nom du produit</Label>
+          <Input
+            className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.product_name })}
             {...register("product_name")}
             id="product_name"
             type="text"
           />
-          <p className="mt-2 text-sm text-error">{errors.product_name?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.product_name?.message}</p>
 
-          <label htmlFor="ingredients" className="block text-sm font-medium leading-6 text-blueDarker">
-            Ingredients (Séparés par une virgule. ex: tomate, fromage, ...)
-          </label>
-          <input
-            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+          <Label htmlFor="ingredients">Ingredients (Séparés par une virgule. ex: tomate, fromage, ...)</Label>
+          <Input
+            className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.ingredients })}
             {...register("ingredients")}
             id="ingredients"
             type="text"
           />
-          <p className="mt-2 text-sm text-error">{errors.ingredients?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.ingredients?.message}</p>
 
-          <label htmlFor="price" className="block text-sm font-medium leading-6 text-blueDarker">
-            Prix
-          </label>
-          <input
+          <Label htmlFor="price">Prix</Label>
+          <Input
             {...register('price', {
               setValueAs: (value) => Number(value),
             })}
             id="price"
             type="number"
-            className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
+            className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.price })}
           />
-          <p className="mt-2 text-sm text-error">{errors.price?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.price?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
-          <label
-            className="block text-sm font-medium leading-6 text-blueDarker"
-            htmlFor="photo"
-          >
-            Photo principale de votre restaurant
-          </label>
+          <Label htmlFor="photo">Photo principale de votre restaurant</Label>
           <div>
             <Input
+              className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.photo })}
               {...register("photo")}
               id="photo"
               type="file"
-              className="block w-full rounded-md p-1.5 text-blueDark shadow-sm ring-1 ring-inset ring-gray focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray sm:text-sm sm:leading-6"
             />
-            <p className="mt-2 text-sm text-red-500">
+            <p className="mt-2 text-sm text-destructive">
               {errors.photo && typeof errors.photo.message === 'string'
                 ? errors.photo.message
                 : ''}
             </p>
-            <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark  p-8'>
+            <div className='relative h-56 w-full space-y-4 overflow-hidden rounded-2xl bg-blueDark p-8'>
               <Image
                 src={product?.photo?.data ?
                   environment === "production" ? product?.photo?.data?.attributes?.url :
@@ -160,10 +148,28 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
           <p className="block font-medium leading-6 text-blueDarker">
-            Type de pizza
+            Les critères
           </p>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <div className="flex items-center rounded-md border border-gray p-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center rounded-md border p-4">
+              <input
+                {...register("tomato_base")}
+                id="tomato_base"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="tomato_base" className="ml-4">Tomato base</Label>
+            </div>
+            <div className="flex items-center rounded-md border p-4">
+              <input
+                {...register("cream_base")}
+                id="cream_base"
+                type="checkbox"
+                className="peer size-5 shrink-0 cursor-pointer rounded-sm border border-blueDark focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring data-[state=checked]:bg-blueDark data-[state=checked]:text-white"
+              ></input>
+              <Label htmlFor="cream_base" className="ml-4">Cream base</Label>
+            </div>
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("vegetarian")}
                 id="vegetarian"
@@ -172,7 +178,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
               ></input>
               <Label htmlFor="vegetarian" className="ml-4">Vegetarian</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("dessert")}
                 id="dessert"
@@ -183,34 +189,13 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             </div>
           </div>
         </div>
-
-        <div className="w-full space-y-2 rounded-2xl bg-white p-6">
-          <p className="block font-medium leading-6 text-blueDarker">
-            La base
-          </p>
-          <div className="flex items-center">
-            <input className="peer/tomato size-5 cursor-pointer bg-blueDark" type="radio" value="tomato" id="tomato" {...register('base')} />
-            <label htmlFor="tomato" className="ml-4 text-sm peer-checked/tomato:text-blueDark">Tomato</label>
-          </div>
-          <div className="flex items-center">
-            <input className="peer/cream size-5 cursor-pointer bg-blueDark" type="radio" value="cream" id="cream" {...register('base')} />
-            <label htmlFor="cream" className="ml-4 text-sm peer-checked/cream:text-blueDark">Cream</label>
-          </div>
-        </div>
-
       </div>
       <div className="flex w-full gap-4 md:w-1/2">
-        <Link
-          href="/dashboard/restaurant"
-          passHref
-          legacyBehavior
-        >
-          <Button className="mt-4 w-full bg-white text-center text-blueDark ring-1 ring-inset ring-gray">
-            Annuler
-          </Button>
-        </Link>
+        <Button asChild className="mt-4 w-full bg-white text-blueDark hover:bg-muted">
+          <Link href="/dashboard/product">Annuler</Link>
+        </Button>
 
-        <Button type="submit" disabled={!isDirty || isSubmitting} className="mt-4 w-full border border-white bg-blueDark text-center text-white">
+        <Button disabled={!isDirty || isSubmitting} className={cn(buttonVariants(), "mt-4 w-full border border-white bg-blueDark hover:bg-blueDarker")}>
           {isSubmitting ? (
             <>
               <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
