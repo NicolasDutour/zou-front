@@ -76,8 +76,6 @@ export default async function Restaurant({
   const environment = process.env.NODE_ENV
 
   const { attributes } = restaurantDetails?.data[0] || {};
-  console.log("attributes", attributes.products.data);
-
 
   // const hasFilesMenu = attributes?.choice_menu === "import_files" && attributes?.menu_photo?.data;
   const hasListMenu = attributes?.choice_menu === "list_products" && attributes?.products?.data;
