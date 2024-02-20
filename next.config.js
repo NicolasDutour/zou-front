@@ -20,6 +20,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'strapi-back-9idn.onrender.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   }
 }
