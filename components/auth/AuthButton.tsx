@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import LogoutButton from './LogoutButton'
+import { Button, buttonVariants } from '../ui/button'
 
 
 export default function AuthButton({ token }: { token: string | undefined }) {
@@ -26,36 +27,40 @@ export default function AuthButton({ token }: { token: string | undefined }) {
   const isLoggedOut = () => {
     return (
       <div className='flex space-x-4'>
-        <Link
-          href="/login"
-          className={cn("rounded-full flex items-center justify-center w-28 p-4 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700",
-            path !== "/register" ? "bg-gray text-white" : "bg-white")}
+        <Button
+          asChild
+          variant="outline"
+          className={cn(buttonVariants(), "hover:text-white", path !== "/register" ? "bg-primary" : "bg-white border border-muted text-gray-700")}
         >
-          Login
-        </Link>
-        <Link
-          href="/register"
-          className={cn("rounded-full flex items-center justify-center w-28 p-4 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700",
-            path !== "/login" ? "bg-gray text-white" : "bg-white")}
+          <Link href="/login">Login</Link>
+        </Button>
+        <Button
+          asChild
+          variant="outline"
+          className={cn(buttonVariants(), "hover:text-white", path !== "/login" ? "bg-primary" : "bg-white border border-muted text-gray-700")}
         >
-          Register
-        </Link>
+          <Link href="/register">Register</Link>
+        </Button>
       </div>
     )
   }
 
   return (
     <div className="absolute right-4 top-4 z-10 flex space-x-4">
-      {!path.startsWith("/dashboard") ? token ? isLoggedIn() : isLoggedOut() : null}
+      {!path.startsWith("/dashboard") && !path.startsWith("/restaurant") ? token ? isLoggedIn() : isLoggedOut() : null}
       {!path.startsWith("/dashboard") && (path === "/login" || path === "/register") ? (
-        <Link
-          href="/"
-          className={cn("rounded-full flex items-center justify-center w-28 p-4 bg-white text-blueDark text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700",
-            path !== "/login" && path !== "/register" ? "bg-gray text-white" : "bg-white")}
+        <Button
+          asChild
+          variant="outline"
+          className={cn(buttonVariants(), "hover:text-white", path !== "/login" && path !== "/register" ? "bg-primary" : "bg-white border border-muted text-gray-700")}
         >
-          Home
-        </Link>
+          <Link href="/">Home</Link>
+        </Button>
       ) : null}
     </div>
   )
 }
+
+// rounded-full flex items-center justify-center w-28 p-4 text-white text-base hover:bg-gray hover:text-white transition-colors ease-out duration-700
+
+// mt-4 w-full bg-white text-blueDark hover:bg-muted
