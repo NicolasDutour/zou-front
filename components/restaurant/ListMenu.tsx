@@ -19,21 +19,12 @@ const ListMenu = ({ environment, products }: {
   environment: string,
   products: ProductTypeFromBack[]
 }) => {
-  const [criteria, setCriteria] = useState("tomato")
-  const criterias = ["tomato", "cream", "vegetarian", "dessert"]
+  const [criteria, setCriteria] = useState("tomato_base")
+  const criterias = ["tomato_base", "cream_base", "vegetarian", "dessert"]
 
   const productsFilterByBase = () => {
     if (products?.length > 0) {
-
-
-      // if (criteria === 'tomato' || criteria === 'cream') {
-      //   return products?.filter(product => product?.attributes?.base === criteria)
-      // } else if (criteria === 'vegetarian') {
-      //   return products?.filter(product => product?.attributes?.vegetarian)
-      // } else if (criteria === 'dessert') {
-      //   return products?.filter(product => product?.attributes?.dessert)
-      // }
-      // return products
+      return products.filter(product => product.attributes[criteria as keyof typeof product.attributes] === true);
     }
   }
 
@@ -44,14 +35,14 @@ const ListMenu = ({ environment, products }: {
   return (
     <section className="bg-slate-100 px-6 py-8">
       <div className="mx-auto max-w-5xl">
-        <Tabs defaultValue="tomato" className="w-full">
+        <Tabs defaultValue="tomato_base" className="w-full">
           <TabsList className={`mb-6 grid w-full grid-cols-1 gap-1 bg-gray-800 md:w-1/2 md:grid-cols-4`}>
             {criterias.map((criteria, index) => <TabsTrigger className="text-lg hover:bg-white hover:text-gray-800" key={index} onClick={() => setCriteria(criteria)} value={criteria}> {capitalize(criteria)} </TabsTrigger>)}
           </TabsList>
           <TabsContent value={criteria}>
             <div className="grid grid-cols-1 gap-4">
               {
-                products?.map(product => {
+                productsFilterByBase()?.map(product => {
                   const { id, attributes: { product_name, ingredients, price, photo } } = product
                   let picture;
                   if (photo?.data?.attributes?.formats) {
