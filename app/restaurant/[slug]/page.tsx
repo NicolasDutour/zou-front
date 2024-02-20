@@ -5,7 +5,7 @@ import Mapbox from "@/components/restaurant/MapBox"
 import RestaurantInfo from "@/components/restaurant/RestaurantInfo";
 import ListMenu from "@/components/restaurant/ListMenu";
 import RestaurantDescription from "@/components/restaurant/RestaurantDescription";
-import ListMenuFiles from "@/components/restaurant/ListMenuFiles";
+// import ListMenuFiles from "@/components/restaurant/ListMenuFiles";
 
 export async function generateMetadata(
   {

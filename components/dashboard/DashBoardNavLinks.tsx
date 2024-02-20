@@ -36,7 +36,7 @@ export default function DashBoardNavLinks() {
         })
       }
       <Separator />
-      <Button onClick={handleLogout} className="flex w-full cursor-pointer items-center rounded-xl bg-blueDarker p-4 text-white hover:bg-blueDark border border-blueDarker hover:border-white">
+      <Button onClick={handleLogout} className="flex w-full cursor-pointer items-center rounded-xl border border-blueDarker bg-blueDarker p-4 text-white hover:border-white hover:bg-blueDark">
         <span className="mr-4 text-2xl"> <IoLogOutOutline /> </span> Logout
       </Button>
     </ul>

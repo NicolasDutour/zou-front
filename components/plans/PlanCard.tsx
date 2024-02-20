@@ -43,8 +43,8 @@ export const PlanCard = ({ plan }: { plan: PlanType }) => {
         </ul>
       </CardContent>
       <CardFooter>
-        <Button className="w-full cursor-pointer group" asChild>
-          <Link href="/register" className="text-xl font-light"> {formatCurrency(plan.price)} / mois <span className="hidden group-hover:block ml-6"><MoveRight /></span> </Link>
+        <Button className="group w-full cursor-pointer" asChild>
+          <Link href="/register" className="text-xl font-light"> {formatCurrency(plan.price)} / mois <span className="ml-6 hidden group-hover:block"><MoveRight /></span> </Link>
         </Button>
       </CardFooter>
     </Card>

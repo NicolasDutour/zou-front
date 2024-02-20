@@ -45,7 +45,7 @@ const ListMenu = ({ environment, products }: {
     <section className="bg-slate-100 px-6 py-8">
       <div className="mx-auto max-w-5xl">
         <Tabs defaultValue="tomato" className="w-full">
-          <TabsList className={`md:grid-cols-4 mb-6 grid w-full md:w-1/2 grid-cols-1 gap-1 bg-gray-800`}>
+          <TabsList className={`mb-6 grid w-full grid-cols-1 gap-1 bg-gray-800 md:w-1/2 md:grid-cols-4`}>
             {criterias.map((criteria, index) => <TabsTrigger className="text-lg hover:bg-white hover:text-gray-800" key={index} onClick={() => setCriteria(criteria)} value={criteria}> {capitalize(criteria)} </TabsTrigger>)}
           </TabsList>
           <TabsContent value={criteria}>

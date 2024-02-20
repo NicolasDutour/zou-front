@@ -193,7 +193,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             id="phone"
             type="tel"
           />
-          <p className="mt-2 text-sm text-error">{errors.phone?.message}</p>
+          <p className="text-destructive mt-2 text-sm">{errors.phone?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
@@ -238,7 +238,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             id="short_description"
             rows={4}
           />
-          <p className="mt-2 text-sm text-error">{errors.short_description?.message}</p>
+          <p className="text-destructive mt-2 text-sm">{errors.short_description?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
@@ -246,7 +246,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             Services proposés
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("drive")}
                 id="drive"
@@ -255,7 +255,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="drive" className="ml-4">Drive</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("take_away")}
                 id="take_away"
@@ -264,7 +264,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="take_away" className="ml-4">Take away</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("delivery")}
                 id="delivery"
@@ -273,7 +273,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="delivery" className="ml-4">Delivery</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("eat_in")}
                 id="eat_in"
@@ -282,7 +282,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="eat_in" className="ml-4">Eat in</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("pmr")}
                 id="pmr"
@@ -291,7 +291,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="pmr" className="ml-4">Accessible PMR</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("terrace")}
                 id="terrace"
@@ -300,7 +300,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
               />
               <Label htmlFor="terrace" className="ml-4">Terrace</Label>
             </div>
-            <div className="flex items-center rounded-md border border-gray p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("air_conditioner")}
                 id="air_conditioner"
