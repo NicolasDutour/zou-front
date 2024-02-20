@@ -193,7 +193,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             id="phone"
             type="tel"
           />
-          <p className="text-destructive mt-2 text-sm">{errors.phone?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.phone?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
@@ -238,7 +238,7 @@ export function RestaurantForm({ user, environment, restaurant }: { user: UserTy
             id="short_description"
             rows={4}
           />
-          <p className="text-destructive mt-2 text-sm">{errors.short_description?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.short_description?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">

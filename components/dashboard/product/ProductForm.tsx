@@ -88,7 +88,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             id="product_name"
             type="text"
           />
-          <p className="text-destructive mt-2 text-sm">{errors.product_name?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.product_name?.message}</p>
 
           <Label htmlFor="ingredients">Ingredients (Séparés par une virgule. ex: tomate, fromage, ...)</Label>
           <Input
@@ -97,7 +97,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             id="ingredients"
             type="text"
           />
-          <p className="text-destructive mt-2 text-sm">{errors.ingredients?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.ingredients?.message}</p>
 
           <Label htmlFor="price">Prix</Label>
           <Input
@@ -108,7 +108,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             type="number"
             className={cn("focus-visible:ring-blueDark", { "border-destructive focus-visible:ring-red-500": errors.price })}
           />
-          <p className="text-destructive mt-2 text-sm">{errors.price?.message}</p>
+          <p className="mt-2 text-sm text-destructive">{errors.price?.message}</p>
         </div>
 
         <div className="w-full space-y-2 rounded-2xl bg-white p-6">
@@ -151,7 +151,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
             Les critères
           </p>
           <div className="grid grid-cols-2 gap-4">
-            <div className="border-gray flex items-center rounded-md border p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("tomato_base")}
                 id="tomato_base"
@@ -160,7 +160,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
               ></input>
               <Label htmlFor="tomato_base" className="ml-4">Tomato base</Label>
             </div>
-            <div className="border-gray flex items-center rounded-md border p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("cream_base")}
                 id="cream_base"
@@ -169,7 +169,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
               ></input>
               <Label htmlFor="cream_base" className="ml-4">Cream base</Label>
             </div>
-            <div className="border-gray flex items-center rounded-md border p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("vegetarian")}
                 id="vegetarian"
@@ -178,7 +178,7 @@ export function ProductForm({ product, productId, restaurantId, environment = ""
               ></input>
               <Label htmlFor="vegetarian" className="ml-4">Vegetarian</Label>
             </div>
-            <div className="border-gray flex items-center rounded-md border p-4">
+            <div className="flex items-center rounded-md border p-4">
               <input
                 {...register("dessert")}
                 id="dessert"

@@ -148,7 +148,7 @@ export default function ProductsList({ products }: { products: ProductTypeFilter
                   <TableCell className="flex items-center justify-around">
                     <AlertDialog>
                       <AlertDialogTrigger>
-                        <div className="border-destructive text-destructive rounded-lg border p-2 text-xl"><IoTrashOutline /></div>
+                        <div className="rounded-lg border border-destructive p-2 text-xl text-destructive"><IoTrashOutline /></div>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -159,7 +159,7 @@ export default function ProductsList({ products }: { products: ProductTypeFilter
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>Annuler</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="bg-destructive rounded-md text-white">Supprimer</AlertDialogAction>
+                          <AlertDialogAction onClick={() => removeProductAction(product?.id)} className="rounded-md bg-destructive text-white">Supprimer</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
