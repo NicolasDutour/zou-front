@@ -5,12 +5,11 @@ import { cn } from '@/lib/utils'
 import { Toaster } from "@/components/ui/toaster"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from '@vercel/analytics/react'
+import { cookies } from "next/headers";
 
 import './globals.css'
 import Footer from '@/components/Footer'
-import { ProductFormContextProvider, RestaurantFormContextProvider } from '@/context/store'
-import AuthButton from "@/components/auth/AuthButton"
-import { cookies } from "next/headers"
+import Navbar from "@/components/Navbar"
 
 const roboto = Roboto({
   weight: ['400', '500'],
@@ -37,23 +36,19 @@ export default function RootLayout({
   const token = cookieStore.get('token')?.value
 
   return (
-    <html lang="fr" className='scroll-smooth'>
+    <html lang="fr" className='h-full scroll-smooth'>
       <body className={cn(
-        "relative bg-white overflow-x-hidden",
+        "relative bg-white h-full antialiased",
         roboto.className
       )}>
-        <ProductFormContextProvider>
-          <RestaurantFormContextProvider>
-            <AuthButton token={token} />
-            <main>
-              {children}
-            </main>
-            <Footer />
-            <Toaster />
-            <SpeedInsights />
-            <Analytics />
-          </RestaurantFormContextProvider>
-        </ProductFormContextProvider>
+        <main className="relative flex min-h-screen flex-col">
+          <Navbar token={token} />
+          {children}
+        </main>
+        <Footer />
+        <Toaster />
+        <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   )

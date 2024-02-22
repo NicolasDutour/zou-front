@@ -37,7 +37,7 @@ const MapBox = ({ restaurant }) => {
       <Marker longitude={longitude} latitude={latitude} color="red" anchor="bottom" />
     </Map>
   ) : <div className='flex h-full items-center justify-center bg-slate-600 text-white'>
-    <Loader width={50} height={50} />
+    <Loader dashboard={true} width={50} height={50} />
   </div>
 };
 export default MapBox
