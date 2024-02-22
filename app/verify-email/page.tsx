@@ -6,7 +6,7 @@ export default function VerifyEmailPage() {
   const email = cookieStore.get('email')?.value
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex min-h-[calc(100vh-64px)] items-center justify-center">
       <div className="mx-auto max-w-3xl text-center">
         <div className="relative mb-6 size-64">
           <Image

@@ -6,7 +6,7 @@ import ForgotPasswordForm from './ForgotPasswordForm';
 export default function ForgotPassword() {
   return (
     <>
-      <div className="flex h-[calc(100vh-77px)] flex-1 flex-col justify-center bg-base px-6 py-12 lg:px-8">
+      <div className="flex min-h-[calc(100vh-64px)] flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="mx-auto w-full rounded-lg bg-white p-4 shadow-custom md:max-w-lg">
           <Image
             src="/leaf-icon.png"
