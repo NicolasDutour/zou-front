@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import './globals.css'
 import Footer from '@/components/Footer'
 import Navbar from "@/components/Navbar"
+// import Script from "next/script"
 
 const roboto = Roboto({
   weight: ['400', '500'],
@@ -49,6 +50,23 @@ export default function RootLayout({
         <Toaster />
         <SpeedInsights />
         <Analytics />
+        {/* <Script id="show-cookies">
+          {
+            `
+              window.axeptioSettings = {
+                clientId: "65d8780df0c375ed6db35b95",
+              };
+
+              (
+                function(d, s) {
+                  var t = d.getElementsByTagName(s)[0], e = d.createElement(s);
+                  e.async = true; e.src = "//static.axept.io/sdk.js";
+                  t.parentNode.insertBefore(e, t);
+                }
+              )(document, "script");
+            `
+          }
+        </Script> */}
       </body>
     </html>
   )
