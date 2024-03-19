@@ -1,13 +1,15 @@
 import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
 import { NoSubscription } from "@/components/dashboard/subscription/NoSubscription";
-import { StripeSubscriptionsList } from "@/components/dashboard/subscription/StripeSubscriptionsList";
-import { Separator } from "@/components/ui/separator";
-import { listSubscriptions, retrieveSession } from "@/lib/actions";
+import { Button } from "@/components/ui/button";
+// import { StripeSubscriptionsList } from "@/components/dashboard/subscription/StripeSubscriptionsList";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { createSessionCheckout, listSubscriptions, retrieveSession, retrieveStripeSession, retrieveStripeSubscription } from "@/lib/actions";
+import { cn, formatCurrency, formatFullDay } from "@/lib/utils";
 import { cookies, headers } from "next/headers";
 
 async function getUserData(token: string) {
   if (token) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me?populate[stripe_products][populate]=*`,
+    const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users/me`,
       {
         method: 'GET',
         headers: {
@@ -26,16 +28,24 @@ export default async function SubscriptionsPage() {
   const headersList = headers()
   const sessionId = headersList.get('sessionId') || ''
 
-  let stripeSubscriptions
+  let stripeSubscription = null
+  let stripeSession = null
   const cookieStore = cookies()
   const token = cookieStore.get('token')?.value || ''
-  const data = await getUserData(token)
+  const user = await getUserData(token)
 
-  if (data.stripeUserId && sessionId) {
-    const session = await retrieveSession(sessionId);
-    if (session.payment_status === 'paid') {
-      stripeSubscriptions = await listSubscriptions(data.stripeUserId)
+  const isTrailOver = () => {
+    if (user?.stripeSubscriptionId && user?.stripeSessionId) {
+      return true
     }
+    return false
+  }
+
+  if (user.stripeCustomerId && user.stripeSubscriptionId && user.stripeSessionId) {
+    stripeSubscription = await retrieveStripeSubscription(user.stripeSubscriptionId)
+    stripeSession = await retrieveStripeSession(user.stripeSessionId)
+    console.log("stripeSubscription", stripeSubscription);
+    console.log("stripeSession", stripeSession);
   }
 
   return (
@@ -45,14 +55,20 @@ export default async function SubscriptionsPage() {
           { label: "Abonnement", href: "/dashboard/subscription" }
         ]}
       />
-      <Separator />
       {
-        data.stripeUserId && stripeSubscriptions?.data && stripeSubscriptions?.data?.length > 0 ? (
-          <div className='w-full space-y-4 rounded-2xl bg-muted p-4 md:w-1/2'>
-            <StripeSubscriptionsList stripeSubscriptions={stripeSubscriptions?.data} />
-          </div>
+        user.stripeCustomerId && user.stripeSubscriptionId && user.stripeSessionId ? (
+          <Card className={cn("flex w-full flex-col justify-between p-2 md:w-1/2", stripeSubscription?.status === "canceled" ? "bg-gray-300" : "")}>
+            <CardHeader className="space-y-0 p-0">
+              <CardTitle className="mb-2 text-center font-medium">
+                <p className="mb-2 text-4xl text-blueDark"> Formule 1 mois 19.99 € / mois </p>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="text-blueDarker space-y-2">
+              ....
+            </CardContent>
+          </Card>
         ) : (
-          <NoSubscription />
+          <NoSubscription user={user} />
         )
       }
     </div>

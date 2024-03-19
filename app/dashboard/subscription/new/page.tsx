@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 
-import { Separator } from "@/components/ui/separator";
 import Breadcrumbs from "@/components/dashboard/Breadcrumbs";
 import { SubscriptionForm } from "@/components/dashboard/subscription/SubscriptionForm";
 import { plans } from "@/components/plans/PlansList";
@@ -29,20 +28,16 @@ export default async function CreateSubscriptionPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <Breadcrumbs
-          breadcrumbs={[
-            { label: "Abonnement", href: "/dashboard/subscription" },
-            {
-              label: `${user?.stripeUserId && user?.stripe_products[0]?.stripeProductName === "zou-plan" &&
-                user?.stripe_products[0]?.stripe_subscriptions[0].stripeSubscriptionId ? "Ajout d'une option" : "Création de votre abonnement"}`,
-              href: "/dashboard/subscription/new",
-              active: true,
-            },
-          ]}
-        />
-      </div>
-      <Separator />
+      <Breadcrumbs
+        breadcrumbs={[
+          { label: "Abonnement", href: "/dashboard/subscription" },
+          {
+            label: `${user?.stripeCustomerId && user?.stripeSubscriptionId ? "Ajout d'une option" : "Création de votre abonnement"}`,
+            href: "/dashboard/subscription/new",
+            active: true,
+          },
+        ]}
+      />
       {user && plans ? <SubscriptionForm user={user} plans={plans} /> : null}
     </div>
   )
