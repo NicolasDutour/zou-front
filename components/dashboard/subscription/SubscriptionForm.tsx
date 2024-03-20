@@ -67,7 +67,7 @@ export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanT
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {
         plans.map((plan: PlanType) => {
           return (
@@ -108,13 +108,13 @@ export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanT
                         {
                           user?.trial_begin || user?.trial_end ? (
                             null
-                          ) : <p className="text-lg hidden group-hover:block ml-2"> - Souscrire</p>
+                          ) : <p className="ml-2 hidden text-lg group-hover:block"> - Souscrire</p>
                         }
                       </div>
                     ) : (
                       <div className="flex">
                         <p className="text-lg tracking-wider">{formatCurrency(plan.price)} / mois </p>
-                        <p className="text-lg hidden group-hover:block ml-2"> - Souscrire</p>
+                        <p className="ml-2 hidden text-lg group-hover:block"> - Souscrire</p>
                       </div>
                     )
                   }

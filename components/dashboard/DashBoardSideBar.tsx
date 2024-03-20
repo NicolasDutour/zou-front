@@ -11,8 +11,8 @@ export default function DashBoardSideBar() {
   return (
     <div className="size-full flex-none bg-blueDark p-6 md:fixed md:w-64">
       <div className="flex items-center justify-between">
-        <Link href="/" className="text-2xl text-white transition duration-700 ease-out hover:text-gray">Bonjour {token && username ? username : ''} </Link>
-        <div className="cursor-pointer text-3xl text-white transition duration-700 ease-out hover:text-gray md:hidden">
+        <Link href="/" className="hover:text-gray text-2xl text-white transition duration-700 ease-out">Bonjour {token && username ? username : ''} </Link>
+        <div className="hover:text-gray cursor-pointer text-3xl text-white transition duration-700 ease-out md:hidden">
           <RxHamburgerMenu />
         </div>
       </div>

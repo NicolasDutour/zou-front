@@ -25,7 +25,7 @@ export default async function Profile() {
   const data = await getData(token || '')
 
   return (
-    <div className='w-full space-y-4 rounded-2xl border border-gray bg-blueDark p-4 md:w-1/2'>
+    <div className='border-gray w-full space-y-4 rounded-2xl border bg-blueDark p-4 md:w-1/2'>
       <div className='grid grid-cols-1 items-center gap-4 md:grid-cols-2'>
         <p className='text-white'>Email: <span className='font-medium text-white'>{data?.email}</span> </p>
         <Link

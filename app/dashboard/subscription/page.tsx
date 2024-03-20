@@ -49,7 +49,7 @@ export default async function SubscriptionsPage() {
                 <p className="mb-2 text-4xl text-blueDark"> Formule 1 mois 19.99 € / mois </p>
               </CardTitle>
             </CardHeader>
-            <CardContent className="text-blueDarker space-y-2">
+            <CardContent className="space-y-2 text-blueDarker">
               ....
             </CardContent>
           </Card>
