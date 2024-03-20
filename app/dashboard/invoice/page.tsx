@@ -27,7 +27,7 @@ export default async function InvoicePage() {
   const token = cookieStore.get('token')?.value || ''
   const data = await getUserData(token)
   if (data) {
-    invoices = await listInvoices(data.stripeUserId)
+    invoices = await listInvoices(data.stripeCustomerId)
   }
 
   return (
