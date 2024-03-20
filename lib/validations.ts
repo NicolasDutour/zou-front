@@ -405,6 +405,8 @@ export type UserType = {
   stripePriceId: string
   stripeSubscriptionId: string
   stripeSessionId: string
+  trial_begin: string
+  trial_end: string
 }
 
 export type InvoiceType = {
