@@ -400,21 +400,11 @@ export type UserType = {
   username: string
   updatedAt: string
   restaurants: RestaurantType[]
-  stripeUserId: string
-  stripe_products: StripeProductType[]
-}
-
-export type StripeProductType = {
-  id: number
-  stripeProductName: string
+  stripeCustomerId: string
   stripeProductId: string
   stripePriceId: string
-  stripe_subscriptions: StripeSubscriptionType[]
-}
-
-export type StripeSubscriptionType = {
-  id: number
   stripeSubscriptionId: string
+  stripeSessionId: string
 }
 
 export type InvoiceType = {
