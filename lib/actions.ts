@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
 import Stripe from "stripe";
+import { UserType } from "./validations";
 
 export async function loginAction(formData: any) {
   const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -251,13 +252,13 @@ export async function removeCookie(name: string) {
   cookies().delete(name)
 }
 
-export async function createCustomer(name: string, email: string) {
+export async function createStripeCustomer(user: UserType) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  const customer = await stripe.customers.create({ name, email })
+  const customer = await stripe.customers.create({ name: user.username, email: user.email })
   return customer.id
 }
 
-export async function createProduct(name: string) {
+export async function createStripeProduct(name: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
   const product = await stripe.products.create({ name })
   return product.id
@@ -277,6 +278,24 @@ export async function createPrice(
     recurring: { interval }
   })
   return price.id
+}
+
+
+export async function createSubscription(
+  stripeCustomerId: string,
+  priceId: string,
+) {
+  const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
+  const subscription = await stripe.subscriptions.create({
+    customer: stripeCustomerId,
+    items: [
+      {
+        price: priceId,
+        quantity: 1
+      },
+    ],
+  })
+  return subscription.id
 }
 
 export async function createSessionCheckout(
@@ -303,17 +322,20 @@ export async function createSessionCheckout(
 
 export async function cancelSubscription(subscriptionId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.subscriptions.cancel(subscriptionId, { invoice_now: false, prorate: false })
+  const cancelSubscription = await stripe.subscriptions.cancel(subscriptionId, { invoice_now: false, prorate: false })
+  return cancelSubscription
 }
 
-export async function retrieveSession(sessionId: string) {
+export async function retrieveStripeSession(sessionId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.checkout.sessions.retrieve(sessionId);
+  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  return session
 }
 
-export async function listSubscriptions(stripeCustomerId: string) {
+export async function retrieveStripeSubscription(stripeSubscriptionId: string) {
   const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`)
-  return await stripe.subscriptions.list({ customer: stripeCustomerId })
+  const stripeSubscription = await stripe.subscriptions.retrieve(stripeSubscriptionId)
+  return stripeSubscription
 }
 
 export async function listInvoices(stripeCustomerId: string) {

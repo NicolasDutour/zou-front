@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import './globals.css'
 import Footer from '@/components/Footer'
 import Navbar from "@/components/Navbar"
+// import Script from "next/script"
 
 const roboto = Roboto({
   weight: ['400', '500'],

@@ -2,56 +2,79 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { cn, formatCurrency } from "@/lib/utils";
+import { capitalize, cn, formatCurrency } from "@/lib/utils";
 import { PlanType, UserType } from "@/lib/validations";
-import { createCustomer, createPrice, createProduct, createSessionCheckout, profileAction } from "@/lib/actions";
+import { createStripeCustomer, createPrice, createStripeProduct, createSessionCheckout, createSubscription, profileAction } from "@/lib/actions";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanType[] }) {
-  const [subscription, setSubscription] = useState(null as PlanType | null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  async function onHandleCreateOrUpdateSubscription(e: any) {
-    e.preventDefault()
-    let customer = user?.stripeUserId;
-    if (!customer) {
-      if (user?.username && user?.email) {
-        const customerId = await createCustomer(user?.username, user?.email)
-        if (customerId) {
-          const response = await profileAction({ stripeUserId: customerId }, user?.id)
-          if (response) {
-            customer = customerId
+  async function onHandleCreateSubscription(plan: string) {
+    setIsSubmitting(true)
+    if (plan === "free") {
+      await profileAction({
+        trial_begin: new Date(),
+        trial_end: new Date(new Date().setMonth(new Date().getMonth() + 1))
+      }, user?.id)
+      setIsSubmitting(false)
+    } else {
+      let customer = user?.stripeCustomerId;
+      if (!customer) {
+        if (user?.username && user?.email) {
+          const stripeCustomerId = await createStripeCustomer(user)
+          if (stripeCustomerId) {
+            await profileAction({ stripeCustomerId }, user?.id)
+            customer = stripeCustomerId
           }
         }
       }
-    }
 
-    if (customer) {
-      if (
-        user?.stripe_products[0]?.stripeProductName === "zou-plan" &&
-        user?.stripe_products[0]?.stripe_subscriptions[0].stripeSubscriptionId
-      ) {
-        console.log("update subscription")
-      } else {
-        const planProductId = await createProduct("zou-plan");
-        if (planProductId && subscription) {
-          const planPriceId = await createPrice(planProductId, 19.99 * 100, "EUR", "day");
-          if (planPriceId) {
-            await createSessionCheckout(customer, planPriceId, "subscription");
+      if (customer) {
+        const stripeProductId = await createStripeProduct("zou-plan");
+        if (stripeProductId) {
+          const stripePriceId = await createPrice(stripeProductId, Math.round(19.99 * 100), "EUR", "month");
+          if (stripePriceId) {
+            const stripeSubscriptionId = await createSubscription(customer, stripePriceId);
+            if (stripeSubscriptionId) {
+              const stripeSessionId = await createSessionCheckout(user.stripeCustomerId, user.stripePriceId, "subscription");
+              await profileAction({
+                stripeCustomerId: customer,
+                stripeProductId,
+                stripePriceId,
+                stripeSubscriptionId,
+                stripeSessionId
+              }, user?.id)
+              setIsSubmitting(false)
+            }
           }
         }
       }
     }
   }
 
+  const checkStatusPlan = () => {
+    let message = "Free for 1 month";
+    if (user?.trial_begin) {
+      message = "Free plan en cours";
+    }
+    if (new Date(user?.trial_end) < new Date()) {
+      message = "Free plan over";
+    }
+
+    return <p className="text-lg tracking-wider">{message}</p>;
+  }
+
   return (
-    <form onSubmit={onHandleCreateOrUpdateSubscription}>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {
         plans.map((plan: PlanType) => {
           return (
-            <Card key={plan.id} className="flex w-full flex-col justify-between border-2 border-blueDark p-2 md:w-1/2">
+            <Card key={plan.id} className={cn("flex w-full flex-col justify-between border-2 border-blueDark p-2 group", !!user?.trial_begin && plan.name === "free" ? "bg-gray-300" : "")}>
               <CardHeader className="space-y-0 p-0">
                 <CardTitle className="mb-2 text-center font-medium">
-                  <p className="mb-2 text-4xl text-blueDark"> {plan.name} </p>
+                  <p className="mb-2 text-4xl text-blueDark"> {capitalize(plan.name)} </p>
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-blueDarker">
@@ -63,30 +86,51 @@ export function SubscriptionForm({ user, plans }: { user: UserType, plans: PlanT
                   }
                 </ul>
               </CardContent>
-              <CardFooter className="mt-4 flex-col justify-center rounded-full border border-white bg-blueDarker p-2">
-                <p className="text-lg tracking-wider text-white"> {formatCurrency(plan.price)} / mois</p>
+              <CardFooter className="flex flex-col">
+                <Button
+                  disabled={isSubmitting || (!!user?.trial_begin && plan.name === "free")}
+                  className={cn(buttonVariants(), "mt-4 w-full border-2 bg-blueDark hover:bg-white hover:text-blueDark hover:border-blueDark")}
+                  onClick={() => onHandleCreateSubscription(plan.name)}
+                >
+
+                  {
+                    isSubmitting ? (
+                      <>
+                        <svg className="-ml-1 mr-3 size-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle cx="12" cy="12" r="10" stroke="#8c9fb9" strokeWidth="4"></circle>
+                          <path fill="#135A9A" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p>Loading...</p>
+                      </>
+                    ) : plan.name === "free" ? (
+                      <div className="flex">
+                        {checkStatusPlan()}
+                        {
+                          user?.trial_begin || user?.trial_end ? (
+                            null
+                          ) : <p className="ml-2 hidden text-lg group-hover:block"> - Souscrire</p>
+                        }
+                      </div>
+                    ) : (
+                      <div className="flex">
+                        <p className="text-lg tracking-wider">{formatCurrency(plan.price)} / mois </p>
+                        <p className="ml-2 hidden text-lg group-hover:block"> - Souscrire</p>
+                      </div>
+                    )
+                  }
+                </Button>
+                {
+                  plan.name === "premium" ? (
+                    <p className="mt-2 text-sm text-blueDark">Après validation, vous serez redirigé vers une page sécurisée de paiement <em className="text-blueDark ">Stripe</em></p>
+                  ) : (
+                    <p className="mt-2 text-sm text-blueDark">Après la fin de votre période d'essai, votre page web ne sera plus accessible</p>
+                  )
+                }
               </CardFooter>
             </Card>
           )
         })
       }
-
-      <div className="mt-4 flex w-full gap-2 md:w-1/3">
-        <Link
-          href="/dashboard/subscription"
-          className="flex w-full  justify-center rounded-md bg-muted px-3 py-1.5 text-sm font-medium leading-6 text-gray-600 shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blueDarker"
-        >
-          Annuler
-        </Link>
-        <button
-          type="submit"
-          disabled={!subscription}
-          className={cn("flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-blueDarker-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2", subscription ? "bg-blueDarker" : "bg-gray-300 cursor-not-allowed")}
-        >
-          Je souscris
-        </button>
-      </div>
-      <p className="mb-2 mt-4 text-sm text-blueDark">Après validation, vous serez redirigé vers une page sécurisée de paiement <em className="text-blueDark ">Stripe</em></p>
-    </form >
+    </div>
   );
 }

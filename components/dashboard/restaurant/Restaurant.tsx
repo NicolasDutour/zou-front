@@ -58,7 +58,7 @@ export default async function Restaurant() {
         restaurant ? (
           <div>
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-              <div className='w-full space-y-4 rounded-2xl border border-gray bg-blueDark p-4 text-white'>
+              <div className='border-gray w-full space-y-4 rounded-2xl border bg-blueDark p-4 text-white'>
                 <p className='mb-6 text-center text-3xl font-medium'>{capitalize(restaurant?.restaurant_name)} </p>
                 <div className='flex items-center'>
                   <p className='mr-4'>
@@ -87,7 +87,7 @@ export default async function Restaurant() {
                   </Link>
                 </div>
               </div>
-              <div className='relative h-48 w-full space-y-4 rounded-2xl border border-gray bg-blueDark p-4 lg:h-full'>
+              <div className='border-gray relative h-48 w-full space-y-4 rounded-2xl border bg-blueDark p-4 lg:h-full'>
                 <Image
                   src={restaurant?.banner_photo ? environment === "production" ? restaurant?.banner_photo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${restaurant?.banner_photo.url}` : "/no_image.png"}
                   alt={restaurant?.banner_photo?.name || "no_image"}
@@ -102,11 +102,11 @@ export default async function Restaurant() {
                   className="rounded-lg"
                 />
               </div>
-              <div className='w-full space-y-8 rounded-2xl border border-gray bg-blueDark p-4 text-white'>
+              <div className='border-gray w-full space-y-8 rounded-2xl border bg-blueDark p-4 text-white'>
                 <p className='text-lg font-medium'> Brève présentation </p>
                 <p>{restaurant?.short_description}</p>
               </div>
-              <div className='w-full space-y-8 rounded-2xl border border-gray bg-blueDark p-4 text-white'>
+              <div className='border-gray w-full space-y-8 rounded-2xl border bg-blueDark p-4 text-white'>
                 <p className='text-lg font-medium'> Services proposés</p>
                 <div className={`grid grid-cols-2 gap-4`}>
                   {options.map(({ key, value, icon }) => {
@@ -122,7 +122,7 @@ export default async function Restaurant() {
                   })}
                 </div>
               </div>
-              <div className="w-full space-y-8 rounded-2xl border border-gray bg-blueDark p-4 text-white lg:col-span-2">
+              <div className="border-gray w-full space-y-8 rounded-2xl border bg-blueDark p-4 text-white lg:col-span-2">
                 <p className='text-lg font-medium'> Présentation de votre établissement </p>
                 <p>{restaurant?.description}</p>
               </div>
@@ -135,7 +135,7 @@ export default async function Restaurant() {
                       {restaurant?.menu_photo?.map((file: any, index: number) => {
                         return (
                           <div key={index} className="flex items-center">
-                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-gray bg-blueDarker p-6 transition-colors duration-700 ease-out hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="border-gray flex cursor-pointer items-center justify-center rounded-md border bg-blueDarker p-6 transition-colors duration-700 ease-out hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                           </div>
                         );
                       })}
@@ -152,7 +152,7 @@ export default async function Restaurant() {
                       {restaurant?.menu_photo?.map((file: any, index: number) => {
                         return (
                           <div key={index} className="flex items-center">
-                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="flex cursor-pointer items-center justify-center rounded-md border border-gray bg-blueDarker p-6 transition-colors duration-700 ease-out hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
+                            <Link href={environment === 'production' ? file.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${file.url}`} target='_blank' className="border-gray flex cursor-pointer items-center justify-center rounded-md border bg-blueDarker p-6 transition-colors duration-700 ease-out hover:bg-white hover:text-blueDark"><span className='underline underline-offset-4'> {file.name}</span> </Link>
                           </div>
                         );
                       })}
